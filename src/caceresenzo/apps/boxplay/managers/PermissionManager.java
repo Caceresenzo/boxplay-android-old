@@ -1,0 +1,41 @@
+package caceresenzo.apps.boxplay.managers;
+
+import java.lang.reflect.Method;
+
+import android.Manifest;
+import android.os.Build;
+import android.os.StrictMode;
+import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.managers.XManagers.AManager;
+
+public class PermissionManager extends AManager {
+	
+	@Override
+	protected void initialize() {
+		askPermission();
+		hackSecureMode();
+	}
+	
+	private void askPermission() {
+		if (Build.VERSION.SDK_INT >= 23) {
+			try {
+				String[] permissions = { Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.INTERNET };
+				BoxPlayActivity.getBoxPlayActivity().requestPermissions(permissions, BoxPlayActivity.REQUEST_ID_PERMISSION);
+			} catch (Exception exception) {
+				exception.printStackTrace();
+			}
+		}
+	}
+	
+	private void hackSecureMode() {
+		if (Build.VERSION.SDK_INT >= 24) {
+			try {
+				Method method = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+				method.invoke(null);
+			} catch (Exception exception) {
+				exception.printStackTrace();
+			}
+		}
+	}
+	
+}

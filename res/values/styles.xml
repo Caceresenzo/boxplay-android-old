@@ -1,0 +1,67 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.NoActionBar">
+
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/dark_blue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/pink</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <!-- <item name="windowActionBar">false</item> -->
+        <!-- <item name="windowNoTitle">true</item> -->
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:elevation">0dp</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="cardViewStyle" parent="CardView" />
+
+    <style name="coordinatorLayoutStyle" parent="" />
+
+    <style name="BaseStyleableToast">
+        <item name="length">SHORT</item>
+    </style>
+
+    <style name="expandedappbar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">24sp</item>
+        <!-- <item name="android:textColor">@android:color/white</item> -->
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <!-- <item name="android:visibility">invisible</item> -->
+    </style>
+
+    <style name="collapsedappbar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AllStyles">
+        <item name="strokeWidth">2dp</item>
+        <item name="strokeColor">@color/dark_blue</item>
+        <item name="colorBackground">@color/background_material_dark</item>
+        <item name="radius">18dp</item>
+        <item name="textSize">18sp</item>
+        <item name="textColor">#FFFFFF</item>
+        <item name="solidBackground">true</item>
+        <!-- <item name="iconStart">@drawable/ic_airplanemode_inactive_black_24dp</item> -->
+        <!-- <item name="iconEnd">@drawable/ic_airplanemode_inactive_black_24dp</item> -->
+        <item name="length">SHORT</item>
+    </style>
+
+    <style name="Box_inner">
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+    </style>
+
+</resources>
