@@ -37,6 +37,9 @@
     <string name="boxplay_connect_friends">Friends</string>
     <string name="boxplay_connect_chat">Chat</string>
     <!--  -->
+    <string name="boxplay_premium">Premium</string>
+    <string name="boxplay_premium_adult">Adult</string>
+    <!--  -->
     <string name="boxplay_other">Other</string>
     <string name="boxplay_other_settings">Settings</string>
     <string name="boxplay_other_about">About</string>
@@ -195,6 +198,13 @@
     <string name="boxplay_store_files_files">Files</string>
     <!--  -->
     <!--  -->
+    <string name="boxplay_premium_adult_adult">Adult</string>
+    <string name="boxplay_premium_adult_warning_dialog_message">Due to your Android version, it has been tested that BoxPlay Adult maybe not working (correctly), caused by too old js-code interpretation.</string>
+    <string name="boxplay_premium_adult_warning_dialog_done">DONE</string>
+    <string name="boxplay_premium_adult_status_downloading_data">Downloading data...</string>
+    <string name="boxplay_premium_adult_status_parsing">Parsing...</string>
+    <string name="boxplay_premium_adult_status_computing_url">Computing url...</string>
+    <!--  -->
 
 
     <!-- Settings -->
@@ -255,6 +265,14 @@
     <string name="boxplay_other_settings_boxplay_pref_reset_tutorials_summary_done">Reset</string>
     <string name="boxplay_other_settings_boxplay_pref_reset_tutorials_summary_error">Error: %s</string>
     <string name="boxplay_other_settings_boxplay_pref_reset_tutorials_key">boxplay_reset_tutorials</string>
+    <!--  -->
+    <string name="boxplay_other_settings_premium_category_title">Premium</string>
+    <!--  -->
+    <string name="boxplay_other_settings_premium_pref_premium_key_title">Premium Activation Key</string>
+    <string name="boxplay_other_settings_premium_pref_premium_key_summary_no_key">No key</string>
+    <string name="boxplay_other_settings_premium_pref_premium_key_summary_valid">Valid key (%s)</string>
+    <string name="boxplay_other_settings_premium_pref_premium_key_summary_invalid">Invalid key (%s)</string>
+    <string name="boxplay_other_settings_premium_pref_premium_key_key">premium_key</string>
     <!--  -->
     <string name="boxplay_other_settings_menu_category_title">Menu</string>
     <!--  -->

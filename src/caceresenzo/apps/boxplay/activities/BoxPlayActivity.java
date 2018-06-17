@@ -34,6 +34,7 @@ import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.ViewHelper;
 import caceresenzo.apps.boxplay.fragments.other.SettingsFragment;
 import caceresenzo.apps.boxplay.fragments.other.about.AboutFragment;
+import caceresenzo.apps.boxplay.fragments.premium.adult.AdultExplorerFragment;
 import caceresenzo.apps.boxplay.fragments.social.SocialFragment;
 import caceresenzo.apps.boxplay.fragments.store.StoreFragment;
 import caceresenzo.apps.boxplay.fragments.store.StorePageFragment;
@@ -46,7 +47,8 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	
 	public static final int REQUEST_ID_UPDATE = 20;
 	public static final int REQUEST_ID_VLC_VIDEO = 40;
-	public static final int REQUEST_ID_VLC_AUDIO = 41;
+	public static final int REQUEST_ID_VLC_VIDEO_URL = 41;
+	public static final int REQUEST_ID_VLC_AUDIO = 42;
 	public static final int REQUEST_ID_PERMISSION = 100;
 	public static final String FILEPROVIDER_AUTHORITY = "caceresenzo.apps.boxplay.provider";
 	
@@ -62,7 +64,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	private static XManagers MANAGERS = new XManagers();
 	private static ViewHelper HELPER = new ViewHelper();
 	
-	private static final Version VERSION = new Version("3.0.5", VersionType.BETA);
+	private static final Version VERSION = new Version("3.0.6", VersionType.BETA);
 	
 	private Toolbar toolbar;
 	private DrawerLayout drawer;
@@ -82,14 +84,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		initializeViews();
 		initializeSystems();
 		
-		MANAGERS.initialize(this) //
-				.initializeConfig() //
-				.initializePermission() //
-				.initializeData() //
-				.initializeElements() //
-				.initializeUpdate() //
-				.initializeTutorial() //
-				.finish() //
+		MANAGERS.initialize(this).finish();
 		;
 		
 		MANAGERS.getMusicManager().registerMusicSlidingPanel(slidingUpPanelLayout);
@@ -304,6 +299,15 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 				}
 				showFragment(socialFragment);
 				break;
+			case R.id.drawer_boxplay_premium_adult: {
+				if (MANAGERS.getPremiumManager().isPremiumKeyValid()) {
+					showFragment(new AdultExplorerFragment());
+				} else {
+					MANAGERS.getPremiumManager().updateLicence(null);
+					showFragment(actualFragment);
+				}
+				break;
+			}
 			case R.id.drawer_boxplay_other_settings: {
 				showFragment(new SettingsFragment());
 				break;
@@ -320,7 +324,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		return true;
 	}
 	
-	private void showFragment(Fragment fragment) {
+	public void showFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager //
 				.beginTransaction() //

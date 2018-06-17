@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
 
+	<changelogversion versionName="3.0.6 BETA" changeDate="17/06/2018">
+		<changelogtext>[b]Premium Update[/b]</changelogtext>
+		<changelogtext>[b]New![/b] Premium Features</changelogtext>
+		<changelogtext>[b]New![/b] BoxPlay3 Icon</changelogtext>
+		<changelogtext>[b]Fixed![/b] Some bug that was causing unexpected crash when restoring the app</changelogtext>
+	</changelogversion>
+
 	<changelogversion versionName="3.0.5 BETA" changeDate="06/06/2018">
 		<changelogtext>[b]Music Player Update[/b]</changelogtext>
 		<changelogtext>[b]New![/b] Music Player</changelogtext>

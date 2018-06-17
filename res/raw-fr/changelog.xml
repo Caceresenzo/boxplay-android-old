@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
 
+	<changelogversion versionName="3.0.6 BETA" changeDate="17/06/2018">
+		<changelogtext>[b]Mise à jour BoxPlay+[/b]</changelogtext>
+		<changelogtext>[b]Nouveau![/b] Fonctionnalité pour les utilisateurs Plus!</changelogtext>
+		<changelogtext>[b]Nouveau![/b] Icon BoxPlay3</changelogtext>
+		<changelogtext>[b]Fixé![/b] Quelque bugs qui plantait l'appli lors de sa restoration</changelogtext>
+	</changelogversion>
+
 	<changelogversion versionName="3.0.5 BETA" changeDate="06/06/2018">
 		<changelogtext>[b]Mise à jour du Lecteur de Musique[/b]</changelogtext>
 		<changelogtext>[b]Nouveau![/b] Le Lecteur de Musique</changelogtext>

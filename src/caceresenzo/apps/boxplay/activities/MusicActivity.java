@@ -72,7 +72,9 @@ public class MusicActivity extends AppCompatActivity {
 		
 		musicElement = BoxPlayActivity.getViewHelper().getPassingMusicElement();
 		if (musicElement == null) {
-			BoxPlayActivity.getBoxPlayActivity().toast(getString(R.string.boxplay_error_activity_invalid_data)).show();
+			if (BoxPlayActivity.getBoxPlayActivity() != null) {
+				BoxPlayActivity.getBoxPlayActivity().toast(getString(R.string.boxplay_error_activity_invalid_data)).show();
+			}
 			finish();
 		}
 		

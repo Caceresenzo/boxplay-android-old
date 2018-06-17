@@ -24,6 +24,7 @@
     <dimen name="video_width_small">115dp</dimen>
     <!-- <dimen name="video_height">230dp</dimen> -->
     <dimen name="video_height">184dp</dimen>
+    <dimen name="video_text_size">12dp</dimen>
 
     <!-- MUSIC (element / activity / player) -->
     <dimen name="music_width">128dp</dimen>
@@ -42,6 +43,10 @@
     <dimen name="item_error_text_padding">12dp</dimen>
     <dimen name="item_error_text_separation_padding">6dp</dimen>
 
+    <!-- ADULT (element) -->
+    <dimen name="adult_video_width">184dp</dimen>
+    <dimen name="adult_video_height">128dp</dimen>
+    
     <!--  -->
     <dimen name="activity_horizontal_margin_big_activity">16dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>

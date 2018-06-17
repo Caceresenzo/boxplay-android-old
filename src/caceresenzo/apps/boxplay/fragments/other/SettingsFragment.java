@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v14.preference.MultiSelectListPreference;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.CheckBoxPreference;
+import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.Preference.OnPreferenceClickListener;
@@ -16,6 +17,7 @@ import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.models.music.enums.MusicGenre;
+import caceresenzo.libs.licencekey.LicenceKey;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 	
@@ -32,6 +34,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_store_music_pref_my_genre_key));
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_boxplay_pref_background_service_key));
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_boxplay_pref_force_factory_key));
+		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_premium_pref_premium_key_key));
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_key));
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_application_pref_language_key));
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_application_pref_crash_reporter_key));
@@ -93,7 +96,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 				} else {
 					preference.setSummary(R.string.boxplay_other_settings_boxplay_pref_background_service_summary_disabled);
 				}
-			} else if (key == getString(R.string.boxplay_other_settings_application_pref_crash_reporter_key)) {
+			}
+			//
+			else if (key == getString(R.string.boxplay_other_settings_application_pref_crash_reporter_key)) {
 				if (switchPreference.isChecked()) {
 					preference.setSummary(R.string.boxplay_other_settings_application_pref_crash_reporter_summary_enabled);
 				} else {
@@ -109,7 +114,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 				} else {
 					checkBoxPreference.setSummary(R.string.boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_summary_disabled);
 				}
-			} else if (key == getString(R.string.boxplay_other_settings_boxplay_pref_force_factory_key)) {
+			}
+			//
+			else if (key == getString(R.string.boxplay_other_settings_boxplay_pref_force_factory_key)) {
 				if (checkBoxPreference.isChecked()) {
 					checkBoxPreference.setSummary(R.string.boxplay_other_settings_boxplay_pref_force_factory_summary_enabled);
 				} else {
@@ -130,25 +137,47 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 		} else if (preference instanceof MultiSelectListPreference) {
 			MultiSelectListPreference multiSelectListPreference = (MultiSelectListPreference) preference;
 			
-			Set<String> values = multiSelectListPreference.getValues();
-			if (values.size() >= 1) {
-				String string = "";
-				Iterator<String> iterator = values.iterator();
-				while (iterator.hasNext()) {
-					MusicGenre genre = MusicGenre.fromString(iterator.next());
+			if (key == getString(R.string.boxplay_other_settings_store_music_pref_my_genre_key)) {
+				Set<String> values = multiSelectListPreference.getValues();
+				if (values.size() >= 1) {
+					String string = "";
+					Iterator<String> iterator = values.iterator();
+					while (iterator.hasNext()) {
+						MusicGenre genre = MusicGenre.fromString(iterator.next());
+						
+						if (genre != MusicGenre.UNKNOWN) {
+							string += BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(genre) + (iterator.hasNext() ? ", " : "");
+						}
+					}
 					
-					if (genre != MusicGenre.UNKNOWN) {
-						string += BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(genre) + (iterator.hasNext() ? ", " : "");
+					preference.setSummary(getString(R.string.boxplay_other_settings_store_music_pref_my_genre_summary, string));
+				} else {
+					preference.setSummary(getString(R.string.boxplay_other_settings_store_music_pref_my_genre_summary_empty));
+				}
+			}
+			//
+			else if (key == getString(R.string.boxplay_other_settings_application_pref_language_key)) {
+				BoxPlayApplication.getBoxPlayApplication().setLocale(true);
+			}
+		} else if (preference instanceof EditTextPreference) {
+			EditTextPreference editTextPreference = (EditTextPreference) preference;
+			
+			if (key == getString(R.string.boxplay_other_settings_premium_pref_premium_key_key)) {
+				LicenceKey licenceKey = LicenceKey.fromString(editTextPreference.getText());
+				
+				if (editTextPreference.getText() == null || editTextPreference.getText().isEmpty()) {
+					editTextPreference.setSummary(getString(R.string.boxplay_other_settings_premium_pref_premium_key_summary_no_key));
+				} else {
+					if (licenceKey.verify().isValid()) {
+						editTextPreference.setSummary(getString(R.string.boxplay_other_settings_premium_pref_premium_key_summary_valid, licenceKey.getKey()));
+					} else {
+						editTextPreference.setSummary(getString(R.string.boxplay_other_settings_premium_pref_premium_key_summary_invalid, licenceKey.getKey()));
 					}
 				}
 				
-				preference.setSummary(getString(R.string.boxplay_other_settings_store_music_pref_my_genre_summary, string));
-			} else {
-				preference.setSummary(getString(R.string.boxplay_other_settings_store_music_pref_my_genre_summary_empty));
-			}
-			
-			if (key == getString(R.string.boxplay_other_settings_application_pref_language_key)) {
-				BoxPlayApplication.getBoxPlayApplication().setLocale(true);
+				BoxPlayActivity.getManagers().getPremiumManager().updateLicence(licenceKey);
+				
+				editTextPreference.setText(licenceKey.getKey());
 			}
 		} else {
 			try {

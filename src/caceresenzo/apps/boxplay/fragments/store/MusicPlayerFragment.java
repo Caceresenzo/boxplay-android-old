@@ -127,14 +127,18 @@ public class MusicPlayerFragment extends Fragment {
 	}
 	
 	public void hidePlayer() {
-		slidingUpPanelLayout.setPanelHeight(0);
-		if (slidingUpPanelLayout.getPanelState().equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
-			slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+		if (slidingUpPanelLayout != null) {
+			slidingUpPanelLayout.setPanelHeight(0);
+			if (slidingUpPanelLayout.getPanelState().equals(SlidingUpPanelLayout.PanelState.EXPANDED)) {
+				slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+			}
 		}
 	}
 	
 	public void showPlayer() {
-		slidingUpPanelLayout.setPanelHeight((int) getResources().getDimension(R.dimen.music_player_panel_height));
+		if (slidingUpPanelLayout != null) {
+			slidingUpPanelLayout.setPanelHeight((int) getResources().getDimension(R.dimen.music_player_panel_height));
+		}
 	}
 	
 	public void updateVisibility() {

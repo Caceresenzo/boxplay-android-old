@@ -239,6 +239,28 @@ public class VideoManager extends AManager {
 		lastVideoFileOpen = videoFile;
 	}
 	
+	public void openVLC(String url, String title) {
+		try {
+			Uri uri = Uri.parse(url);
+			Intent vlcIntent = new Intent(Intent.ACTION_VIEW);
+			vlcIntent.setPackage("org.videolan.vlc");
+			vlcIntent.setDataAndTypeAndNormalize(uri, "video/*");
+			// vlcIntent.putExtra("position", 1);
+			vlcIntent.putExtra("title", title != null ? title : url);
+			vlcIntent.setComponent(new ComponentName("org.videolan.vlc", "org.videolan.vlc.gui.video.VideoPlayerActivity"));
+			
+			Activity context;
+			if (VideoActivity.getVideoActivity() != null) {
+				context = VideoActivity.getVideoActivity();
+			} else {
+				context = boxPlayActivity;
+			}
+			context.startActivityForResult(vlcIntent, BoxPlayActivity.REQUEST_ID_VLC_VIDEO_URL);
+		} catch (Exception exception) {
+			// BoxPlayActivity.getBoxPlayActivity().appendError("Error when starting VLC. \n\nIs VLC installed? \n\nException: " + exception.getLocalizedMessage());
+		}
+	}
+	
 	public List<VideoGroup> getGroups() {
 		return groups;
 	}

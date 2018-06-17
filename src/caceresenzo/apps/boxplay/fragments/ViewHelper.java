@@ -54,6 +54,7 @@ public class ViewHelper {
 		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_connect_feed));
 		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_connect_friends));
 		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_connect_chat));
+		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_premium_adult));
 		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_other_settings));
 		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_other_about));
 		

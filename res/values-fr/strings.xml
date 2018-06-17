@@ -35,6 +35,9 @@
     <string name="boxplay_connect_friends">Amis</string>
     <string name="boxplay_connect_chat">Messagerie</string>
     <!--  -->
+    <string name="boxplay_premium">Plus</string>
+    <string name="boxplay_premium_adult">Adulte</string>
+    <!--  -->
     <string name="boxplay_other">Autre</string>
     <string name="boxplay_other_settings">Paramètres</string>
     <string name="boxplay_other_about">A propos</string>
@@ -186,11 +189,18 @@
     <string name="boxplay_player_music_button_next">Suivant</string>
     <string name="boxplay_player_music_name">Lecteur de musique</string>
     <string name="boxplay_player_music_track_description" formatted="false">[ %s ] par %s</string>
-    
+
     <!-- Store > Files -->
 
     <string name="boxplay_store_files_files">Fichiers</string>
     <!--  -->
+    <!--  -->
+    <string name="boxplay_premium_adult_adult">Adulte</string>
+    <string name="boxplay_premium_adult_warning_dialog_message">A cause de votre version d\'Android, il a été testé que BoxPlay Adulte risquait de ne pas marcher (correctement), causé par l\'interpretation trop vielle du code JavaScript.</string>
+    <string name="boxplay_premium_adult_warning_dialog_done">TERMINÉ</string>
+    <string name="boxplay_premium_adult_status_downloading_data">Téléchargement des données...</string>
+    <string name="boxplay_premium_adult_status_parsing">Analyse...</string>
+    <string name="boxplay_premium_adult_status_computing_url">Calcule du lien...</string>
     <!--  -->
 
 
@@ -214,6 +224,13 @@
     <string name="boxplay_other_settings_boxplay_pref_reset_tutorials_title">Réinitialiser les tutoriels</string>
     <string name="boxplay_other_settings_boxplay_pref_reset_tutorials_summary_done">Réinitialisés</string>
     <string name="boxplay_other_settings_boxplay_pref_reset_tutorials_summary_error">Error: %s</string>
+    <!--  -->
+    <string name="boxplay_other_settings_premium_category_title">Plus</string>
+    <!--  -->
+    <string name="boxplay_other_settings_premium_pref_premium_key_title">Clé d\'activation</string>
+    <string name="boxplay_other_settings_premium_pref_premium_key_summary_no_key">Aucune clé</string>
+    <string name="boxplay_other_settings_premium_pref_premium_key_summary_valid">Clé valide (%s)</string>
+    <string name="boxplay_other_settings_premium_pref_premium_key_summary_invalid">Clé invalide (%s)</string>
     <!--  -->
     <string name="boxplay_other_settings_menu_category_title">Menu</string>
     <!--  -->

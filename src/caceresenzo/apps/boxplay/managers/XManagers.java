@@ -20,6 +20,7 @@ public class XManagers {
 	protected ServerManager serverManager;
 	protected UpdateManager updateManager;
 	protected TutorialManager tutorialManager;
+	protected PremiumManager premiumManager;
 	
 	protected final File baseApplicationDirectory;
 	protected final File baseDataDirectory;
@@ -33,27 +34,19 @@ public class XManagers {
 	
 	public XManagers initialize(BoxPlayActivity boxPlayActivity) {
 		this.boxPlayActivity = boxPlayActivity;
-		return this;
-	}
-	
-	public XManagers initializeConfig() {
+		
+		// Config
 		preferences = PreferenceManager.getDefaultSharedPreferences(BoxPlayApplication.getBoxPlayApplication());
-		return this;
-	}
-	
-	public XManagers initializePermission() {
+		
+		// Permission
 		permissionManager = new PermissionManager();
 		permissionManager.initialize();
-		return this;
-	}
-	
-	public XManagers initializeData() {
+		
+		// Data
 		dataManager = new DataManager();
 		dataManager.initialize();
-		return this;
-	}
-	
-	public XManagers initializeElements() {
+		
+		// Elements
 		videoManager = new VideoManager();
 		videoManager.initialize();
 		musicManager = new MusicManager();
@@ -61,23 +54,32 @@ public class XManagers {
 		
 		serverManager = new ServerManager();
 		serverManager.initialize();
-		return this;
-	}
-	
-	public XManagers initializeUpdate() {
+		
+		// Update
 		updateManager = new UpdateManager();
 		updateManager.initialize();
-		return this;
-	}
-	
-	public XManagers initializeTutorial() {
+		
+		// Tutorials
 		tutorialManager = new TutorialManager();
 		tutorialManager.initialize();
+		
+		// Premium
+		premiumManager = new PremiumManager();
+		premiumManager.initialize();
+		
 		return this;
 	}
 	
 	public void finish() {
-		
+		;
+	}
+	
+	public File getBaseApplicationDirectory() {
+		return baseApplicationDirectory;
+	}
+	
+	public File getBaseDataDirectory() {
+		return baseDataDirectory;
 	}
 	
 	public SharedPreferences getPreferences() {
@@ -112,6 +114,10 @@ public class XManagers {
 		return tutorialManager;
 	}
 	
+	public PremiumManager getPremiumManager() {
+		return premiumManager;
+	}
+	
 	protected static abstract class AManager {
 		protected BoxPlayActivity boxPlayActivity = BoxPlayActivity.getBoxPlayActivity();
 		
@@ -125,6 +131,12 @@ public class XManagers {
 		
 		protected String getString(int ressourceId, Object... args) {
 			return BoxPlayActivity.getBoxPlayActivity().getString(ressourceId, args);
+		}
+	}
+	
+	protected static abstract class SubManager {
+		protected void initialize() {
+			;
 		}
 	}
 	

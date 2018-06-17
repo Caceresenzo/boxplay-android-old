@@ -49,6 +49,21 @@
             </group>
         </menu>
     </item>
+    <item
+        android:id="@+id/drawer_boxplay_premium"
+        android:title="@string/boxplay_premium"
+        android:visible="false">
+        <menu>
+            <group android:checkableBehavior="single" >
+                <item
+                    android:id="@+id/drawer_boxplay_premium_adult"
+                    android:icon="@drawable/icon_fire_light"
+                    android:title="@string/boxplay_premium_adult"
+                    android:checked="false"
+                    android:visible="false"/>
+            </group>
+        </menu>
+    </item>
     <item android:title="@string/boxplay_other">
         <menu>
             <group android:checkableBehavior="single" >

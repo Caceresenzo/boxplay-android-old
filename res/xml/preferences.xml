@@ -36,6 +36,16 @@
 
     <!--  -->
 
+    <PreferenceCategory android:title="@string/boxplay_other_settings_premium_category_title" >
+        <EditTextPreference
+            android:inputType="textCapCharacters"
+            android:key="@string/boxplay_other_settings_premium_pref_premium_key_key"
+            android:summary=""
+            android:title="@string/boxplay_other_settings_premium_pref_premium_key_title" />
+    </PreferenceCategory>
+
+    <!--  -->
+
     <PreferenceCategory android:title="@string/boxplay_other_settings_menu_category_title" >
         <CheckBoxPreference
             android:defaultValue="true"
