@@ -46,7 +46,7 @@
     <!-- ADULT (element) -->
     <dimen name="adult_video_width">184dp</dimen>
     <dimen name="adult_video_height">128dp</dimen>
-    
+
     <!--  -->
     <dimen name="activity_horizontal_margin_big_activity">16dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
@@ -88,8 +88,8 @@
     <integer name="preference_fragment_scrollbarStyle">0x02000000</integer>
 
     <!-- Defaults -->
-    <dimen name="activity_horizontal_margin">6dp</dimen>
-    <dimen name="activity_detail_horizontal_margin">18dp</dimen>
+    <!-- <dimen name="activity_horizontal_margin">6dp</dimen> -->
+    <!-- <dimen name="activity_detail_horizontal_margin">18dp</dimen> -->
     <dimen name="activity_vertical_margin">6dp</dimen>
 
     <bool name="isTablet">false</bool>

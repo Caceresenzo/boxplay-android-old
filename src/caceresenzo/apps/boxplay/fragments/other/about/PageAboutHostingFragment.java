@@ -15,7 +15,7 @@ import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
-import caceresenzo.apps.boxplay.models.server.ServerHosting;
+import caceresenzo.libs.boxplay.models.server.ServerHosting;
 
 public class PageAboutHostingFragment extends Fragment {
 	

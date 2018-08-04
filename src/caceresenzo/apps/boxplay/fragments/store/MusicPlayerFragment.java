@@ -26,16 +26,18 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
-import caceresenzo.android.libs.toast.ToastUtils;
-import caceresenzo.android.libs.widget.itemtouchhelper.*;
+import caceresenzo.android.libs.widget.itemtouchhelper.ItemTouchHelperAdapter;
+import caceresenzo.android.libs.widget.itemtouchhelper.ItemTouchHelperListener;
+import caceresenzo.android.libs.widget.itemtouchhelper.ItemTouchHelperViewHolder;
+import caceresenzo.android.libs.widget.itemtouchhelper.OnStartDragListener;
+import caceresenzo.android.libs.widget.itemtouchhelper.SimpleItemTouchHelperCallback;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
-import caceresenzo.apps.boxplay.models.music.MusicFile;
-import caceresenzo.apps.boxplay.models.music.MusicPlaylist;
 import caceresenzo.apps.boxplay.providers.media.music.MusicController;
 import caceresenzo.apps.boxplay.providers.media.music.MusicControls;
 import caceresenzo.apps.boxplay.providers.media.music.MusicService;
+import caceresenzo.libs.boxplay.models.store.music.MusicFile;
+import caceresenzo.libs.boxplay.models.store.music.MusicPlaylist;
 
 @SuppressWarnings({ "deprecation", "unused" })
 public class MusicPlayerFragment extends Fragment {

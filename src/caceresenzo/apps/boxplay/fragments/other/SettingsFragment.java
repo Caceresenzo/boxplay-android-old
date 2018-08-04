@@ -16,7 +16,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
-import caceresenzo.apps.boxplay.models.music.enums.MusicGenre;
+import caceresenzo.libs.boxplay.models.store.music.enums.MusicGenre;
 import caceresenzo.libs.licencekey.LicenceKey;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {

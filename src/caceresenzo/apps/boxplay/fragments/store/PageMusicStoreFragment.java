@@ -30,11 +30,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
-import caceresenzo.apps.boxplay.models.element.MusicElement;
-import caceresenzo.apps.boxplay.models.music.MusicAlbum;
-import caceresenzo.apps.boxplay.models.music.MusicFile;
-import caceresenzo.apps.boxplay.models.music.MusicGroup;
-import caceresenzo.apps.boxplay.models.music.enums.MusicGenre;
+import caceresenzo.libs.boxplay.models.element.MusicElement;
+import caceresenzo.libs.boxplay.models.store.music.MusicAlbum;
+import caceresenzo.libs.boxplay.models.store.music.MusicFile;
+import caceresenzo.libs.boxplay.models.store.music.MusicGroup;
+import caceresenzo.libs.boxplay.models.store.music.enums.MusicGenre;
 import caceresenzo.libs.random.Randomizer;
 
 public class PageMusicStoreFragment extends StorePageFragment {

@@ -17,16 +17,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.MusicActivity;
-import caceresenzo.apps.boxplay.factory.MusicFactory;
-import caceresenzo.apps.boxplay.factory.MusicFactory.MusicFactoryListener;
 import caceresenzo.apps.boxplay.fragments.store.MusicPlayerFragment;
 import caceresenzo.apps.boxplay.managers.XManagers.AManager;
-import caceresenzo.apps.boxplay.models.music.MusicAlbum;
-import caceresenzo.apps.boxplay.models.music.MusicFile;
-import caceresenzo.apps.boxplay.models.music.MusicGroup;
-import caceresenzo.apps.boxplay.models.music.MusicPlaylist;
 import caceresenzo.apps.boxplay.providers.media.music.MusicController;
 import caceresenzo.apps.boxplay.providers.media.music.MusicService;
+import caceresenzo.libs.boxplay.factory.MusicFactory;
+import caceresenzo.libs.boxplay.factory.MusicFactory.MusicFactoryListener;
+import caceresenzo.libs.boxplay.models.store.music.MusicAlbum;
+import caceresenzo.libs.boxplay.models.store.music.MusicFile;
+import caceresenzo.libs.boxplay.models.store.music.MusicGroup;
+import caceresenzo.libs.boxplay.models.store.music.MusicPlaylist;
 
 public class MusicManager extends AManager {
 	

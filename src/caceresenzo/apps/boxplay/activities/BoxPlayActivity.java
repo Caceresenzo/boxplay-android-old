@@ -205,11 +205,17 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 				MANAGERS.getUpdateManager().showDialog();
 				return true;
 			case R.id.menu_main_action_search:
-			default:
 				// if (lastFrament != null && lastFrament instanceof StoreFragment) {
 				// return ((StorePageFragment) StoreFragment.getStoreFragment().getActualFragment()).onOptionsItemSelected(item);
 				// }
 				StorePageFragment.handleSearch(item);
+				break;
+			case R.id.menu_main_action_debug:
+				startActivity(new Intent(this, VideoPlayerActivity.class));
+				break;
+			
+			default:
+				toast("Unhandled onOptionsItemSelected(item.getTitle() = \"" + item.getTitle() + "\");");
 				break;
 		}
 		return super.onOptionsItemSelected(item);

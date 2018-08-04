@@ -23,7 +23,7 @@ import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.managers.PremiumManager.AdultPremiumSubManager;
 import caceresenzo.apps.boxplay.managers.PremiumManager.AdultSubModuleCallback;
-import caceresenzo.apps.boxplay.models.adult.AdultVideo;
+import caceresenzo.libs.boxplay.models.premium.adult.AdultVideo;
 
 public class AdultExplorerFragment extends Fragment {
 	

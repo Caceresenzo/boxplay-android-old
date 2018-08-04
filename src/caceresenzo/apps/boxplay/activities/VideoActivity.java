@@ -51,10 +51,10 @@ import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.fragments.ViewHelper;
 import caceresenzo.apps.boxplay.managers.TutorialManager.Tutorialable;
 import caceresenzo.apps.boxplay.managers.VideoManager;
-import caceresenzo.apps.boxplay.models.server.ServerHosting;
-import caceresenzo.apps.boxplay.models.video.VideoFile;
-import caceresenzo.apps.boxplay.models.video.VideoGroup;
-import caceresenzo.apps.boxplay.models.video.VideoSeason;
+import caceresenzo.libs.boxplay.models.server.ServerHosting;
+import caceresenzo.libs.boxplay.models.store.video.VideoFile;
+import caceresenzo.libs.boxplay.models.store.video.VideoGroup;
+import caceresenzo.libs.boxplay.models.store.video.VideoSeason;
 
 /**
  * Help from: http://tutorialsbuzz.com/2015/11/android-collapsingtoolbarlayout-example_7.html

@@ -6,8 +6,8 @@
 
     <item
         android:id="@+id/menu_main_action_update"
-        android:orderInCategory="100"
         android:icon="@drawable/icon_update"
+        android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/boxplay_menu_action_update"/>
     <item
@@ -16,5 +16,9 @@
         android:title="@string/boxplay_menu_action_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always|collapseActionView"/>
+    <item
+        android:id="@+id/menu_main_action_debug"
+        android:showAsAction="never"
+        android:title="DEBUG"/>
 
 </menu>

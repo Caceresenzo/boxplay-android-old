@@ -25,10 +25,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
-import caceresenzo.apps.boxplay.models.element.VideoElement;
-import caceresenzo.apps.boxplay.models.video.VideoGroup;
-import caceresenzo.apps.boxplay.models.video.VideoSeason;
-import caceresenzo.apps.boxplay.models.video.enums.VideoFileType;
+import caceresenzo.libs.boxplay.models.element.VideoElement;
+import caceresenzo.libs.boxplay.models.store.video.VideoGroup;
+import caceresenzo.libs.boxplay.models.store.video.VideoSeason;
+import caceresenzo.libs.boxplay.models.store.video.enums.VideoFileType;
 import caceresenzo.libs.random.Randomizer;
 
 public class PageVideoStoreFragment extends StorePageFragment {

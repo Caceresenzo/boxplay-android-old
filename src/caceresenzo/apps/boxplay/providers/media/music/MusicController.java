@@ -2,8 +2,8 @@ package caceresenzo.apps.boxplay.providers.media.music;
 
 import android.app.Activity;
 import android.os.Handler;
-import caceresenzo.apps.boxplay.models.music.MusicFile;
-import caceresenzo.apps.boxplay.models.music.MusicPlaylist;
+import caceresenzo.libs.boxplay.models.store.music.MusicFile;
+import caceresenzo.libs.boxplay.models.store.music.MusicPlaylist;
 
 public class MusicController {
 	

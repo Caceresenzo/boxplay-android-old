@@ -23,12 +23,12 @@ import android.widget.TextView;
 import caceresenzo.android.libs.internet.AndroidDownloader;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.fragments.store.PageMusicStoreFragment;
-import caceresenzo.apps.boxplay.models.element.MusicElement;
-import caceresenzo.apps.boxplay.models.music.MusicAlbum;
-import caceresenzo.apps.boxplay.models.music.MusicFile;
-import caceresenzo.apps.boxplay.models.music.MusicGroup;
-import caceresenzo.apps.boxplay.models.music.enums.MusicGenre;
 import caceresenzo.apps.boxplay.providers.media.music.MusicController;
+import caceresenzo.libs.boxplay.models.element.MusicElement;
+import caceresenzo.libs.boxplay.models.store.music.MusicAlbum;
+import caceresenzo.libs.boxplay.models.store.music.MusicFile;
+import caceresenzo.libs.boxplay.models.store.music.MusicGroup;
+import caceresenzo.libs.boxplay.models.store.music.enums.MusicGenre;
 
 @SuppressWarnings("unused")
 public class MusicActivity extends AppCompatActivity {

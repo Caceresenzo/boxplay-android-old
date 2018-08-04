@@ -21,16 +21,16 @@ import caceresenzo.apps.boxplay.activities.MusicActivity;
 import caceresenzo.apps.boxplay.activities.VideoActivity;
 import caceresenzo.apps.boxplay.fragments.store.PageMusicStoreFragment.MusicStoreSubCategory;
 import caceresenzo.apps.boxplay.fragments.store.PageVideoStoreFragment.VideoStoreSubCategory;
-import caceresenzo.apps.boxplay.models.element.MusicElement;
-import caceresenzo.apps.boxplay.models.element.enums.ElementLanguage;
-import caceresenzo.apps.boxplay.models.music.MusicFile;
-import caceresenzo.apps.boxplay.models.music.enums.MusicAuthorType;
-import caceresenzo.apps.boxplay.models.music.enums.MusicGenre;
-import caceresenzo.apps.boxplay.models.video.VideoFile;
-import caceresenzo.apps.boxplay.models.video.VideoGroup;
-import caceresenzo.apps.boxplay.models.video.VideoSeason;
-import caceresenzo.apps.boxplay.models.video.enums.VideoFileType;
-import caceresenzo.apps.boxplay.models.video.enums.VideoType;
+import caceresenzo.libs.boxplay.models.element.MusicElement;
+import caceresenzo.libs.boxplay.models.element.enums.ElementLanguage;
+import caceresenzo.libs.boxplay.models.store.music.MusicFile;
+import caceresenzo.libs.boxplay.models.store.music.enums.MusicAuthorType;
+import caceresenzo.libs.boxplay.models.store.music.enums.MusicGenre;
+import caceresenzo.libs.boxplay.models.store.video.VideoFile;
+import caceresenzo.libs.boxplay.models.store.video.VideoGroup;
+import caceresenzo.libs.boxplay.models.store.video.VideoSeason;
+import caceresenzo.libs.boxplay.models.store.video.enums.VideoFileType;
+import caceresenzo.libs.boxplay.models.store.video.enums.VideoType;
 
 public class ViewHelper {
 	private BoxPlayActivity boxPlayActivity;

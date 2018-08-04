@@ -7,10 +7,10 @@ import java.util.List;
 import android.support.design.widget.Snackbar;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
-import caceresenzo.apps.boxplay.factory.ServerFactory;
-import caceresenzo.apps.boxplay.factory.ServerFactory.ServerFactoryListener;
 import caceresenzo.apps.boxplay.managers.XManagers.AManager;
-import caceresenzo.apps.boxplay.models.server.ServerHosting;
+import caceresenzo.libs.boxplay.factory.ServerFactory;
+import caceresenzo.libs.boxplay.factory.ServerFactory.ServerFactoryListener;
+import caceresenzo.libs.boxplay.models.server.ServerHosting;
 
 public class ServerManager extends AManager {
 	

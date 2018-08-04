@@ -34,9 +34,9 @@ import caceresenzo.android.libs.toast.ToastUtils;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.fragments.store.MusicPlayerFragment;
-import caceresenzo.apps.boxplay.models.music.MusicFile;
-import caceresenzo.apps.boxplay.models.music.MusicPlaylist;
 import caceresenzo.apps.boxplay.receivers.MusicNotificationBroadcast;
+import caceresenzo.libs.boxplay.models.store.music.MusicFile;
+import caceresenzo.libs.boxplay.models.store.music.MusicPlaylist;
 import caceresenzo.libs.parse.ParseUtils;
 
 @SuppressWarnings({ "deprecation", "unused" })
