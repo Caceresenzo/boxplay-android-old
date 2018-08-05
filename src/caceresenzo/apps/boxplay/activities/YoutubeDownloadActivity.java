@@ -27,6 +27,7 @@ import at.huber.youtubeExtractor.VideoMeta;
 import at.huber.youtubeExtractor.YouTubeExtractor;
 import at.huber.youtubeExtractor.YtFile;
 import caceresenzo.apps.boxplay.R;
+import caceresenzo.apps.boxplay.helper.LocaleHelper;
 
 public class YoutubeDownloadActivity extends Activity {
 	
@@ -60,6 +61,11 @@ public class YoutubeDownloadActivity extends Activity {
 		} else {
 			finish();
 		}
+	}
+	
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(LocaleHelper.onAttach(base));
 	}
 	
 	private void getYoutubeDownloadUrl(String youtubeLink) {

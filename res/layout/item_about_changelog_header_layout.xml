@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shadow_changelog_customlayout"
-        android:backgroundTint="@color/green" >
+        android:backgroundTint="@color/colorAccent" >
 
         <LinearLayout
             android:id="@+id/chg_rowheader"

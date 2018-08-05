@@ -1,4 +1,4 @@
-package caceresenzo.apps.boxplay.fragments;
+package caceresenzo.apps.boxplay.helper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -127,7 +127,7 @@ public class ViewHelper {
 			return;
 		}
 		
-		boxPlayActivity.toast(R.string.boxplay_viewhelper_recaching).show();
+		// boxPlayActivity.toast(R.string.boxplay_viewhelper_recaching).show();
 		
 		drawerMenuIds.clear();
 		enumCacheTranslation.clear();

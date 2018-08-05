@@ -1,8 +1,10 @@
 package caceresenzo.apps.boxplay.activities;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.support.v7.app.AppCompatActivity;
+import caceresenzo.apps.boxplay.helper.LocaleHelper;
 
 public class VideoPlayerActivity extends AppCompatActivity implements OnPreparedListener {
 	
@@ -41,6 +43,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements OnPrepared
 	public void onPrepared(MediaPlayer arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(LocaleHelper.onAttach(base));
 	}
 	
 }

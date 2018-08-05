@@ -60,20 +60,21 @@ public class AboutFragment extends Fragment {
 		View aboutView = new AboutPage(getActivity()) //
 				.isRTL(false) //
 				.setImage(R.drawable.icon_boxplay_easter_egg) //
+				.setBackgroundColor(R.color.colorBackground) //
 				.setDescription(getString(R.string.boxplay_other_about_description)) //
 				.addGroup(getString(R.string.boxplay_other_about_group_app_information)) //
-				.addItem(new Element(getString(R.string.boxplay_other_about_group_app_information_version, BoxPlayActivity.getVersion().get()), null)) //
+				.addItem(new Element(getString(R.string.boxplay_other_about_group_app_information_version, BoxPlayActivity.getVersion().get()), null).setBackgroundColor(R.color.colorBackground)) //
 				.addGroup(getString(R.string.boxplay_other_about_group_team_programmer)) //
-				.addItem(new Element(String.format(teamFormat, "Enzo CACERES, *Caceresenzo", getString(R.string.boxplay_other_about_group_team_format_type_application)), null)) //
-				.addItem(new Element(String.format(teamFormat, "Fanbien SENUT--SCHAPPACHER, *TheWhoosher", getString(R.string.boxplay_other_about_group_team_format_type_api)), null)) //
+				.addItem(new Element(String.format(teamFormat, "Enzo CACERES, *Caceresenzo", getString(R.string.boxplay_other_about_group_team_format_type_application)), null).setBackgroundColor(R.color.colorBackground)) //
+				.addItem(new Element(String.format(teamFormat, "Fanbien SENUT--SCHAPPACHER, *TheWhoosher", getString(R.string.boxplay_other_about_group_team_format_type_api)), null).setBackgroundColor(R.color.colorBackground)) //
 				.addGroup(getString(R.string.boxplay_other_about_group_team_designer)) //
-				.addItem(new Element(String.format(teamFormat, "Enzo CACERES, *Caceresenzo", getString(R.string.boxplay_other_about_group_team_format_type_ui)), null)) //
-				.addItem(new Element(String.format(teamFormat, "Quentin BOTTA, *valgrebon", getString(R.string.boxplay_other_about_group_team_format_type_icons)), null)) //
+				.addItem(new Element(String.format(teamFormat, "Enzo CACERES, *Caceresenzo", getString(R.string.boxplay_other_about_group_team_format_type_ui)), null).setBackgroundColor(R.color.colorBackground)) //
+				.addItem(new Element(String.format(teamFormat, "Quentin BOTTA, *valgrebon", getString(R.string.boxplay_other_about_group_team_format_type_icons) + getString(R.string.boxplay_other_about_group_team_format_separator, " ") + getString(R.string.boxplay_other_about_group_team_format_type_ui)), null).setBackgroundColor(R.color.colorBackground)) //
 				.addGroup(getString(R.string.boxplay_other_about_group_team_supporter)) //
-				.addItem(new Element(String.format(teamFormat, "Jérémie BLERAUD", getString(R.string.boxplay_other_about_group_team_format_type_because)), null)) //
-				.addItem(new Element(String.format(teamFormat, "Dorian HARDY, *thegostisdead", getString(R.string.boxplay_other_about_group_team_format_type_hosting)), null)) //
+				.addItem(new Element(String.format(teamFormat, "Jérémie BLERAUD", getString(R.string.boxplay_other_about_group_team_format_type_because)), null).setBackgroundColor(R.color.colorBackground)) //
+				.addItem(new Element(String.format(teamFormat, "Dorian HARDY, *thegostisdead", getString(R.string.boxplay_other_about_group_team_format_type_hosting)), null).setBackgroundColor(R.color.colorBackground)) //
 				.addGroup(getString(R.string.boxplay_other_about_group_team_helper)) //
-				.addItem(new Element(String.format(teamFormat, "*dandar3", getString(R.string.boxplay_other_about_group_team_format_type_eclipse)), null)) //
+				.addItem(new Element(String.format(teamFormat, "*dandar3", getString(R.string.boxplay_other_about_group_team_format_type_eclipse)), null).setBackgroundColor(R.color.colorBackground)) //
 				.create() //
 		; //
 		

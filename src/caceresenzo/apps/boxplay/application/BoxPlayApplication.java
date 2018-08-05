@@ -5,12 +5,15 @@ import java.util.Locale;
 import com.rohitss.uceh.UCEHandler;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.helper.LocaleHelper;
 
 public class BoxPlayApplication extends Application {
 	
@@ -34,10 +37,15 @@ public class BoxPlayApplication extends Application {
 	}
 	
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		setLocale();
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(LocaleHelper.onAttach(base));
 	}
+	
+	// @Override
+	// public void onConfigurationChanged(Configuration newConfig) {
+	// super.onConfigurationChanged(newConfig);
+	// setLocale();
+	// }
 	
 	public void setLocale() {
 		setLocale(false);
@@ -52,10 +60,34 @@ public class BoxPlayApplication extends Application {
 			configuration.setLocale(locale);
 			resources.updateConfiguration(configuration, null);
 			
+			try {
+				Configuration config = getBaseContext().getResources().getConfiguration();
+				config.setLocale(locale);
+				createConfigurationContext(config);
+			} catch (Exception exception) {
+				; // Unavailable in old API
+			}
+			
 			if (BoxPlayActivity.getBoxPlayActivity() != null && autoReCache) {
 				BoxPlayActivity.getViewHelper().recache();
 			}
 		}
+	}
+	
+	private static Context updateResources(Context context, String language) {
+		Locale locale = new Locale(language);
+		Locale.setDefault(locale);
+		
+		Resources res = context.getResources();
+		Configuration config = new Configuration(res.getConfiguration());
+		if (Build.VERSION.SDK_INT >= 17) {
+			config.setLocale(locale);
+			context = context.createConfigurationContext(config);
+		} else {
+			config.locale = locale;
+			res.updateConfiguration(config, res.getDisplayMetrics());
+		}
+		return context;
 	}
 	
 	public String getLocaleString() {

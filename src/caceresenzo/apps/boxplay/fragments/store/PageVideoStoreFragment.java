@@ -142,11 +142,15 @@ public class PageVideoStoreFragment extends StorePageFragment {
 			}
 			
 			if (!yourWatchingList.isEmpty()) {
-				rowListItems.add(new TitleRowItem(YOURLIST));
+//				rowListItems.add(new TitleRowItem(YOURLIST));
+				
+				String headingTitle = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(YOURLIST);
+				RowListItemConfig rowListItemConfig = new RowListItemConfig().title(headingTitle);
+				
 				if (yourWatchingList.size() == 1) {
-					rowListItems.add(new VideoElementRowItem(yourWatchingList.get(0)));
+					rowListItems.add(new VideoElementRowItem(yourWatchingList.get(0)).configurate(rowListItemConfig));
 				} else {
-					rowListItems.add(new VideoListRowItem(yourWatchingList));
+					rowListItems.add(new VideoListRowItem(yourWatchingList).configurate(rowListItemConfig));
 				}
 			}
 			
@@ -154,11 +158,15 @@ public class PageVideoStoreFragment extends StorePageFragment {
 			Collections.shuffle(keys);
 			for (VideoStoreSubCategory category : keys) {
 				if (!population.get(category).isEmpty()) {
-					rowListItems.add(new TitleRowItem(category));
+					// rowListItems.add(new TitleRowItem(category));
+					
+					String headingTitle = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(category);
+					RowListItemConfig rowListItemConfig = new RowListItemConfig().title(headingTitle);
+					
 					if (category.equals(RANDOM) || population.get(category).size() < 2) {
-						rowListItems.add(new VideoElementRowItem(population.get(category).get(0)));
+						rowListItems.add(new VideoElementRowItem(population.get(category).get(0)).configurate(rowListItemConfig));
 					} else {
-						rowListItems.add(new VideoListRowItem(population.get(category)));
+						rowListItems.add(new VideoListRowItem(population.get(category)).configurate(rowListItemConfig));
 					}
 				}
 			}

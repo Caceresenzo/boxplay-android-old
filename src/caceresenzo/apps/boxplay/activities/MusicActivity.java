@@ -3,6 +3,7 @@ package caceresenzo.apps.boxplay.activities;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import caceresenzo.android.libs.internet.AndroidDownloader;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.fragments.store.PageMusicStoreFragment;
+import caceresenzo.apps.boxplay.helper.LocaleHelper;
 import caceresenzo.apps.boxplay.providers.media.music.MusicController;
 import caceresenzo.libs.boxplay.models.element.MusicElement;
 import caceresenzo.libs.boxplay.models.store.music.MusicAlbum;
@@ -78,9 +80,16 @@ public class MusicActivity extends AppCompatActivity {
 			finish();
 		}
 		
+		int aze = R.color.colorBackground;
+		
 		initializeStrings();
 		
 		initializeViews();
+	}
+	
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(LocaleHelper.onAttach(base));
 	}
 	
 	@Override
@@ -390,7 +399,7 @@ public class MusicActivity extends AppCompatActivity {
 					}
 				});
 			} else {
-				view.setBackgroundTintList(MusicActivity.this.getResources().getColorStateList(R.color.purple));
+				view.setBackgroundTintList(MusicActivity.this.getResources().getColorStateList(R.color.colorPanel));
 			}
 		}
 	}

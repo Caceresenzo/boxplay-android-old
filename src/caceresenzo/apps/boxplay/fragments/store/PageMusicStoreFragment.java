@@ -18,7 +18,6 @@ import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -221,11 +220,14 @@ public class PageMusicStoreFragment extends StorePageFragment {
 			Collections.shuffle(keys);
 			for (Object category : keys) {
 				if (!population.get(category).isEmpty()) {
-					rowListItems.add(new TitleRowItem(category));
+					// rowListItems.add(new TitleRowItem(category));
+					
+					String headingTitle = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(category);
+					
 					if (category.equals(RANDOM) || population.get(category).size() < 2) {
-						rowListItems.add(new MusicElementRowItem(population.get(category).get(0)));
+						rowListItems.add(new MusicElementRowItem(population.get(category).get(0)).configurate(new RowListItemConfig().title(headingTitle)));
 					} else {
-						rowListItems.add(new MusicListRowItem(population.get(category)));
+						rowListItems.add(new MusicListRowItem(population.get(category)).configurate(new RowListItemConfig().title(headingTitle)));
 					}
 				}
 			}
@@ -271,7 +273,7 @@ public class PageMusicStoreFragment extends StorePageFragment {
 				}
 			}
 			
-			new AlertDialog.Builder(getContext()) //
+			AlertDialog dialog = new AlertDialog.Builder(getContext()) //
 					.setTitle(getString(R.string.boxplay_other_settings_store_music_pref_my_genre_title)) //
 					.setMultiChoiceItems(genreChoices, checkedItems, new OnMultiChoiceClickListener() {
 						@Override
@@ -294,8 +296,10 @@ public class PageMusicStoreFragment extends StorePageFragment {
 							swipeRefreshLayout.setRefreshing(true);
 							callDataUpdater(false);
 						}
-					}) //
-					.show() //
+					}).create(); //
+			
+			dialog.show()
+			//
 			;
 		}
 	}
@@ -435,19 +439,16 @@ public class PageMusicStoreFragment extends StorePageFragment {
 	
 	public static class MusicListRowViewHolder extends RecyclerView.ViewHolder {
 		private View view;
-		private CardView titleContainerCardView;
 		private TextView titleTextView;
 		private ImageView thumbnailImageView;
 		
 		public MusicListRowViewHolder(View itemView) {
 			super(itemView);
 			view = itemView;
-			titleContainerCardView = (CardView) itemView.findViewById(R.id.item_store_page_music_list_layout_cardview_title_container);
 			titleTextView = (TextView) itemView.findViewById(R.id.item_store_page_music_list_layout_textview_title);
 			thumbnailImageView = (ImageView) itemView.findViewById(R.id.item_store_page_music_list_layout_imageview_thumbnail);
 		}
 		
-		@SuppressWarnings("deprecation")
 		public void bind(final MusicElement item) {
 			String imageUrl = null;
 			titleTextView.setText(item.getClass() != null ? String.valueOf(item.getClass()) : "null");
@@ -456,7 +457,6 @@ public class PageMusicStoreFragment extends StorePageFragment {
 				final MusicGroup group = (MusicGroup) item;
 				
 				titleTextView.setText(group.getDisplay());
-				titleContainerCardView.setBackgroundTintList(BoxPlayActivity.getBoxPlayActivity().getResources().getColorStateList(R.color.dark_blue));
 				
 				if (group.getImageUrl() != null) {
 					imageUrl = group.getImageUrl();
@@ -465,7 +465,6 @@ public class PageMusicStoreFragment extends StorePageFragment {
 				final MusicAlbum album = (MusicAlbum) item;
 				
 				titleTextView.setText(album.getTitle());
-				titleContainerCardView.setBackgroundTintList(BoxPlayActivity.getBoxPlayActivity().getResources().getColorStateList(R.color.green));
 				
 				if (album.getImageUrl() != null) {
 					imageUrl = album.getImageUrl();
@@ -474,7 +473,6 @@ public class PageMusicStoreFragment extends StorePageFragment {
 				final MusicFile music = (MusicFile) item;
 				
 				titleTextView.setText(music.getTitle());
-				titleContainerCardView.setBackgroundTintList(BoxPlayActivity.getBoxPlayActivity().getResources().getColorStateList(R.color.background_dark_gray));
 				
 				if (music.getParentAlbum() != null && music.getParentAlbum().getImageUrl() != null) {
 					imageUrl = music.getParentAlbum().getImageUrl();

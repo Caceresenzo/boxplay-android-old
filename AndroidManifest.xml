@@ -2,8 +2,8 @@
 <!DOCTYPE xml>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="caceresenzo.apps.boxplay"
-    android:versionCode="003060"
-    android:versionName="3.0.6 BETA" >
+    android:versionCode="003070"
+    android:versionName="3.0.7 BETA" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -20,6 +21,7 @@
     <application
         android:name=".application.BoxPlayApplication"
         android:allowBackup="true"
+        android:configChanges="locale"
         android:icon="@mipmap/icon_boxplay3"
         android:isGame="false"
         android:label="@string/application_name"
@@ -29,7 +31,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".activities.BoxPlayActivity"
-            android:configChanges="keyboardHidden|screenLayout|orientation|screenSize"
+            android:configChanges="keyboardHidden|screenLayout|orientation|screenSize|locale"
             android:label="@string/application_name"
             android:launchMode="singleTop" >
             <intent-filter>
@@ -40,6 +42,7 @@
         </activity>
         <activity
             android:name=".activities.VideoActivity"
+            android:configChanges="locale"
             android:label="@string/title_activity_video"
             android:launchMode="singleTop"
             android:parentActivityName=".activities.BoxPlayActivity" >
@@ -49,6 +52,7 @@
         </activity>
         <activity
             android:name=".activities.VideoPlayerActivity"
+            android:configChanges="locale"
             android:label="@string/title_activity_videoplayer"
             android:launchMode="singleTop"
             android:parentActivityName=".activities.BoxPlayActivity" >
@@ -58,6 +62,7 @@
         </activity>
         <activity
             android:name=".WelcomeActivity"
+            android:configChanges="locale"
             android:label="@string/title_activity_welcome"
             android:launchMode="singleTop" >
             <meta-data
@@ -66,6 +71,7 @@
         </activity>
         <activity
             android:name=".activities.MusicActivity"
+            android:configChanges="locale"
             android:label="@string/title_activity_music"
             android:launchMode="standard" >
         </activity>

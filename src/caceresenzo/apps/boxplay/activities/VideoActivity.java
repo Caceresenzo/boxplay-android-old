@@ -48,7 +48,8 @@ import android.widget.TextView;
 import caceresenzo.android.libs.intent.IntentUtils;
 import caceresenzo.android.libs.internet.AndroidDownloader;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.fragments.ViewHelper;
+import caceresenzo.apps.boxplay.helper.LocaleHelper;
+import caceresenzo.apps.boxplay.helper.ViewHelper;
 import caceresenzo.apps.boxplay.managers.TutorialManager.Tutorialable;
 import caceresenzo.apps.boxplay.managers.VideoManager;
 import caceresenzo.libs.boxplay.models.server.ServerHosting;
@@ -109,6 +110,11 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 		changeSeason(videoSeason = videoGroup.getSeasons().get(0));
 		
 		BoxPlayActivity.getManagers().getTutorialManager().executeActivityTutorial(this);
+	}
+	
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(LocaleHelper.onAttach(base));
 	}
 	
 	@Override
@@ -306,11 +312,11 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 			}
 			
 			if (videoGroup.getSeasons().get(position).isWatched()) {
-				targetColorId = R.color.green;
+				targetColorId = R.color.colorAccent;
 			}
 			
 			if (useColor && position == seasonSpinner.getSelectedItemPosition()) {
-				targetColorId = R.color.pink;
+				targetColorId = R.color.colorAccent;
 			}
 			
 			textView.setTextColor(VideoActivity.this.getResources().getColor(targetColorId));
@@ -321,7 +327,7 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 			
 			LinearLayout linearLayout = new LinearLayout(getContext());
 			linearLayout.addView(textView);
-			linearLayout.setBackgroundColor(VideoActivity.this.getResources().getColor(R.color.dark_blue));
+			linearLayout.setBackgroundColor(VideoActivity.this.getResources().getColor(R.color.colorPrimary));
 			return linearLayout;
 		}
 		
@@ -472,7 +478,7 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 			expandableLayout.setExpanded(item.expanded, false);
 			episodeTextView.setText(getString(R.string.boxplay_store_video_activity_episode_title, BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(item.videoFile.getVideoType()), item.videoFile.getRawEpisodeValue()));
 			languageTextView.setText(getString(R.string.boxplay_store_video_activity_episode_language, BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(item.videoFile.getLanguage())));
-			progressSeekBar.getProgressDrawable().setColorFilter(VideoActivity.this.getResources().getColor(R.color.colorDarkGray), PorterDuff.Mode.MULTIPLY);
+			progressSeekBar.getProgressDrawable().setColorFilter(VideoActivity.this.getResources().getColor(R.color.colorCard), PorterDuff.Mode.MULTIPLY);
 			
 			boolean iconImageViewAvailable = false;
 			if (BoxPlayActivity.getManagers().getServerManager() != null && BoxPlayActivity.getManagers().getServerManager().getServerHostings().size() > 0) {
@@ -557,7 +563,7 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 		@SuppressWarnings("deprecation")
 		private void updateVideoFileItemInformations(final VideoFile video, boolean disableSnackbarConfirm) {
 			// Default action
-			progressSeekBar.getProgressDrawable().setColorFilter(VideoActivity.this.getResources().getColor(R.color.colorDarkGray), PorterDuff.Mode.MULTIPLY);
+			progressSeekBar.getProgressDrawable().setColorFilter(VideoActivity.this.getResources().getColor(R.color.colorCard), PorterDuff.Mode.MULTIPLY);
 			
 			// Video unavailable
 			if (!video.isAvailable()) {
@@ -577,7 +583,7 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 			
 			// Already watched
 			if (video.isWatched()) {
-				progressSeekBar.getProgressDrawable().setColorFilter(VideoActivity.this.getResources().getColor(R.color.green), PorterDuff.Mode.MULTIPLY);
+				progressSeekBar.getProgressDrawable().setColorFilter(VideoActivity.this.getResources().getColor(R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
 				progressSeekBar.setProgress(100);
 				timeTextView.setText(R.string.boxplay_store_video_activity_episode_time_watched);
 				watchButton.setText(R.string.boxplay_store_video_button_unwatch);
@@ -589,13 +595,13 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 			
 			// Not finished, and not saved progress (-1 or 0)
 			if (video.getSavedTime() < 1) {
-				progressSeekBar.getProgressDrawable().setColorFilter(VideoActivity.this.getResources().getColor(R.color.colorDarkGray), PorterDuff.Mode.MULTIPLY);
+				progressSeekBar.getProgressDrawable().setColorFilter(VideoActivity.this.getResources().getColor(R.color.colorCard), PorterDuff.Mode.MULTIPLY);
 				
 				return;
 			}
 			
 			// Not finished, but saved progress
-			progressSeekBar.getProgressDrawable().setColorFilter(VideoActivity.this.getResources().getColor(R.color.pink), PorterDuff.Mode.MULTIPLY);
+			progressSeekBar.getProgressDrawable().setColorFilter(VideoActivity.this.getResources().getColor(R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
 			progressSeekBar.setProgress((int) ((video.getSavedTime() * 100) / video.getDuration()));
 			timeTextView.setText(getString(R.string.boxplay_store_video_activity_episode_time, ViewHelper.DATEFORMAT_VIDEO_DURATION.format(new Date(video.getSavedTime())), ViewHelper.DATEFORMAT_VIDEO_DURATION.format(new Date(video.getDuration()))));
 			
@@ -655,8 +661,8 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 				TapTarget.forToolbarNavigationIcon(toolbar, getString(R.string.boxplay_tutorial_video_back_title), getString(R.string.boxplay_tutorial_video_back_description)) //
 						.id(TUTORIAL_PROGRESS_ARROW) //
 						.dimColor(android.R.color.black) // Background
-						.outerCircleColor(R.color.green) // Big circle
-						.targetCircleColor(R.color.dark_blue) // Moving circle color (animation)
+						.outerCircleColor(R.color.colorAccent) // Big circle
+						.targetCircleColor(R.color.colorPrimary) // Moving circle color (animation)
 						.textColor(android.R.color.black) //
 						.transparentTarget(true) //
 						.cancelable(false) //
@@ -666,8 +672,8 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 				TapTarget.forView(floatingActionButton, getString(R.string.boxplay_tutorial_video_watch_list_title), getString(R.string.boxplay_tutorial_video_watch_list_description)) //
 						.id(TUTORIAL_PROGRESS_WATCHING_LIST) //
 						.dimColor(android.R.color.black) //
-						.outerCircleColor(R.color.green) //
-						.targetCircleColor(R.color.dark_blue) //
+						.outerCircleColor(R.color.colorAccent) //
+						.targetCircleColor(R.color.colorPrimary) //
 						.textColor(android.R.color.black) //
 						.transparentTarget(true) //
 						.cancelable(false) //
@@ -677,8 +683,8 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 				TapTarget.forView(seasonSpinner, getString(R.string.boxplay_tutorial_video_season_selector_title), getString(R.string.boxplay_tutorial_video_season_selector_description)) //
 						.id(TUTORIAL_PROGRESS_SEASON_SELECTOR) //
 						.dimColor(android.R.color.black) //
-						.outerCircleColor(R.color.green) //
-						.targetCircleColor(R.color.dark_blue) //
+						.outerCircleColor(R.color.colorAccent) //
+						.targetCircleColor(R.color.colorPrimary) //
 						.textColor(android.R.color.black) //
 						.transparentTarget(true) //
 						.cancelable(false) //
@@ -688,8 +694,8 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 				TapTarget.forView(seasonCheckBox, getString(R.string.boxplay_tutorial_video_season_watched_title), getString(R.string.boxplay_tutorial_video_season_watched_description)) //
 						.id(TUTORIAL_PROGRESS_WATCHED_SEASON) //
 						.dimColor(android.R.color.black) //
-						.outerCircleColor(R.color.green) //
-						.targetCircleColor(R.color.dark_blue) //
+						.outerCircleColor(R.color.colorAccent) //
+						.targetCircleColor(R.color.colorPrimary) //
 						.textColor(android.R.color.black) //
 						.transparentTarget(true) //
 						.cancelable(false) //
@@ -699,8 +705,8 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 				TapTarget.forBounds(rectangle, getString(R.string.boxplay_tutorial_video_episodes_title), getString(R.string.boxplay_tutorial_video_episodes_description)) //
 						.id(TUTORIAL_PROGRESS_EPISODES) //
 						.dimColor(android.R.color.black) //
-						.outerCircleColor(R.color.green) //
-						.targetCircleColor(R.color.dark_blue) //
+						.outerCircleColor(R.color.colorAccent) //
+						.targetCircleColor(R.color.colorPrimary) //
 						.textColor(android.R.color.black) //
 						.transparentTarget(true) //
 						.cancelable(false) //

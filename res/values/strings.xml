@@ -8,7 +8,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!--  -->
-    <string name="boxplay_viewhelper_recaching">re-caching...\nPlease restart the app to apply new language everywhere!</string>
+    <string name="boxplay_viewhelper_recaching">Re-caching...\nPlease restart the app to apply new language everywhere!</string>
     <!--  -->
     <string name="boxplay_update_uptodate">Already up to date!</string>
     <string name="boxplay_update_available" formatted="false">Update available! %s</string>
@@ -324,6 +324,7 @@
     <string name="boxplay_other_about_group_team_format_type_hosting">hosting</string>
     <string name="boxplay_other_about_group_team_format_type_eclipse">eclipse fix</string>
     <string name="boxplay_other_about_group_team_format_type_because">because :/</string>
+    <string name="boxplay_other_about_group_team_format_separator">,%s</string>
     <!--  -->
     <string name="boxplay_other_about_group_team_programmer">Team / Programmer</string>
     <string name="boxplay_other_about_group_team_designer">Team / Designer</string>

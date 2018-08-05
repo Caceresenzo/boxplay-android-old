@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
 
+	<changelogversion versionName="3.0.7 BETA" changeDate="05/08/2018">
+		<changelogtext>[b]Mise à jour de l'Interface, completement retravaillé (avec Quentin)[/b]</changelogtext>
+		<changelogtext>[b]Nouveau![/b] Designe de l'interfdace</changelogtext>
+		<changelogtext>[b]Nouveau![/b] L'appli se relance quand vous changez de language</changelogtext>
+		<changelogtext>[b]Fixé![/b] Quelque bugs</changelogtext>
+		<changelogtext>[b]Optimisé![/b] Système des tutoriels</changelogtext>
+	</changelogversion>
+
 	<changelogversion versionName="3.0.6 BETA" changeDate="17/06/2018">
 		<changelogtext>[b]Mise à jour BoxPlay+[/b]</changelogtext>
 		<changelogtext>[b]Nouveau![/b] Fonctionnalité pour les utilisateurs Plus!</changelogtext>
@@ -11,9 +19,9 @@
 	<changelogversion versionName="3.0.5 BETA" changeDate="06/06/2018">
 		<changelogtext>[b]Mise à jour du Lecteur de Musique[/b]</changelogtext>
 		<changelogtext>[b]Nouveau![/b] Le Lecteur de Musique</changelogtext>
-		<changelogtext>[b]Nouveau![/b] Bouton pour n\'importe quel musique (lire juste après et ajouter à la liste)</changelogtext>
+		<changelogtext>[b]Nouveau![/b] Bouton pour n'importe quel musique (lire juste après et ajouter à la liste)</changelogtext>
 		<changelogtext>[b]Info![/b] Taille des cartes réduite, pour une navigation plus intuitive</changelogtext>
-		<changelogtext>[b]Optimisé![/b] Le calculateur de source d\'image de meilleur qualité</changelogtext>
+		<changelogtext>[b]Optimisé![/b] Le calculateur de source d'image de meilleur qualité</changelogtext>
 	</changelogversion>
 
 	<changelogversion versionName="3.0.4 BETA" changeDate="17/05/2018">

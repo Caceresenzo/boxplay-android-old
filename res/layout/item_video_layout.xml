@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    style="@style/cardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/main_card_margin_vertical"
     android:layout_marginEnd="@dimen/main_card_margin_horizontal"
     android:layout_marginStart="@dimen/main_card_margin_horizontal"
-    android:layout_marginTop="@dimen/main_card_margin_vertical"
-    android:background="?attr/selectableItemBackground"
-    android:foreground="?attr/selectableItemBackground"
-    card_view:cardBackgroundColor="@color/primary_material_dark"
-    card_view:cardCornerRadius="@dimen/card_recycler_corner_radius"
-    card_view:cardElevation="@dimen/card_recycler_elevation" >
+    android:layout_marginTop="@dimen/main_card_margin_vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,8 +38,8 @@
                     android:id="@+id/item_video_layout_imageview_host_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_alignRight="@+id/item_video_layout_seekbar_saved_progress"
                     android:layout_alignParentRight="true"
+                    android:layout_alignRight="@+id/item_video_layout_seekbar_saved_progress"
                     android:src="@drawable/icon_host_boxplay" />
 
                 <TextView
@@ -72,7 +67,6 @@
                     android:layout_alignLeft="@+id/item_video_layout_seekbar_saved_progress"
                     android:layout_below="@+id/item_video_layout_seekbar_saved_progress"
                     android:text="Language" />
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -96,7 +90,7 @@
                             android:id="@+id/item_video_layout_item_button_play"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/green"
+                            android:backgroundTint="@color/colorAccent"
                             android:text="@string/boxplay_store_video_button_play" />
                     </LinearLayout>
 
@@ -109,7 +103,7 @@
                             android:id="@+id/item_video_layout_item_button_download"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/green"
+                            android:backgroundTint="@color/colorAccent"
                             android:text="@string/boxplay_store_video_button_download" />
                     </LinearLayout>
 
@@ -123,7 +117,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
-                            android:backgroundTint="@color/green"
+                            android:backgroundTint="@color/colorAccent"
                             android:text="@string/boxplay_store_video_button_watch" />
 
                         <Button
@@ -131,7 +125,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
-                            android:backgroundTint="@color/green"
+                            android:backgroundTint="@color/colorAccent"
                             android:text="@string/boxplay_store_video_button_share" />
 
                         <Button
@@ -139,7 +133,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.5"
-                            android:backgroundTint="@color/green"
+                            android:backgroundTint="@color/colorAccent"
                             android:text="@string/boxplay_store_video_button_share_url" />
                     </LinearLayout>
 
@@ -152,7 +146,7 @@
                             android:id="@+id/item_video_layout_item_button_cast"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/dark_blue"
+                            android:backgroundTint="@color/colorPrimary"
                             android:enabled="false"
                             android:text="@string/boxplay_store_video_button_cast" />
                         <!-- android:backgroundTint="@color/colorAccent" -->

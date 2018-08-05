@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -21,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
@@ -41,6 +43,8 @@ public abstract class StorePageFragment extends Fragment {
 	protected RecyclerView recyclerView;
 	protected SwipeRefreshLayout swipeRefreshLayout;
 	protected OnRefreshListener onRefreshListener;
+	
+	protected boolean hasTitle = false;
 	
 	protected List<RowListItem> rowListItems;
 	
@@ -156,13 +160,13 @@ public abstract class StorePageFragment extends Fragment {
 	class StoreRowViewAdapter extends RecyclerView.Adapter<StoreRowViewHolder> {
 		private List<RowListItem> rows;
 		
-		public StoreRowViewAdapter(List<RowListItem> rows) {
+		private StoreRowViewAdapter(List<RowListItem> rows) {
 			this.rows = rows;
 		}
 		
 		@Override
 		public StoreRowViewHolder onCreateViewHolder(ViewGroup viewGroup, int itemType) {
-			View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_store_page_child, viewGroup, false);
+			View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_store_page_child_titled, viewGroup, false);
 			return new StoreRowViewHolder(view);
 		}
 		
@@ -292,39 +296,78 @@ public abstract class StorePageFragment extends Fragment {
 	 * Store Views
 	 */
 	class StoreRowViewHolder extends RecyclerView.ViewHolder {
+		private CardView mainContainerCardView;
+		private RelativeLayout containerRelativeLayout;
+		private TextView titleTextView;
+		private View seperatorIncludeView;
 		private RecyclerView recyclerView;
 		
 		public StoreRowViewHolder(View itemView) {
 			super(itemView);
 			
+			mainContainerCardView = (CardView) itemView.findViewById(R.id.fragment_store_page_child_cardview_main_container);
+			
+			containerRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.item_store_page_all_title_relativelayout_title_container);
+			titleTextView = (TextView) itemView.findViewById(R.id.item_store_page_all_title_textview_title);
+			
+			seperatorIncludeView = itemView.findViewById(R.id.fragment_store_page_child_include_seperator);
+			
 			recyclerView = (RecyclerView) itemView.findViewById(R.id.fragment_store_page_child_recyclerview_list);
 			recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 		}
 		
+		public void applyTitle(RowListItem rowListItem) {
+			if (titleTextView == null) {
+				return;
+			}
+			
+			RowListItemConfig config = rowListItem.getConfig();
+			
+			String title = config.getTitle();
+			if (!config.isTitleEnabled() || title == null) {
+				containerRelativeLayout.setVisibility(View.GONE);
+				seperatorIncludeView.setVisibility(View.GONE);
+				return;
+			}
+			
+			mainContainerCardView.setOnClickListener(config.getOnClickListenerOrDefault());
+			
+			titleTextView.setText(title);
+		}
+		
 		public void bind(RowListItem item) {
+			applyTitle(item);
+			
 			switch (item.getType()) {
-				case RowListItem.TYPE_VIDEO_LIST: // 0
+				case RowListItem.TYPE_VIDEO_LIST: { // 0
 					recyclerView.setAdapter(new VideoListRowViewAdapter(((VideoListRowItem) item).getVideoElements()));
 					break;
-				case RowListItem.TYPE_VIDEO_ELEMENT: // 1
+				}
+				case RowListItem.TYPE_VIDEO_ELEMENT: { // 1
 					recyclerView.setAdapter(new VideoElementRowViewAdapter(((VideoElementRowItem) item).getVideoFile()));
 					break;
-				case RowListItem.TYPE_MUSIC_LIST: // 100
+				}
+				case RowListItem.TYPE_MUSIC_LIST: { // 100
 					recyclerView.setAdapter(new MusicListRowViewAdapter(((MusicListRowItem) item).getMusicElements()));
 					break;
-				case RowListItem.TYPE_MUSIC_ELEMENT: // 101
+				}
+				case RowListItem.TYPE_MUSIC_ELEMENT: { // 101
 					recyclerView.setAdapter(new MusicElementRowViewAdapter(((MusicElementRowItem) item).getMusicFile()));
 					break;
-				case RowListItem.TYPE_ELEMENT_TITLE: // 1000
+				}
+				case RowListItem.TYPE_ELEMENT_TITLE: { // 1000
 					recyclerView.setAdapter(new TitleRowViewAdapter((TitleRowItem) item));
 					break;
-				case RowListItem.TYPE_ELEMENT_ERROR: // 1001
+				}
+				case RowListItem.TYPE_ELEMENT_ERROR: { // 1001
 					recyclerView.setAdapter(new ErrorRowViewAdapter((ErrorRowItem) item));
 					break;
+				}
 				
-				default:
+				default: {
 					BoxPlayActivity.getBoxPlayActivity().snackbar(getString(R.string.boxplay_error_fragment_type_unbind, item.getType()), Snackbar.LENGTH_LONG).show();
 					break;
+				}
 			}
 		}
 	}
@@ -338,7 +381,7 @@ public abstract class StorePageFragment extends Fragment {
 		
 		@Override
 		public TitleRowViewHolder onCreateViewHolder(ViewGroup viewGroup, int itemType) {
-			View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_store_page_all_title, viewGroup, false);
+			View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_store_page_all_title_cardview, viewGroup, false);
 			return new TitleRowViewHolder(view);
 		}
 		
@@ -371,6 +414,7 @@ public abstract class StorePageFragment extends Fragment {
 		private String title;
 		
 		public TitleRowItem(Object title) {
+			super();
 			this.title = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(title);
 		}
 		
@@ -475,6 +519,7 @@ public abstract class StorePageFragment extends Fragment {
 		}
 		
 		public ErrorRowItem(Object title, Object error, Object button1, Object button2, OnClickListener onClickListener1, OnClickListener onClickListener2) {
+			super();
 			this.title = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(title);
 			this.error = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(error);
 			this.button1 = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(button1);
@@ -513,7 +558,17 @@ public abstract class StorePageFragment extends Fragment {
 		}
 	}
 	
-	public static abstract class RowListItem {
+	public abstract static class RowListItem {
+		private RowListItemConfig config;
+		
+		public RowListItem() {
+			this(new RowListItemConfig());
+		}
+		
+		public RowListItem(RowListItemConfig config) {
+			this.config = config;
+		}
+		
 		// 0-99 -> Video Fragment
 		public static final int TYPE_VIDEO_LIST = 0;
 		public static final int TYPE_VIDEO_ELEMENT = 1;
@@ -525,7 +580,54 @@ public abstract class StorePageFragment extends Fragment {
 		public static final int TYPE_ELEMENT_TITLE = 1000;
 		public static final int TYPE_ELEMENT_ERROR = 1001;
 		
-		abstract public int getType();
+		public abstract int getType();
+		
+		public RowListItemConfig getConfig() {
+			return config;
+		}
+		
+		public RowListItem configurate(RowListItemConfig config) {
+			this.config = config;
+			return this;
+		}
+	}
+	
+	public static class RowListItemConfig {
+		public static final OnClickListener EMPTY_CLICK_LISTENER = new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				;
+			}
+		};
+		
+		private String title;
+		private OnClickListener onClickListener;
+		
+		public String getTitle() {
+			return title;
+		}
+		
+		public RowListItemConfig title(String title) {
+			this.title = title;
+			return this;
+		}
+		
+		public boolean isTitleEnabled() {
+			return title != null && !title.isEmpty();
+		}
+		
+		public OnClickListener getOnClickListener() {
+			return onClickListener;
+		}
+		
+		public OnClickListener getOnClickListenerOrDefault() {
+			return onClickListener != null ? onClickListener : EMPTY_CLICK_LISTENER;
+		}
+		
+		public RowListItemConfig onClickListener(OnClickListener onClickListener) {
+			this.onClickListener = onClickListener;
+			return this;
+		}
 	}
 	
 	protected abstract class StorePopulator {

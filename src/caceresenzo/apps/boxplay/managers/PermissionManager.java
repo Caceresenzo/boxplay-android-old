@@ -19,7 +19,7 @@ public class PermissionManager extends AManager {
 	private void askPermission() {
 		if (Build.VERSION.SDK_INT >= 23) {
 			try {
-				String[] permissions = { Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.INTERNET };
+				String[] permissions = { Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.REQUEST_INSTALL_PACKAGES };
 				BoxPlayActivity.getBoxPlayActivity().requestPermissions(permissions, BoxPlayActivity.REQUEST_ID_PERMISSION);
 			} catch (Exception exception) {
 				exception.printStackTrace();

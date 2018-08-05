@@ -13,9 +13,10 @@ import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.Preference.OnPreferenceClickListener;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.widget.ListView;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
-import caceresenzo.apps.boxplay.application.BoxPlayApplication;
+import caceresenzo.apps.boxplay.helper.LocaleHelper;
 import caceresenzo.libs.boxplay.models.store.music.enums.MusicGenre;
 import caceresenzo.libs.licencekey.LicenceKey;
 
@@ -24,6 +25,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 	public static boolean PREF_MENU_EXPAND_COLLAPSE_BACK_BUTTON_ENABLE = true;
 	
 	private SharedPreferences sharedPreferences;
+	
+	private boolean firstCheck = true;
 	
 	@Override
 	public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -38,6 +41,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_key));
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_application_pref_language_key));
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_application_pref_crash_reporter_key));
+		
+		firstCheck = false;
 		
 		initializeButton();
 	}
@@ -126,13 +131,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 		} else if (preference instanceof ListPreference) {
 			ListPreference listPreference = (ListPreference) preference;
 			
-			int prefIndex = listPreference.findIndexOfValue(sharedPreferences.getString(key, ""));
-			if (prefIndex >= 0) {
-				preference.setSummary(getString(R.string.boxplay_other_settings_application_pref_language_summary, listPreference.getEntries()[prefIndex]));
-			}
-			
 			if (key == getString(R.string.boxplay_other_settings_application_pref_language_key)) {
-				BoxPlayApplication.getBoxPlayApplication().setLocale(true);
+				int prefIndex = listPreference.findIndexOfValue(sharedPreferences.getString(key, ""));
+				if (prefIndex >= 0) {
+					preference.setSummary(getString(R.string.boxplay_other_settings_application_pref_language_summary, listPreference.getEntries()[prefIndex]));
+				}
+				
+				if (!firstCheck) {
+					LocaleHelper.setLocale(getActivity(), sharedPreferences.getString(getString(R.string.boxplay_other_settings_application_pref_language_key), getString(R.string.boxplay_other_settings_application_pref_language_default_value)).toLowerCase());
+					// BoxPlayApplication.getBoxPlayApplication().setLocale(true);
+					BoxPlayActivity.getBoxPlayActivity().askRecreate(this);
+					BoxPlayActivity.getViewHelper().recache();
+				}
 			}
 		} else if (preference instanceof MultiSelectListPreference) {
 			MultiSelectListPreference multiSelectListPreference = (MultiSelectListPreference) preference;
@@ -154,10 +164,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 				} else {
 					preference.setSummary(getString(R.string.boxplay_other_settings_store_music_pref_my_genre_summary_empty));
 				}
-			}
-			//
-			else if (key == getString(R.string.boxplay_other_settings_application_pref_language_key)) {
-				BoxPlayApplication.getBoxPlayApplication().setLocale(true);
 			}
 		} else if (preference instanceof EditTextPreference) {
 			EditTextPreference editTextPreference = (EditTextPreference) preference;
@@ -193,4 +199,23 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 		super.onPause();
 		getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 	}
+	
+	public void reset() {
+		firstCheck = true;
+	}
+	
+	public void scrollToItem(String preferenceKey) {
+		ListView listView = getView().findViewById(android.R.id.list);
+		Preference preference = findPreference(preferenceKey);
+		if (preference != null && listView != null) {
+			for (int i = 0; i < listView.getAdapter().getCount(); i++) {
+				Preference iPref = (Preference) listView.getAdapter().getItem(i);
+				if (iPref == preference) {
+					listView.setSelection(i);
+					break;
+				}
+			}
+		}
+	}
+	
 }

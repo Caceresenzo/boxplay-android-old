@@ -8,6 +8,7 @@ import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Rect;
@@ -31,13 +32,14 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
-import caceresenzo.apps.boxplay.fragments.ViewHelper;
 import caceresenzo.apps.boxplay.fragments.other.SettingsFragment;
 import caceresenzo.apps.boxplay.fragments.other.about.AboutFragment;
 import caceresenzo.apps.boxplay.fragments.premium.adult.AdultExplorerFragment;
 import caceresenzo.apps.boxplay.fragments.social.SocialFragment;
 import caceresenzo.apps.boxplay.fragments.store.StoreFragment;
 import caceresenzo.apps.boxplay.fragments.store.StorePageFragment;
+import caceresenzo.apps.boxplay.helper.LocaleHelper;
+import caceresenzo.apps.boxplay.helper.ViewHelper;
 import caceresenzo.apps.boxplay.managers.TutorialManager.Tutorialable;
 import caceresenzo.apps.boxplay.managers.XManagers;
 import caceresenzo.libs.comparator.Version;
@@ -64,7 +66,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	private static XManagers MANAGERS = new XManagers();
 	private static ViewHelper HELPER = new ViewHelper();
 	
-	private static final Version VERSION = new Version("3.0.6", VersionType.BETA);
+	private static final Version VERSION = new Version("3.0.7", VersionType.BETA);
 	
 	private Toolbar toolbar;
 	private DrawerLayout drawer;
@@ -74,6 +76,8 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	private Menu optionsMenu;
 	
 	private SlidingUpPanelLayout slidingUpPanelLayout;
+	
+	private static Fragment oldFragmentToOpen = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +99,39 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	}
 	
 	@Override
+	protected void onStart() {
+		super.onStart();
+		// toast("oldFragmentToOpen: " + (oldFragmentToOpen)).show();
+		
+		if (oldFragmentToOpen != null) {
+			HANDLER.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					if (oldFragmentToOpen instanceof SettingsFragment) {
+						((SettingsFragment) oldFragmentToOpen).reset();
+						forceFragmentPath(R.id.drawer_boxplay_other_settings);
+						
+						HANDLER.postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								((SettingsFragment) oldFragmentToOpen).scrollToPreference(getString(R.string.boxplay_other_settings_application_pref_language_key));
+								oldFragmentToOpen = null;
+							}
+						}, 200);
+					}
+					showFragment(oldFragmentToOpen);
+					// toast("Opening old fragment").show();
+				}
+			}, 200);
+		}
+	}
+	
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(LocaleHelper.onAttach(base));
+	}
+	
+	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		onNavigationItemSelected(navigationView.getMenu().findItem(R.id.drawer_boxplay_store_video));
@@ -111,11 +148,13 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		} else {
 			if (MANAGERS.getUpdateManager().isFirstRunOnThisUpdate()) {
 				HANDLER.postDelayed(new Runnable() {
+					
 					@Override
 					public void run() {
 						HELPER.updateSeachMenu(R.id.drawer_boxplay_other_about);
 						showFragment(new AboutFragment().withChangeLog());
 					}
+					
 				}, 3000);
 			}
 		}
@@ -153,6 +192,15 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 				break;
 			}
 		}
+	}
+	
+	public void askRecreate() {
+		askRecreate(null);
+	}
+	
+	public void askRecreate(Fragment oldFrangent) {
+		oldFragmentToOpen = oldFrangent;
+		recreate();
 	}
 	
 	private void initializeViews() {
@@ -262,7 +310,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 			// showFragment(new PlaceholderFragment());
 			// break;
 			case R.id.drawer_boxplay_store_video:
-			case R.id.drawer_boxplay_store_music:
+			case R.id.drawer_boxplay_store_music: {
 				// case R.id.drawer_boxplay_store_files:
 				StoreFragment storeFragment;
 				if (actualFragment != null && actualFragment instanceof StoreFragment) {
@@ -271,21 +319,24 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 					storeFragment = new StoreFragment();
 				}
 				switch (id) {
-					case R.id.drawer_boxplay_store_video:
+					case R.id.drawer_boxplay_store_video: {
 						storeFragment = (StoreFragment) storeFragment.withVideo();
 						break;
-					case R.id.drawer_boxplay_store_music:
+					}
+					case R.id.drawer_boxplay_store_music: {
 						storeFragment = (StoreFragment) storeFragment.withMusic();
 						break;
+					}
 					// case R.id.drawer_boxplay_store_files:
 					// storeFragment = (StoreFragment) storeFragment.withFiles();
 					// break;
 				}
 				showFragment(storeFragment);
 				break;
+			}
 			case R.id.drawer_boxplay_connect_feed:
 			case R.id.drawer_boxplay_connect_friends:
-			case R.id.drawer_boxplay_connect_chat:
+			case R.id.drawer_boxplay_connect_chat: {
 				SocialFragment socialFragment;
 				if (actualFragment != null && actualFragment instanceof SocialFragment) {
 					socialFragment = ((SocialFragment) actualFragment);
@@ -293,18 +344,22 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 					socialFragment = new SocialFragment();
 				}
 				switch (id) {
-					case R.id.drawer_boxplay_connect_feed:
+					case R.id.drawer_boxplay_connect_feed: {
 						socialFragment = (SocialFragment) socialFragment.withFeed();
 						break;
-					case R.id.drawer_boxplay_connect_friends:
+					}
+					case R.id.drawer_boxplay_connect_friends: {
 						socialFragment = (SocialFragment) socialFragment.withFriend();
 						break;
-					case R.id.drawer_boxplay_connect_chat:
+					}
+					case R.id.drawer_boxplay_connect_chat: {
 						socialFragment = (SocialFragment) socialFragment.withChat();
 						break;
+					}
 				}
 				showFragment(socialFragment);
 				break;
+			}
 			case R.id.drawer_boxplay_premium_adult: {
 				if (MANAGERS.getPremiumManager().isPremiumKeyValid()) {
 					showFragment(new AdultExplorerFragment());
@@ -350,71 +405,43 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		Rect storeRectangle = new Rect(24, 24, 24, 24);
 		storeRectangle.offsetTo(display.getWidth() / 2, display.getHeight() / 2);
 		
-		sequences.add( //
+		sequences.add(applyTutorialObjectTheme( //
 				TapTarget.forToolbarNavigationIcon(toolbar, getString(R.string.boxplay_tutorial_main_drawer_title), getString(R.string.boxplay_tutorial_main_drawer_description)) //
 						.id(TUTORIAL_PROGRESS_DRAWER) //
-						.dimColor(android.R.color.black) // Background
-						.outerCircleColor(R.color.green) // Big circle
-						.targetCircleColor(R.color.dark_blue) // Moving circle color (animation)
-						.textColor(android.R.color.black) //
-						.transparentTarget(true) //
-						.cancelable(false) //
-		); //
+		)); //
 		
-		sequences.add( //
+		sequences.add(applyTutorialObjectTheme( //
 				TapTarget.forToolbarMenuItem(toolbar, R.id.menu_main_action_search, getString(R.string.boxplay_tutorial_main_search_title), getString(R.string.boxplay_tutorial_main_search_description)) //
 						.id(TUTORIAL_PROGRESS_SEARCH) //
-						.dimColor(android.R.color.black) //
-						.outerCircleColor(R.color.green) //
-						.targetCircleColor(R.color.dark_blue) //
-						.textColor(android.R.color.black) //
-						.transparentTarget(true) //
-						.cancelable(false) //
-		); //
+		)); //
 		
-		sequences.add( //
+		sequences.add(applyTutorialObjectTheme( //
 				TapTarget.forToolbarOverflow(toolbar, getString(R.string.boxplay_tutorial_main_options_title), getString(R.string.boxplay_tutorial_main_options_description)) //
-						.id(TUTORIAL_PROGRESS_MENU) //
-						.dimColor(android.R.color.black) //
-						.outerCircleColor(R.color.green) //
-						.targetCircleColor(R.color.dark_blue) //
-						.textColor(android.R.color.black) //
-						.transparentTarget(true) //
-						.cancelable(false) //
-		); //
+						.id(TUTORIAL_PROGRESS_MENU))); //
 		
-		sequences.add(TapTarget.forBounds(storeRectangle, getString(R.string.boxplay_tutorial_main_swipe_title), getString(R.string.boxplay_tutorial_main_swipe_description)) //
+		sequences.add(applyTutorialObjectTheme(TapTarget.forBounds(storeRectangle, getString(R.string.boxplay_tutorial_main_swipe_title), getString(R.string.boxplay_tutorial_main_swipe_description)) //
 				.id(TUTORIAL_PROGRESS_SWIPE) //
 				.icon(getResources().getDrawable(R.mipmap.image_hand_swipe)) //
-				.dimColor(android.R.color.black) //
-				.outerCircleColor(R.color.green) //
-				.targetCircleColor(R.color.dark_blue) //
-				.textColor(android.R.color.black) //
-				.cancelable(false) //
-		); //
+		)); //
 		
 		Fragment lastFragment = HELPER.getLastFragment();
 		if (lastFragment != null && lastFragment instanceof StoreFragment) {
-			sequences.add(TapTarget.forBounds(storeRectangle, getString(R.string.boxplay_tutorial_main_video_title), getString(R.string.boxplay_tutorial_main_video_description)) //
-					.id(TUTORIAL_PROGRESS_VIDEO) //
+			sequences.add(applyTutorialObjectTheme( //
+					TapTarget.forBounds(storeRectangle, getString(R.string.boxplay_tutorial_main_video_title), getString(R.string.boxplay_tutorial_main_video_description)) //
+							.id(TUTORIAL_PROGRESS_VIDEO) //
+							.outerCircleAlpha(0.8F) //
+			) //
 					.dimColor(android.R.color.transparent) //
-					.outerCircleColor(R.color.green) //
 					.targetCircleColor(android.R.color.transparent) //
-					.textColor(android.R.color.black) //
-					.outerCircleAlpha(0.8F) //
-					.transparentTarget(true) //
-					.cancelable(false) //
 			); //
 			
-			sequences.add(TapTarget.forBounds(storeRectangle, getString(R.string.boxplay_tutorial_main_music_title), getString(R.string.boxplay_tutorial_main_music_description)) //
-					.id(TUTORIAL_PROGRESS_MUSIC) //
+			sequences.add(applyTutorialObjectTheme( //
+					TapTarget.forBounds(storeRectangle, getString(R.string.boxplay_tutorial_main_music_title), getString(R.string.boxplay_tutorial_main_music_description)) //
+							.id(TUTORIAL_PROGRESS_MUSIC) //
+							.outerCircleAlpha(0.8F) //
+			) //
 					.dimColor(android.R.color.transparent) //
-					.outerCircleColor(R.color.green) //
 					.targetCircleColor(android.R.color.transparent) //
-					.textColor(android.R.color.black) //
-					.outerCircleAlpha(0.8F) //
-					.transparentTarget(true) //
-					.cancelable(false) //
 			); //
 		}
 		
@@ -461,6 +488,15 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 				});
 	}
 	
+	private TapTarget applyTutorialObjectTheme(TapTarget tapTarget) {
+		return tapTarget.dimColor(android.R.color.black) // Background
+				.outerCircleColor(R.color.colorAccent) // Big circle
+				.targetCircleColor(R.color.colorPrimary) // Moving circle color (animation)
+				.textColor(android.R.color.black) //
+				.transparentTarget(true) //
+				.cancelable(false); //
+	}
+	
 	public Snackbar snackbar(String text, int duration) {
 		Snackbar snackbar = Snackbar.make(coordinatorLayout, text, duration);
 		return snackbar;
@@ -472,11 +508,11 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	}
 	
 	public StyleableToast toast(String string) {
-		return StyleableToast.makeText(this, string, R.style.AllStyles);
+		return StyleableToast.makeText(this, string, R.style.styleCustomToast);
 	}
 	
 	public StyleableToast toast(int ressourceId, Object... args) {
-		return StyleableToast.makeText(this, getString(ressourceId, args), Toast.LENGTH_LONG, R.style.AllStyles);
+		return StyleableToast.makeText(this, getString(ressourceId, args), Toast.LENGTH_LONG, R.style.styleCustomToast);
 	}
 	
 	public Toolbar getToolbar() {

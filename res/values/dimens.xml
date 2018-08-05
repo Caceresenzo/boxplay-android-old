@@ -38,14 +38,24 @@
     <dimen name="music_player_panel_height">68dp</dimen>
     <dimen name="music_player_panel_content_margin">4dp</dimen>
     <dimen name="music_player_panel_content_image_margin">8dp</dimen>
+    <dimen name="music_player_icon_size">48dp</dimen>
     <!-- GLOBAL -->
     <dimen name="title_margin">8dp</dimen>
+    <dimen name="heading_title_padding">12dp</dimen>
     <dimen name="item_error_text_padding">12dp</dimen>
     <dimen name="item_error_text_separation_padding">6dp</dimen>
 
     <!-- ADULT (element) -->
     <dimen name="adult_video_width">184dp</dimen>
     <dimen name="adult_video_height">128dp</dimen>
+
+    <!-- CARD VIEWS -->
+    <dimen name="main_card_margin_horizontal_small">2dp</dimen>
+    <dimen name="main_card_margin_vertical_small">2dp</dimen>
+    <dimen name="main_card_margin_horizontal">4dp</dimen>
+    <dimen name="main_card_margin_vertical">4dp</dimen>
+    <dimen name="main_card_margin_horizontal_big">8dp</dimen>
+    <dimen name="main_card_margin_vertical_big">8dp</dimen>
 
     <!--  -->
     <dimen name="activity_horizontal_margin_big_activity">16dp</dimen>
@@ -60,8 +70,8 @@
     <dimen name="card_margin_vertical">8dp</dimen>
     <dimen name="card_margin_horizontal_big_activity">8dp</dimen>
     <dimen name="card_margin_vertical_big_activity">4dp</dimen>
-    <dimen name="main_card_margin_horizontal">8dp</dimen>
-    <dimen name="main_card_margin_vertical">8dp</dimen>
+    <dimen name="main_card_margin_horizontal">4dp</dimen>
+    <dimen name="main_card_margin_vertical">4dp</dimen>
     <dimen name="main_card_margin_horizontal_small">2dp</dimen>
     <dimen name="main_card_margin_vertical_small">2dp</dimen>
     <dimen name="main_card_margin_horizontal_big_activity">8dp</dimen>

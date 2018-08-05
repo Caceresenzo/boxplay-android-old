@@ -402,7 +402,7 @@ public class MusicPlayerFragment extends Fragment {
 			
 			int colorRessource = 0;
 			if (musicController.getPlayingSongNumber() == getAdapterPosition()) {
-				colorRessource = R.color.green;
+				colorRessource = R.color.colorAccent;
 			} else {
 				colorRessource = R.color.white;
 			}

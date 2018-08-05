@@ -19,6 +19,7 @@
     <item
         android:id="@+id/menu_main_action_debug"
         android:showAsAction="never"
-        android:title="DEBUG"/>
+        android:title="DEBUG"
+        android:visible="false"/>
 
 </menu>

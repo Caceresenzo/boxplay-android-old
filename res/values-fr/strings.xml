@@ -3,7 +3,7 @@
 
     <string name="application_name">BoxPlay</string>
     <!--  -->
-    <string name="boxplay_viewhelper_recaching">remise en cache...\nVeuillez redémarrer l\'appli. pour appliquer le nouveau langage de partout!</string>
+    <string name="boxplay_viewhelper_recaching">Remise en cache...\nVeuillez redémarrer l\'appli. pour appliquer le nouveau langage de partout!</string>
     <!--  -->
     <string name="boxplay_menu_action_update">Mise à jour</string>
     <string name="boxplay_menu_action_search">Recherche</string>
@@ -99,8 +99,8 @@
     <!-- Strings -->
     <string name="boxplay_store_video_data_downloading">téléchargement...</string>
     <string name="boxplay_store_data_downloading_new_content">nouveau contenu dispo!</string>
-    <string name="boxplay_store_video_data_watching">Ajouter à votre liste</string>
-    <string name="boxplay_store_video_data_unwatching">Supprimer de votre liste</string>
+    <string name="boxplay_store_video_data_watching">Ajouté à votre liste</string>
+    <string name="boxplay_store_video_data_unwatching">Supprimé de votre liste</string>
     <string name="boxplay_store_video_season_selector_item">Saison %s</string>
     <string name="boxplay_store_video_season_view" formatted="false">%s saison%s</string>
     <string name="boxplay_store_video_season_selector_item_no_season">Aucune saison</string>

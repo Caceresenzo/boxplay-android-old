@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
 
+	<changelogversion versionName="3.0.7 BETA" changeDate="05/08/2018">
+		<changelogtext>[b]UI Rework Update (with Quentin)[/b]</changelogtext>
+		<changelogtext>[b]New![/b] UI Design</changelogtext>
+		<changelogtext>[b]New![/b] App relunch itself when changing language</changelogtext>
+		<changelogtext>[b]Fixed![/b] Some bugs</changelogtext>
+		<changelogtext>[b]Optimized![/b] Tutorials engine</changelogtext>
+	</changelogversion>
+
 	<changelogversion versionName="3.0.6 BETA" changeDate="17/06/2018">
 		<changelogtext>[b]Premium Update[/b]</changelogtext>
 		<changelogtext>[b]New![/b] Premium Features</changelogtext>
