@@ -48,30 +48,29 @@
 <!-- </item> -->
 <!-- </menu> -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
         android:id="@+id/music_song_popup_action_play"
-        android:icon="@drawable/icon_video_96px_q"
+        android:icon="@drawable/icon_play_arrow_light"
         android:orderInCategory="100"
         android:title="@string/boxplay_store_music_menu_popup_action_play"
         app:showAsAction="never"/>
     <item
         android:id="@+id/music_song_popup_action_play_after"
-        android:icon="@drawable/icon_video_96px_q"
+        android:icon="@drawable/icon_play_arrow_light"
         android:orderInCategory="100"
         android:title="@string/boxplay_store_music_menu_popup_action_play_after"
         app:showAsAction="never"/>
     <item
         android:id="@+id/music_song_popup_action_add_to_queue"
-        android:icon="@drawable/icon_video_96px_q"
+        android:icon="@drawable/icon_play_arrow_light"
         android:orderInCategory="100"
         android:title="@string/boxplay_store_music_menu_popup_action_add_to_queue"
         app:showAsAction="never"/>
     <item
         android:id="@+id/music_song_popup_action_download"
-        android:icon="@drawable/icon_download"
+        android:icon="@drawable/icon_download_light"
         android:orderInCategory="100"
         android:title="@string/boxplay_store_music_menu_popup_action_download"
         app:showAsAction="never"/>

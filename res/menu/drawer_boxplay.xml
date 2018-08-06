@@ -13,11 +13,11 @@
             <group android:checkableBehavior="single" >
                 <item
                     android:id="@+id/drawer_boxplay_store_video"
-                    android:icon="@drawable/icon_video_96px_q"
+                    android:icon="@drawable/icon_play_arrow_light"
                     android:title="@string/boxplay_store_video"/>
                 <item
                     android:id="@+id/drawer_boxplay_store_music"
-                    android:icon="@drawable/icon_music_96px_q"
+                    android:icon="@drawable/icon_music_note_light"
                     android:title="@string/boxplay_store_music"/>
                 <!-- <item -->
                 <!-- android:id="@+id/drawer_boxplay_store_files" -->
@@ -33,19 +33,35 @@
             <group android:checkableBehavior="single" >
                 <item
                     android:id="@+id/drawer_boxplay_connect_feed"
-                    android:icon="@drawable/icon_feed_96px"
+                    android:icon="@drawable/icon_rss_feed_light"
                     android:title="@string/boxplay_connect_feed"
-                    android:visible="false"/>
+                    android:visible="true"/>
                 <item
                     android:id="@+id/drawer_boxplay_connect_friends"
-                    android:icon="@drawable/icon_friends_96px_q"
+                    android:icon="@drawable/icon_people_light"
                     android:title="@string/boxplay_connect_friends"
-                    android:visible="false"/>
+                    android:visible="true"/>
                 <item
                     android:id="@+id/drawer_boxplay_connect_chat"
-                    android:icon="@drawable/icon_chat_96px_q"
+                    android:icon="@drawable/icon_chat_light"
                     android:title="@string/boxplay_connect_chat"
-                    android:visible="false"/>
+                    android:visible="true"/>
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/drawer_boxplay_searchngo"
+        android:title="@string/boxplay_searchngo">
+        <menu>
+            <group android:checkableBehavior="single" >
+                <item
+                    android:id="@+id/drawer_boxplay_searchngo_anime"
+                    android:icon="@drawable/icon_video_library_light"
+                    android:title="@string/boxplay_searchngo_anime"/>
+                <item
+                    android:id="@+id/drawer_boxplay_searchngo_manga"
+                    android:icon="@drawable/icon_books_library_light"
+                    android:title="@string/boxplay_searchngo_manga"/>
             </group>
         </menu>
     </item>
@@ -57,9 +73,9 @@
             <group android:checkableBehavior="single" >
                 <item
                     android:id="@+id/drawer_boxplay_premium_adult"
-                    android:icon="@drawable/icon_fire_light"
-                    android:title="@string/boxplay_premium_adult"
                     android:checked="false"
+                    android:icon="@drawable/icon_eggplant_dark"
+                    android:title="@string/boxplay_premium_adult"
                     android:visible="false"/>
             </group>
         </menu>
@@ -69,11 +85,11 @@
             <group android:checkableBehavior="single" >
                 <item
                     android:id="@+id/drawer_boxplay_other_settings"
-                    android:icon="@drawable/icon_settings_96px"
+                    android:icon="@drawable/icon_settings_light"
                     android:title="@string/boxplay_other_settings"/>
                 <item
                     android:id="@+id/drawer_boxplay_other_about"
-                    android:icon="@drawable/icon_info_96px"
+                    android:icon="@drawable/icon_info_light"
                     android:title="@string/boxplay_other_about"/>
             </group>
         </menu>

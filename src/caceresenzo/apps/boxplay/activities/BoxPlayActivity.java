@@ -360,6 +360,11 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 				showFragment(socialFragment);
 				break;
 			}
+			case R.id.drawer_boxplay_searchngo_manga:
+			case R.id.drawer_boxplay_searchngo_anime: {
+				
+				break;
+			}
 			case R.id.drawer_boxplay_premium_adult: {
 				if (MANAGERS.getPremiumManager().isPremiumKeyValid()) {
 					showFragment(new AdultExplorerFragment());
@@ -558,4 +563,5 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	public static BoxPlayActivity getBoxPlayActivity() {
 		return INSTANCE;
 	}
+	
 }

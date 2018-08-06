@@ -59,7 +59,7 @@ public class AboutFragment extends Fragment {
 		String teamFormat = getString(R.string.boxplay_other_about_group_team_format);
 		View aboutView = new AboutPage(getActivity()) //
 				.isRTL(false) //
-				.setImage(R.drawable.icon_boxplay_easter_egg) //
+				.setImage(R.drawable.boxplay_easter_egg) //
 				.setBackgroundColor(R.color.colorBackground) //
 				.setDescription(getString(R.string.boxplay_other_about_description)) //
 				.addGroup(getString(R.string.boxplay_other_about_group_app_information)) //

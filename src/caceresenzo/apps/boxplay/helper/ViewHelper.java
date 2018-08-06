@@ -10,6 +10,9 @@ import java.util.TimeZone;
 import com.budiyev.android.imageloader.ImageLoader;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.support.annotation.ColorRes;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +22,7 @@ import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.activities.MusicActivity;
 import caceresenzo.apps.boxplay.activities.VideoActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.store.PageMusicStoreFragment.MusicStoreSubCategory;
 import caceresenzo.apps.boxplay.fragments.store.PageVideoStoreFragment.VideoStoreSubCategory;
 import caceresenzo.libs.boxplay.models.element.MusicElement;
@@ -54,6 +58,8 @@ public class ViewHelper {
 		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_connect_feed));
 		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_connect_friends));
 		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_connect_chat));
+		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_searchngo_anime));
+		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_searchngo_manga));
 		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_premium_adult));
 		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_other_settings));
 		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_other_about));
@@ -188,10 +194,7 @@ public class ViewHelper {
 		}
 		ImageLoader.with(BoxPlayActivity.getBoxPlayActivity()) //
 				.from(url) //
-				// .placeholder(new ColorDrawable(Color.LTGRAY)) //
-				// .errorDrawable(new ColorDrawable(Color.RED)) //
-				// .placeholder(BoxPlayActivity.getBoxPlayActivity().getDrawable(R.drawable.icon_in_progress_96px)) //
-				.errorDrawable(BoxPlayActivity.getBoxPlayActivity().getDrawable(R.drawable.icon_red_cross_96px)) //
+				.errorDrawable(new ColorDrawable(color(R.color.colorError))) //
 				.load(imageView); //
 	}
 	
@@ -339,4 +342,17 @@ public class ViewHelper {
 		}
 		return null;
 	}
+	
+	/*
+	 * 
+	 */
+	@SuppressWarnings("deprecation")
+	public static int color(@ColorRes int colorRessource) {
+		if (Build.VERSION.SDK_INT < 23) {
+			return BoxPlayApplication.getBoxPlayApplication().getResources().getColor(colorRessource);
+		} else {
+			return BoxPlayApplication.getBoxPlayApplication().getColor(colorRessource);
+		}
+	}
+	
 }

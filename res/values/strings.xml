@@ -37,6 +37,10 @@
     <string name="boxplay_connect_friends">Friends</string>
     <string name="boxplay_connect_chat">Chat</string>
     <!--  -->
+    <string name="boxplay_searchngo">Search n\' Go</string>
+    <string name="boxplay_searchngo_anime">Anime</string>
+    <string name="boxplay_searchngo_manga">Manga</string>
+    <!--  -->
     <string name="boxplay_premium">Premium</string>
     <string name="boxplay_premium_adult">Adult</string>
     <!--  -->

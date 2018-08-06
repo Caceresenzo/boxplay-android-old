@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -393,7 +395,12 @@ public class MusicActivity extends AppCompatActivity {
 										return false;
 									}
 								});
-								popupMenu.show();
+								
+								MenuPopupHelper menuHelper = new MenuPopupHelper(MusicActivity.this, (MenuBuilder) popupMenu.getMenu(), view);
+								menuHelper.setForceShowIcon(true);
+								menuHelper.show();
+								
+								// popupMenu.show();
 							}
 						});
 					}

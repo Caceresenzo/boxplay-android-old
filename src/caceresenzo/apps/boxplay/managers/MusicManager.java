@@ -30,7 +30,7 @@ import caceresenzo.libs.boxplay.models.store.music.MusicPlaylist;
 
 public class MusicManager extends AManager {
 	
-	public static final String PREF_MUSIC_PLAYING_SONG8_INDEX = "music_playing_song_index";
+	public static final String PREF_MUSIC_PLAYING_SONG_INDEX = "music_playing_song_index";
 	
 	private MusicController musicController;
 	
@@ -42,7 +42,8 @@ public class MusicManager extends AManager {
 	private MusicDatabaseOpenHelper musicDatabaseOpenHelper;
 	
 	private List<SlidingUpPanelLayout> slidingUpPanelLayouts;
-	
+
+	@Override
 	public void initialize() {
 		musicController = MusicController.getMusicController();
 		
@@ -92,14 +93,14 @@ public class MusicManager extends AManager {
 		
 		musicController.getMusicPlaylist().clear();
 		musicController.getMusicPlaylist().addAll(musicDatabaseOpenHelper.restorePlaylist());
-		musicController.setPlayingSongNumber(getManagers().getPreferences().getInt(PREF_MUSIC_PLAYING_SONG8_INDEX, 0));
+		musicController.setPlayingSongNumber(getManagers().getPreferences().getInt(PREF_MUSIC_PLAYING_SONG_INDEX, 0));
 		
 		MusicPlayerFragment.getPlayerFragment().notifyPlaylistUpdate(true);
 	}
 	
 	public void saveDatabase() {
 		musicDatabaseOpenHelper.savePlaylist(musicController.getMusicPlaylist());
-		getManagers().getPreferences().edit().putInt(PREF_MUSIC_PLAYING_SONG8_INDEX, musicController.getPlayingSongNumber()).commit();
+		getManagers().getPreferences().edit().putInt(PREF_MUSIC_PLAYING_SONG_INDEX, musicController.getPlayingSongNumber()).commit();
 	}
 	
 	public void playFile(MusicFile musicFile, int index, boolean newPlaylist, boolean userClickedOnList) {
