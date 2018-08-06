@@ -35,9 +35,8 @@
     <string name="boxplay_connect_friends">Amis</string>
     <string name="boxplay_connect_chat">Messagerie</string>
     <!--  -->
-    <string name="boxplay_searchngo">Search n\' Go</string>
-    <string name="boxplay_searchngo_anime">Anime</string>
-    <string name="boxplay_searchngo_manga">Manga</string>
+    <string name="boxplay_culture">Culture</string>
+    <string name="boxplay_culture_searchngo">Search n\' Go</string>
     <!--  -->
     <string name="boxplay_premium">Plus</string>
     <string name="boxplay_premium_adult">Adulte</string>
@@ -76,7 +75,9 @@
     <!--  -->
 
 
+    <!--  -->
     <!-- Store > Video -->
+    <!--  -->
 
     <string name="boxplay_store_video_video">Video</string>
     <!-- Translation -->
@@ -130,7 +131,9 @@
     <string name="boxplay_store_video_button_share_url">LIEN</string>
     <string name="boxplay_store_video_button_cast">CAST (DÉSACTIVÉ)</string>
 
+    <!--  -->
     <!-- Store > Music -->
+    <!--  -->
 
     <string name="boxplay_store_music_music">Musique</string>
     <!-- Translation -->
@@ -186,7 +189,9 @@
     <string name="boxplay_store_music_menu_popup_action_play_after">Lire après</string>
     <string name="boxplay_store_music_menu_popup_action_add_to_queue">Ajouter à la liste</string>
     <string name="boxplay_store_music_menu_popup_action_download">Télécharger</string>
+    <!--  -->
     <!-- Music Player -->
+    <!--  -->
     <string name="boxplay_player_music_button_play">Lire</string>
     <string name="boxplay_player_music_button_pause">Pause</string>
     <string name="boxplay_player_music_button_back">Retour</string>
@@ -194,11 +199,16 @@
     <string name="boxplay_player_music_name">Lecteur de musique</string>
     <string name="boxplay_player_music_track_description" formatted="false">[ %s ] par %s</string>
 
+    <!--  -->
     <!-- Store > Files -->
+    <!--  -->
 
     <string name="boxplay_store_files_files">Fichiers</string>
+
     <!--  -->
+    <!-- Premium > Adult -->
     <!--  -->
+    
     <string name="boxplay_premium_adult_adult">Adulte</string>
     <string name="boxplay_premium_adult_warning_dialog_message">A cause de votre version d\'Android, il a été testé que BoxPlay Adulte risquait de ne pas marcher (correctement), causé par l\'interpretation trop vielle du code JavaScript.</string>
     <string name="boxplay_premium_adult_warning_dialog_done">TERMINÉ</string>
@@ -208,7 +218,15 @@
     <!--  -->
 
 
+    <!--  -->
+    <!-- Culture > Search n' Go -->
+    <!--  -->
+
+    <string name="boxplay_culture_searchngo_title">Search n\' Go</string>
+
+    <!--  -->
     <!-- Settings -->
+    <!--  -->
     <string name="boxplay_other_settings_store_music_category_title">Magasin > Musique</string>
     <!--  -->
     <string name="boxplay_other_settings_store_music_pref_my_genre_title">Mes préférence musicales</string>

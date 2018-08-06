@@ -12,7 +12,7 @@
         android:title="@string/boxplay_menu_action_update"/>
     <item
         android:id="@+id/menu_main_action_search"
-        android:icon="@drawable/icon_search"
+        android:icon="@drawable/icon_search_light"
         android:title="@string/boxplay_menu_action_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always|collapseActionView"/>

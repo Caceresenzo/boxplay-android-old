@@ -34,6 +34,7 @@ public class LocaleHelper {
 	 *            a locale specification as used for Android resources (NOTE: does not support country and variant codes so far); the special string "system" sets the locale to the locale specified in system settings
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	public static Context setLocale(Context context, String localeSpec) {
 		Locale locale;
 		if (localeSpec.equals("system")) {

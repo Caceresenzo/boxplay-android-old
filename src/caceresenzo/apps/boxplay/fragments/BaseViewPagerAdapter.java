@@ -7,12 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class BaseViewPagerAdapter extends FragmentPagerAdapter {
 	
 	private final List<Fragment> fragmentList = new ArrayList<>();
 	private final List<String> fragmentTitleList = new ArrayList<>();
 	
-	public ViewPagerAdapter(FragmentManager manager) {
+	public BaseViewPagerAdapter(FragmentManager manager) {
 		super(manager);
 	}
 	

@@ -11,6 +11,8 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
+        <item name="cardViewStyle">@style/cardViewStyle</item>
     </style>
 
     <!-- Card View Theme -->
@@ -33,9 +35,6 @@
     <style name="imageViewStyle">
         <item name="android:background">@color/colorImage</item>
     </style>
-
-    <!--  -->
-    <style name="coordinatorLayoutStyle" parent="" />
 
     <!--  -->
     <style name="expandedappbar" parent="@android:style/TextAppearance.Medium">

@@ -1,4 +1,4 @@
-package caceresenzo.apps.boxplay.fragments.searchngo;
+package caceresenzo.apps.boxplay.fragments.culture.searchngo;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +11,7 @@ public class SearchAndGoFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_about, container, false);
+		return inflater.inflate(R.layout.fragment_culture_searchngo, container, false);
 	}
 	
 }

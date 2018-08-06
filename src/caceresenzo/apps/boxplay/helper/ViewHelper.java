@@ -1,9 +1,7 @@
 package caceresenzo.apps.boxplay.helper;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -39,7 +37,7 @@ import caceresenzo.libs.boxplay.models.store.video.enums.VideoType;
 public class ViewHelper {
 	private BoxPlayActivity boxPlayActivity;
 	
-	private static List<MenuIdItem> drawerMenuIds = new ArrayList<MenuIdItem>();
+	private static Map<MenuIdItem, MenuItem> drawerMenuIds = new HashMap<MenuIdItem, MenuItem>();
 	private static Map<Object, String> enumCacheTranslation = new HashMap<Object, String>();
 	
 	/*
@@ -51,18 +49,15 @@ public class ViewHelper {
 		/*
 		 * Menu cache
 		 */
-		// drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_home));
-		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_store_video, true));
-		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_store_music, true));
-		// drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_store_files));
-		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_connect_feed));
-		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_connect_friends));
-		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_connect_chat));
-		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_searchngo_anime));
-		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_searchngo_manga));
-		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_premium_adult));
-		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_other_settings));
-		drawerMenuIds.add(new MenuIdItem(R.id.drawer_boxplay_other_about));
+		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_store_video, true), null);
+		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_store_music, true), null);
+		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_connect_feed), null);
+		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_connect_friends), null);
+		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_connect_chat), null);
+		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_culture_searchngo), null);
+		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_premium_adult), null);
+		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_other_settings), null);
+		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_other_about), null);
 		
 		/*
 		 * Translation cache
@@ -145,17 +140,22 @@ public class ViewHelper {
 	 * Menu Help
 	 */
 	public void unselectAllMenu() {
-		Menu menu = BoxPlayActivity.getBoxPlayActivity().getNavigationView().getMenu();
-		for (MenuIdItem menuIdItem : drawerMenuIds) {
-			MenuItem item = menu.findItem(menuIdItem.getId());
-			if (menu != null) {
+		Menu menu = boxPlayActivity.getNavigationView().getMenu();
+		for (MenuIdItem menuIdItem : drawerMenuIds.keySet()) {
+			MenuItem item = drawerMenuIds.get(menuIdItem);
+			if (item == null) {
+				drawerMenuIds.put(menuIdItem, item = menu.findItem(menuIdItem.getId()));
+			}
+			
+			if (item != null && item.isChecked()) {
 				item.setChecked(false);
 			}
 		}
+		// BoxPlayActivity.getBoxPlayActivity().toast(String.format("\"looped over %s item\"", drawerMenuIds.keySet().size())).show();
 	}
 	
 	public void updateSeachMenu(int nextId) {
-		for (MenuIdItem menuIdItem : drawerMenuIds) {
+		for (MenuIdItem menuIdItem : drawerMenuIds.keySet()) {
 			if (menuIdItem.getId() == nextId) {
 				try {
 					boxPlayActivity.getOptionsMenu().findItem(R.id.menu_main_action_search).setVisible(menuIdItem.isSearchAllowed());
@@ -189,17 +189,18 @@ public class ViewHelper {
 		}
 		
 		if (url == null) {
-			imageView.setImageDrawable(boxPlayActivity.getDrawable(R.mipmap.ic_launcher));
+			imageView.setImageDrawable(new ColorDrawable(color(R.color.colorError)));
 			return;
 		}
-		ImageLoader.with(BoxPlayActivity.getBoxPlayActivity()) //
+		
+		ImageLoader.with(boxPlayActivity) //
 				.from(url) //
 				.errorDrawable(new ColorDrawable(color(R.color.colorError))) //
 				.load(imageView); //
 	}
 	
 	public void clearImageCache() {
-		ImageLoader imageLoader = ImageLoader.with(BoxPlayActivity.getBoxPlayActivity());
+		ImageLoader imageLoader = ImageLoader.with(boxPlayActivity);
 		imageLoader.clearMemoryCache();
 		imageLoader.clearStorageCache();
 		imageLoader.clearAllCaches();
@@ -212,7 +213,7 @@ public class ViewHelper {
 	
 	public void startVideoActivity(VideoGroup group) {
 		passingVideoGroup = group;
-		boxPlayActivity.startActivity(new Intent(BoxPlayActivity.getBoxPlayActivity(), VideoActivity.class));
+		boxPlayActivity.startActivity(new Intent(boxPlayActivity, VideoActivity.class));
 	}
 	
 	public VideoGroup getPassingVideoGroup() {
@@ -335,7 +336,7 @@ public class ViewHelper {
 	}
 	
 	public MenuIdItem getMenuIdItemById(int id) {
-		for (MenuIdItem menuIdItem : drawerMenuIds) {
+		for (MenuIdItem menuIdItem : drawerMenuIds.keySet()) {
 			if (menuIdItem.getId() == id) {
 				return menuIdItem;
 			}

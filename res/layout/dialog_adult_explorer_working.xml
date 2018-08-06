@@ -20,7 +20,7 @@
             android:layout_marginLeft="8dp"
             android:gravity="center|left"
             android:text="@string/boxplay_premium_adult_status_downloading_data"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="18sp" />
     </TableRow>
 

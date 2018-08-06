@@ -28,7 +28,7 @@
     </item>
     <item
         android:title="@string/boxplay_connect"
-        android:visible="false">
+        android:visible="true">
         <menu>
             <group android:checkableBehavior="single" >
                 <item
@@ -50,18 +50,14 @@
         </menu>
     </item>
     <item
-        android:id="@+id/drawer_boxplay_searchngo"
-        android:title="@string/boxplay_searchngo">
+        android:id="@+id/drawer_boxplay_culture"
+        android:title="@string/boxplay_culture">
         <menu>
             <group android:checkableBehavior="single" >
                 <item
-                    android:id="@+id/drawer_boxplay_searchngo_anime"
-                    android:icon="@drawable/icon_video_library_light"
-                    android:title="@string/boxplay_searchngo_anime"/>
-                <item
-                    android:id="@+id/drawer_boxplay_searchngo_manga"
-                    android:icon="@drawable/icon_books_library_light"
-                    android:title="@string/boxplay_searchngo_manga"/>
+                    android:id="@+id/drawer_boxplay_culture_searchngo"
+                    android:icon="@drawable/icon_image_search_light"
+                    android:title="@string/boxplay_culture_searchngo"/>
             </group>
         </menu>
     </item>

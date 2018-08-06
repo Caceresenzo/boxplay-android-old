@@ -51,25 +51,6 @@
                 android:value="caceresenzo.apps.boxplay.activities.BoxPlayActivity" />
         </activity>
         <activity
-            android:name=".activities.VideoPlayerActivity"
-            android:configChanges="locale"
-            android:label="@string/title_activity_videoplayer"
-            android:launchMode="singleTop"
-            android:parentActivityName=".activities.BoxPlayActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="caceresenzo.apps.boxplay.activities.VideoActivity" />
-        </activity>
-        <activity
-            android:name=".WelcomeActivity"
-            android:configChanges="locale"
-            android:label="@string/title_activity_welcome"
-            android:launchMode="singleTop" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="caceresenzo.apps.boxplay.BoxPlayActivity" />
-        </activity>
-        <activity
             android:name=".activities.MusicActivity"
             android:configChanges="locale"
             android:label="@string/title_activity_music"

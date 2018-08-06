@@ -10,7 +10,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +31,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
+import caceresenzo.apps.boxplay.fragments.culture.CultureFragment;
 import caceresenzo.apps.boxplay.fragments.other.SettingsFragment;
 import caceresenzo.apps.boxplay.fragments.other.about.AboutFragment;
 import caceresenzo.apps.boxplay.fragments.premium.adult.AdultExplorerFragment;
@@ -89,7 +89,6 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		initializeSystems();
 		
 		MANAGERS.initialize(this).finish();
-		;
 		
 		MANAGERS.getMusicManager().registerMusicSlidingPanel(slidingUpPanelLayout);
 		
@@ -101,7 +100,6 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	@Override
 	protected void onStart() {
 		super.onStart();
-		// toast("oldFragmentToOpen: " + (oldFragmentToOpen)).show();
 		
 		if (oldFragmentToOpen != null) {
 			HANDLER.postDelayed(new Runnable() {
@@ -119,8 +117,8 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 							}
 						}, 200);
 					}
+					
 					showFragment(oldFragmentToOpen);
-					// toast("Opening old fragment").show();
 				}
 			}, 200);
 		}
@@ -226,20 +224,15 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		HELPER.prepareCache(this);
 	}
 	
-	Rect storeRectangle = new Rect(24, 24, 24, 24);
-	
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-	}
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (menu instanceof MenuBuilder) {
 			((MenuBuilder) menu).setOptionalIconsVisible(true);
 		}
+		
 		getMenuInflater().inflate(R.menu.main, menu);
 		optionsMenu = menu;
+		
 		return true;
 	}
 	
@@ -249,22 +242,28 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		// Fragment lastFrament = HELPER.getLastFragment();
 		
 		switch (id) {
-			case R.id.menu_main_action_update:
+			case R.id.menu_main_action_update: {
 				MANAGERS.getUpdateManager().showDialog();
 				return true;
-			case R.id.menu_main_action_search:
+			}
+			
+			case R.id.menu_main_action_search: {
 				// if (lastFrament != null && lastFrament instanceof StoreFragment) {
 				// return ((StorePageFragment) StoreFragment.getStoreFragment().getActualFragment()).onOptionsItemSelected(item);
 				// }
 				StorePageFragment.handleSearch(item);
 				break;
-			case R.id.menu_main_action_debug:
-				startActivity(new Intent(this, VideoPlayerActivity.class));
-				break;
+			}
 			
-			default:
+			case R.id.menu_main_action_debug: {
+				// startActivity(new Intent(this, VideoPlayerActivity.class));
+				break;
+			}
+			
+			default: {
 				toast("Unhandled onOptionsItemSelected(item.getTitle() = \"" + item.getTitle() + "\");");
 				break;
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -306,65 +305,99 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		HELPER.updateSeachMenu(id);
 		
 		switch (id) {
-			// case R.id.drawer_boxplay_home:
-			// showFragment(new PlaceholderFragment());
-			// break;
+			/*
+			 * Store
+			 */
 			case R.id.drawer_boxplay_store_video:
 			case R.id.drawer_boxplay_store_music: {
-				// case R.id.drawer_boxplay_store_files:
 				StoreFragment storeFragment;
-				if (actualFragment != null && actualFragment instanceof StoreFragment) {
+				
+				if (actualFragment instanceof StoreFragment) {
 					storeFragment = ((StoreFragment) actualFragment);
 				} else {
 					storeFragment = new StoreFragment();
 				}
+				
 				switch (id) {
+					default:
 					case R.id.drawer_boxplay_store_video: {
-						storeFragment = (StoreFragment) storeFragment.withVideo();
+						storeFragment.withVideo();
 						break;
 					}
 					case R.id.drawer_boxplay_store_music: {
-						storeFragment = (StoreFragment) storeFragment.withMusic();
+						storeFragment.withMusic();
 						break;
 					}
-					// case R.id.drawer_boxplay_store_files:
-					// storeFragment = (StoreFragment) storeFragment.withFiles();
-					// break;
 				}
+				
 				showFragment(storeFragment);
 				break;
 			}
+			
+			/*
+			 * Social
+			 */
 			case R.id.drawer_boxplay_connect_feed:
 			case R.id.drawer_boxplay_connect_friends:
 			case R.id.drawer_boxplay_connect_chat: {
 				SocialFragment socialFragment;
-				if (actualFragment != null && actualFragment instanceof SocialFragment) {
+				
+				if (actualFragment instanceof SocialFragment) {
 					socialFragment = ((SocialFragment) actualFragment);
 				} else {
 					socialFragment = new SocialFragment();
 				}
+				
 				switch (id) {
+					default:
 					case R.id.drawer_boxplay_connect_feed: {
-						socialFragment = (SocialFragment) socialFragment.withFeed();
+						socialFragment.withFeed();
 						break;
 					}
 					case R.id.drawer_boxplay_connect_friends: {
-						socialFragment = (SocialFragment) socialFragment.withFriend();
+						socialFragment.withFriend();
 						break;
 					}
 					case R.id.drawer_boxplay_connect_chat: {
-						socialFragment = (SocialFragment) socialFragment.withChat();
+						socialFragment.withChat();
 						break;
 					}
 				}
+				
 				showFragment(socialFragment);
 				break;
 			}
-			case R.id.drawer_boxplay_searchngo_manga:
-			case R.id.drawer_boxplay_searchngo_anime: {
+			
+			/*
+			 * Culture
+			 */
+			case R.id.drawer_boxplay_culture_searchngo: {
+				showFragment(new CultureFragment());
 				
+				CultureFragment cultureFragment;
+				
+				if (actualFragment instanceof CultureFragment) {
+					cultureFragment = ((CultureFragment) actualFragment);
+				} else {
+					cultureFragment = new CultureFragment();
+				}
+				
+				switch (id) {
+					default:
+					case R.id.drawer_boxplay_culture_searchngo: {
+						cultureFragment.withSearchAndGo();
+						break;
+					}
+				}
+				
+				showFragment(cultureFragment);
 				break;
 			}
+			
+			/*
+			 * Premium
+			 */
+			// TODO: Do PremiumFragment instead of AdultExplorerFragment
 			case R.id.drawer_boxplay_premium_adult: {
 				if (MANAGERS.getPremiumManager().isPremiumKeyValid()) {
 					showFragment(new AdultExplorerFragment());
@@ -372,32 +405,49 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 					MANAGERS.getPremiumManager().updateLicence(null);
 					showFragment(actualFragment);
 				}
+				
 				break;
 			}
+			
+			/*
+			 * Settings
+			 */
 			case R.id.drawer_boxplay_other_settings: {
 				showFragment(new SettingsFragment());
 				break;
 			}
+			
+			/*
+			 * About
+			 */
 			case R.id.drawer_boxplay_other_about: {
 				showFragment(new AboutFragment());
 				break;
 			}
+			
+			/*
+			 * Default
+			 */
 			default: {
+				toast("Unhandled onNavigationItemSelected(item.getTitle() = \"" + item.getTitle() + "\");");
 				return false;
 			}
 		}
+		
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
 	}
 	
 	public void showFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getSupportFragmentManager();
+		
 		fragmentManager //
 				.beginTransaction() //
 				.replace(R.id.activity_boxplay_framelayout_container_main, fragment) //
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN) //
 				.commit() //
 		;
+		
 		HELPER.setLastFragment(fragment);
 	}
 	
@@ -430,7 +480,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		)); //
 		
 		Fragment lastFragment = HELPER.getLastFragment();
-		if (lastFragment != null && lastFragment instanceof StoreFragment) {
+		if (lastFragment instanceof StoreFragment) {
 			sequences.add(applyTutorialObjectTheme( //
 					TapTarget.forBounds(storeRectangle, getString(R.string.boxplay_tutorial_main_video_title), getString(R.string.boxplay_tutorial_main_video_description)) //
 							.id(TUTORIAL_PROGRESS_VIDEO) //
@@ -455,7 +505,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 					@Override
 					public void onSequenceFinish() {
 						Fragment lastFragment = HELPER.getLastFragment();
-						if (lastFragment != null && lastFragment instanceof StoreFragment) {
+						if (lastFragment instanceof StoreFragment) {
 							((StoreFragment) lastFragment).withVideo();
 						}
 						
@@ -468,21 +518,25 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 						
 						switch (id) {
 							case TUTORIAL_PROGRESS_VIDEO:
-							case TUTORIAL_PROGRESS_MUSIC:
+							case TUTORIAL_PROGRESS_MUSIC: {
 								Fragment lastFragment = HELPER.getLastFragment();
-								if (lastFragment != null && lastFragment instanceof StoreFragment) {
+								
+								if (lastFragment instanceof StoreFragment) {
 									switch (id) {
 										case TUTORIAL_PROGRESS_VIDEO: {
 											((StoreFragment) lastFragment).withVideo();
 											break;
 										}
+										
 										case TUTORIAL_PROGRESS_MUSIC: {
 											((StoreFragment) lastFragment).withMusic();
 											break;
 										}
 									}
 								}
+								
 								break;
+							}
 						}
 					}
 					
@@ -503,13 +557,11 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	}
 	
 	public Snackbar snackbar(String text, int duration) {
-		Snackbar snackbar = Snackbar.make(coordinatorLayout, text, duration);
-		return snackbar;
+		return Snackbar.make(coordinatorLayout, text, duration);
 	}
 	
 	public Snackbar snackbar(int ressourceId, int duration, Object... args) {
-		Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(ressourceId, args), duration);
-		return snackbar;
+		return Snackbar.make(coordinatorLayout, getString(ressourceId, args), duration);
 	}
 	
 	public StyleableToast toast(String string) {
