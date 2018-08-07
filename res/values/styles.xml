@@ -5,7 +5,7 @@
 
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <!-- <item name="colorPrimaryDark">@color/colorBackground</item> -->
+        <item name="colorPrimaryDark">@color/colorBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorBackground">@color/colorBackground</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
@@ -17,8 +17,8 @@
 
     <!-- Card View Theme -->
     <style name="cardViewStyle" parent="CardView">
-        <item name="android:background">@color/colorPanel</item>
-        <item name="cardBackgroundColor">@color/primary_material_dark</item>
+        <item name="android:background">@color/colorCard</item>
+        <item name="cardBackgroundColor">@color/colorCard</item>
         <item name="cardCornerRadius">@dimen/card_recycler_corner_radius</item>
         <item name="cardElevation">@dimen/card_recycler_elevation</item>
 
@@ -34,6 +34,20 @@
     <!-- Image View Theme -->
     <style name="imageViewStyle">
         <item name="android:background">@color/colorImage</item>
+    </style>
+
+    <!-- Text View Theme -->
+    <style name="textViewTitleStyle" parent="@style/TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="textViewSimpleStyle" parent="@style/TextAppearance.AppCompat.Large">
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">11dp</item>
     </style>
 
     <!--  -->

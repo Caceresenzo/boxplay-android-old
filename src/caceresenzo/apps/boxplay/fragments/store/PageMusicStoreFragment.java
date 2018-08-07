@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
-import caceresenzo.libs.boxplay.models.element.MusicElement;
+import caceresenzo.libs.boxplay.models.element.implementations.MusicElement;
 import caceresenzo.libs.boxplay.models.store.music.MusicAlbum;
 import caceresenzo.libs.boxplay.models.store.music.MusicFile;
 import caceresenzo.libs.boxplay.models.store.music.MusicGroup;

@@ -122,7 +122,7 @@ public class MusicPlayerFragment extends Fragment {
 		playPauseButton.setImageDrawable(getResources().getDrawable(pause ? R.drawable.icon_play : R.drawable.icon_pause));
 		
 		if (music != null && (!itemJustAdded || getPlaylist().isEmpty())) {
-			BoxPlayActivity.getViewHelper().downloadToImageView(iconImage, music.getHighestImageUrl());
+			BoxPlayActivity.getViewHelper().downloadToImageView(iconImage, music.getBestImageUrl());
 			titleTextView.setText(music.getTitle());
 			authorTextView.setText(formatMusicDescription(music));
 		}

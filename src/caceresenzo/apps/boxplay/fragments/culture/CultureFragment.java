@@ -2,7 +2,7 @@ package caceresenzo.apps.boxplay.fragments.culture;
 
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.fragments.BaseTabLayoutFragment;
-import caceresenzo.apps.boxplay.fragments.culture.searchngo.SearchAndGoFragment;
+import caceresenzo.apps.boxplay.fragments.culture.searchngo.PageCultureSearchAndGoFragment;
 
 public class CultureFragment extends BaseTabLayoutFragment {
 	
@@ -10,7 +10,7 @@ public class CultureFragment extends BaseTabLayoutFragment {
 	
 	@Override
 	protected void initialize() {
-		addFragment(new SearchAndGoFragment(), R.string.boxplay_culture_searchngo_title);
+		addFragment(new PageCultureSearchAndGoFragment(), R.string.boxplay_culture_searchngo_title);
 	}
 	
 	@Override

@@ -206,9 +206,16 @@
     <string name="boxplay_store_files_files">Fichiers</string>
 
     <!--  -->
+    <!-- Culture > Search n' Go -->
+    <!--  -->
+
+    <string name="boxplay_culture_searchngo_title">Search n\' Go</string>
+    <string name="boxplay_culture_searchngo_searchbar_hint">Rechercher...</string>
+
+    <!--  -->
     <!-- Premium > Adult -->
     <!--  -->
-    
+
     <string name="boxplay_premium_adult_adult">Adulte</string>
     <string name="boxplay_premium_adult_warning_dialog_message">A cause de votre version d\'Android, il a été testé que BoxPlay Adulte risquait de ne pas marcher (correctement), causé par l\'interpretation trop vielle du code JavaScript.</string>
     <string name="boxplay_premium_adult_warning_dialog_done">TERMINÉ</string>
@@ -217,12 +224,6 @@
     <string name="boxplay_premium_adult_status_computing_url">Calcule du lien...</string>
     <!--  -->
 
-
-    <!--  -->
-    <!-- Culture > Search n' Go -->
-    <!--  -->
-
-    <string name="boxplay_culture_searchngo_title">Search n\' Go</string>
 
     <!--  -->
     <!-- Settings -->

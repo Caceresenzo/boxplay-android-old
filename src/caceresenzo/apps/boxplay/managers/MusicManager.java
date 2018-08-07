@@ -18,7 +18,7 @@ import android.widget.FrameLayout;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.MusicActivity;
 import caceresenzo.apps.boxplay.fragments.store.MusicPlayerFragment;
-import caceresenzo.apps.boxplay.managers.XManagers.AManager;
+import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.apps.boxplay.providers.media.music.MusicController;
 import caceresenzo.apps.boxplay.providers.media.music.MusicService;
 import caceresenzo.libs.boxplay.factory.MusicFactory;
@@ -28,7 +28,7 @@ import caceresenzo.libs.boxplay.models.store.music.MusicFile;
 import caceresenzo.libs.boxplay.models.store.music.MusicGroup;
 import caceresenzo.libs.boxplay.models.store.music.MusicPlaylist;
 
-public class MusicManager extends AManager {
+public class MusicManager extends AbstractManager {
 	
 	public static final String PREF_MUSIC_PLAYING_SONG_INDEX = "music_playing_song_index";
 	

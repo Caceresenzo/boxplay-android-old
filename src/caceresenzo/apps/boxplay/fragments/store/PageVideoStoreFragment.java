@@ -25,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
-import caceresenzo.libs.boxplay.models.element.VideoElement;
+import caceresenzo.libs.boxplay.models.element.implementations.VideoElement;
 import caceresenzo.libs.boxplay.models.store.video.VideoGroup;
 import caceresenzo.libs.boxplay.models.store.video.VideoSeason;
 import caceresenzo.libs.boxplay.models.store.video.enums.VideoFileType;

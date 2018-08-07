@@ -8,11 +8,11 @@ package com.kyo.expandablelayout;
 
 public final class R {
 	public static final class attr {
-		public static final int canExpand = 0x7f0101b6;
-		public static final int startExpanded = 0x7f0101b7;
+		public static final int canExpand = 0x7f0101db;
+		public static final int startExpanded = 0x7f0101dc;
 	}
 	public static final class styleable {
-		public static final int[] ExpandableLayout = { 0x7f0101b6, 0x7f0101b7 };
+		public static final int[] ExpandableLayout = { 0x7f0101db, 0x7f0101dc };
 		public static final int ExpandableLayout_canExpand = 0;
 		public static final int ExpandableLayout_startExpanded = 1;
 	}

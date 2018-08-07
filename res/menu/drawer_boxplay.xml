@@ -56,7 +56,7 @@
             <group android:checkableBehavior="single" >
                 <item
                     android:id="@+id/drawer_boxplay_culture_searchngo"
-                    android:icon="@drawable/icon_image_search_light"
+                    android:icon="@drawable/icon_search_light"
                     android:title="@string/boxplay_culture_searchngo"/>
             </group>
         </menu>

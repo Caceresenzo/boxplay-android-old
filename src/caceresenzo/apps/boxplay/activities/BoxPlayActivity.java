@@ -372,8 +372,6 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 			 * Culture
 			 */
 			case R.id.drawer_boxplay_culture_searchngo: {
-				showFragment(new CultureFragment());
-				
 				CultureFragment cultureFragment;
 				
 				if (actualFragment instanceof CultureFragment) {

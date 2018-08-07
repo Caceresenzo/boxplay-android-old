@@ -9,14 +9,14 @@ import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.fragments.other.about.PageAboutHostingFragment;
 import caceresenzo.apps.boxplay.fragments.store.StorePageFragment;
-import caceresenzo.apps.boxplay.managers.XManagers.AManager;
+import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.libs.json.JsonObject;
 import caceresenzo.libs.json.parser.JsonException;
 import caceresenzo.libs.json.parser.JsonParser;
 import caceresenzo.libs.network.Downloader;
 import caceresenzo.libs.parse.ParseUtils;
 
-public class DataManager extends AManager {
+public class DataManager extends AbstractManager {
 	
 	public static final String TAG = DataManager.class.getSimpleName();
 	

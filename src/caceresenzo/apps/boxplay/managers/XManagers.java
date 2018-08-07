@@ -5,9 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.preference.PreferenceManager;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
+import caceresenzo.apps.boxplay.helper.ViewHelper;
 
 public class XManagers {
 	
@@ -21,6 +23,7 @@ public class XManagers {
 	protected UpdateManager updateManager;
 	protected TutorialManager tutorialManager;
 	protected PremiumManager premiumManager;
+	protected SearchAndGoManager searchAndGoManager;
 	
 	protected final File baseApplicationDirectory;
 	protected final File baseDataDirectory;
@@ -66,6 +69,10 @@ public class XManagers {
 		// Premium
 		premiumManager = new PremiumManager();
 		premiumManager.initialize();
+		
+		// Search n' Go
+		searchAndGoManager = new SearchAndGoManager();
+		searchAndGoManager.initialize();
 		
 		return this;
 	}
@@ -118,8 +125,14 @@ public class XManagers {
 		return premiumManager;
 	}
 	
-	protected static abstract class AManager {
+	public SearchAndGoManager getSearchAndGoManager() {
+		return searchAndGoManager;
+	}
+	
+	protected static abstract class AbstractManager {
 		protected BoxPlayActivity boxPlayActivity = BoxPlayActivity.getBoxPlayActivity();
+		protected Handler boxPlayHandler = BoxPlayActivity.getHandler();
+		protected ViewHelper viewHelper = BoxPlayActivity.getViewHelper();
 		
 		protected void initialize() {
 			;

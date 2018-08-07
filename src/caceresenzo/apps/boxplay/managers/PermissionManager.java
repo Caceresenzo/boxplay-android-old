@@ -6,9 +6,9 @@ import android.Manifest;
 import android.os.Build;
 import android.os.StrictMode;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
-import caceresenzo.apps.boxplay.managers.XManagers.AManager;
+import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 
-public class PermissionManager extends AManager {
+public class PermissionManager extends AbstractManager {
 	
 	@Override
 	protected void initialize() {

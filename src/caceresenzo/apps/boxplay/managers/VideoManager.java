@@ -17,10 +17,10 @@ import android.support.design.widget.Snackbar;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.activities.VideoActivity;
-import caceresenzo.apps.boxplay.managers.XManagers.AManager;
+import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.libs.boxplay.factory.VideoFactory;
 import caceresenzo.libs.boxplay.factory.VideoFactory.VideoFactoryListener;
-import caceresenzo.libs.boxplay.models.element.VideoElement;
+import caceresenzo.libs.boxplay.models.element.implementations.VideoElement;
 import caceresenzo.libs.boxplay.models.store.video.VideoFile;
 import caceresenzo.libs.boxplay.models.store.video.VideoGroup;
 import caceresenzo.libs.boxplay.models.store.video.VideoSeason;
@@ -28,7 +28,7 @@ import caceresenzo.libs.json.JsonObject;
 import caceresenzo.libs.json.parser.JsonParser;
 import caceresenzo.libs.parse.ParseUtils;
 
-public class VideoManager extends AManager {
+public class VideoManager extends AbstractManager {
 	
 	private static final String JSON_KEY_WATCHING_GROUP = "watching_group";
 	private static final String JSON_KEY_WATCHED_SEASON = "watched_season";

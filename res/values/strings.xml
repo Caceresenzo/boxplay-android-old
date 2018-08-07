@@ -209,6 +209,13 @@
     <string name="boxplay_store_files_files">Files</string>
 
     <!--  -->
+    <!-- Culture > Search n' Go -->
+    <!--  -->
+
+    <string name="boxplay_culture_searchngo_title">Search n\' Go</string>
+    <string name="boxplay_culture_searchngo_searchbar_hint">Search...</string>
+
+    <!--  -->
     <!-- Premium > Adult -->
     <!--  -->
 
@@ -219,12 +226,6 @@
     <string name="boxplay_premium_adult_status_downloading_data">Downloading data...</string>
     <string name="boxplay_premium_adult_status_parsing">Parsing...</string>
     <string name="boxplay_premium_adult_status_computing_url">Computing url...</string>
-
-    <!--  -->
-    <!-- Culture > Search n' Go -->
-    <!--  -->
-
-    <string name="boxplay_culture_searchngo_title">Search n\' Go</string>
 
     <!--  -->
     <!-- Settings -->

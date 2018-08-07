@@ -16,7 +16,7 @@ import caceresenzo.android.libs.internet.AndroidUpdater;
 import caceresenzo.android.libs.internet.AndroidUpdater.OnUpdateStateChange;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
-import caceresenzo.apps.boxplay.managers.XManagers.AManager;
+import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.libs.bytes.ByteFormat;
 import caceresenzo.libs.comparator.Version;
 import caceresenzo.libs.comparator.VersionType;
@@ -25,7 +25,7 @@ import caceresenzo.libs.network.Downloader;
 import caceresenzo.libs.parse.ParseUtils;
 import caceresenzo.libs.thread.ThreadUtils;
 
-public class UpdateManager extends AManager {
+public class UpdateManager extends AbstractManager {
 	
 	private static final String TAG = UpdateManager.class.getSimpleName();
 	

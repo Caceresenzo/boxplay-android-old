@@ -28,7 +28,7 @@ import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.fragments.store.PageMusicStoreFragment;
 import caceresenzo.apps.boxplay.helper.LocaleHelper;
 import caceresenzo.apps.boxplay.providers.media.music.MusicController;
-import caceresenzo.libs.boxplay.models.element.MusicElement;
+import caceresenzo.libs.boxplay.models.element.implementations.MusicElement;
 import caceresenzo.libs.boxplay.models.store.music.MusicAlbum;
 import caceresenzo.libs.boxplay.models.store.music.MusicFile;
 import caceresenzo.libs.boxplay.models.store.music.MusicGroup;

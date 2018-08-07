@@ -45,15 +45,26 @@
     <dimen name="item_error_text_padding">12dp</dimen>
     <dimen name="item_error_text_separation_padding">6dp</dimen>
 
+    <!-- SEARCH N' GO (element) -->
+    <dimen name="searchngo_button_margin">8dp</dimen>
+    <dimen name="searchngo_button_padding">6dp</dimen>
+    <dimen name="searchngo_element_text_margin">14dp</dimen>
+    <dimen name="searchngo_element_text_margin_next_to_separator">8dp</dimen>
+    <dimen name="searchngo_element_seperator_margin">8dp</dimen>
+    <dimen name="searchngo_element_card_height">170dp</dimen>
+
     <!-- ADULT (element) -->
     <dimen name="adult_video_width">184dp</dimen>
     <dimen name="adult_video_height">128dp</dimen>
 
     <!-- CARD VIEWS -->
+    <dimen name="main_card_margin_small">2dp</dimen>
     <dimen name="main_card_margin_horizontal_small">2dp</dimen>
     <dimen name="main_card_margin_vertical_small">2dp</dimen>
+    <dimen name="main_card_margin">4dp</dimen>
     <dimen name="main_card_margin_horizontal">4dp</dimen>
     <dimen name="main_card_margin_vertical">4dp</dimen>
+    <dimen name="main_card_margin_big">8dp</dimen>
     <dimen name="main_card_margin_horizontal_big">8dp</dimen>
     <dimen name="main_card_margin_vertical_big">8dp</dimen>
 

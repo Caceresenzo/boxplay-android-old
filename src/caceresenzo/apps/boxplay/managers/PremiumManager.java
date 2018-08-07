@@ -18,7 +18,7 @@ import android.webkit.WebViewClient;
 import caceresenzo.android.libs.toast.ToastUtils;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
-import caceresenzo.apps.boxplay.managers.XManagers.AManager;
+import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.apps.boxplay.managers.XManagers.SubManager;
 import caceresenzo.libs.boxplay.factory.AdultFactory;
 import caceresenzo.libs.boxplay.factory.AdultFactory.AdultFactoryListener;
@@ -29,7 +29,7 @@ import caceresenzo.libs.network.Downloader;
 import caceresenzo.libs.string.StringUtils;
 import caceresenzo.libs.thread.ThreadUtils;
 
-public class PremiumManager extends AManager {
+public class PremiumManager extends AbstractManager {
 	
 	private static final List<Integer> premiumMenusId = new ArrayList<Integer>();
 	

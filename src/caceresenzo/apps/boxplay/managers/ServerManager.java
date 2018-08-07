@@ -7,12 +7,12 @@ import java.util.List;
 import android.support.design.widget.Snackbar;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
-import caceresenzo.apps.boxplay.managers.XManagers.AManager;
+import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.libs.boxplay.factory.ServerFactory;
 import caceresenzo.libs.boxplay.factory.ServerFactory.ServerFactoryListener;
 import caceresenzo.libs.boxplay.models.server.ServerHosting;
 
-public class ServerManager extends AManager {
+public class ServerManager extends AbstractManager {
 	
 	private ServerFactory musicFactory = new ServerFactory();
 	private List<ServerHosting> hostings;

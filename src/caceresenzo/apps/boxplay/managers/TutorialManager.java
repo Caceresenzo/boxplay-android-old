@@ -2,12 +2,12 @@ package caceresenzo.apps.boxplay.managers;
 
 import com.getkeepsafe.taptargetview.TapTargetSequence;
 
-import caceresenzo.apps.boxplay.managers.XManagers.AManager;
+import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.libs.json.JsonObject;
 import caceresenzo.libs.json.parser.JsonException;
 import caceresenzo.libs.json.parser.JsonParser;
 
-public class TutorialManager extends AManager {
+public class TutorialManager extends AbstractManager {
 	
 	public static final String PREF_KEY_TUTORIAL_MAP = "tutorial_class";
 	public static final int PROGRESS_NOTHING = -1;
