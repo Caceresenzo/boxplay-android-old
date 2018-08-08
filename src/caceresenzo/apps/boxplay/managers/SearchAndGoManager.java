@@ -3,12 +3,14 @@ package caceresenzo.apps.boxplay.managers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
-import caceresenzo.libs.boxplay.culture.searchngo.SearchAndGoResult;
+import caceresenzo.libs.boxplay.culture.searchngo.callback.ProviderSearchCallback;
+import caceresenzo.libs.boxplay.culture.searchngo.callback.SearchCallback;
+import caceresenzo.libs.boxplay.culture.searchngo.providers.ProviderCallback;
 import caceresenzo.libs.boxplay.culture.searchngo.providers.ProviderManager;
 import caceresenzo.libs.boxplay.culture.searchngo.providers.SearchAndGoProvider;
+import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 
 public class SearchAndGoManager extends AbstractManager {
 	
@@ -22,12 +24,9 @@ public class SearchAndGoManager extends AbstractManager {
 		this.worker = new Worker();
 		
 		this.providers = new ArrayList<>();
+		providers.addAll(ProviderManager.createAll()); // TODO: Do a user selection
 		
-		DEBUG();
-	}
-	
-	public void DEBUG() {
-		providers.add(ProviderManager.JETANIME.create());
+		registerCallbacks();
 	}
 	
 	public void bindCallback(SearchAndGoSearchCallback callback) {
@@ -55,44 +54,10 @@ public class SearchAndGoManager extends AbstractManager {
 		public void run() {
 			running(true);
 			
-			if (callback != null) {
-				boxPlayHandler.post(new Runnable() {
-					@Override
-					public void run() {
-						callback.onSearchStart();
-					}
-				});
-			}
-			
-			final List<SearchAndGoResult> localResults = new ArrayList<>();
-			
 			try {
-				
-				for (SearchAndGoProvider provider : localProviders) {
-					Map<String, SearchAndGoResult> workmap = provider.work(localSearchQuery);
-					
-					for (Entry<String, SearchAndGoResult> entry : workmap.entrySet()) {
-						localResults.add(entry.getValue());
-					}
-				}
-			} catch (final Exception exception) {
-				if (callback != null) {
-					boxPlayHandler.post(new Runnable() {
-						@Override
-						public void run() {
-							callback.onSearchFail(exception);
-						}
-					});
-				}
-			}
-			
-			if (callback != null) {
-				boxPlayHandler.post(new Runnable() {
-					@Override
-					public void run() {
-						callback.onSearchFinish(localResults);
-					}
-				});
+				SearchAndGoProvider.provide(localProviders, localSearchQuery, true);
+			} catch (Exception exception) {
+				; // Handled by callbacks
 			}
 			
 			running(false);
@@ -119,13 +84,111 @@ public class SearchAndGoManager extends AbstractManager {
 		
 	}
 	
+	private void registerCallbacks() {
+		ProviderCallback.registerSearchallback(new SearchCallback() { // Unused for now
+			@Override
+			public void onSearchStarting() {
+				if (callback != null) {
+					boxPlayHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							callback.onSearchStart();
+						}
+					});
+				}
+			}
+			
+			@Override
+			public void onSearchFinished(final Map<String, SearchAndGoResult> workmap) {
+				if (callback != null) {
+					boxPlayHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							callback.onSearchFinish(workmap);
+						}
+					});
+				}
+			}
+			
+			@Override
+			public void onSearchFail(final Exception exception) {
+				if (callback != null) {
+					boxPlayHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							callback.onSearchFail(exception);
+						}
+					});
+				}
+			}
+		});
+		
+		ProviderCallback.registerProviderSearchallback(new ProviderSearchCallback() {
+			@Override
+			public void onProviderSearchStarting(final SearchAndGoProvider provider) {
+				if (callback != null) {
+					boxPlayHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							callback.onProviderStarted(provider);
+						}
+					});
+				}
+			}
+			
+			@Override
+			public void onProviderSorting(final SearchAndGoProvider provider) {
+				if (callback != null) {
+					boxPlayHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							callback.onProviderSorting(provider);
+						}
+					});
+				}
+			}
+			
+			@Override
+			public void onProviderSearchFinished(final SearchAndGoProvider provider, final Map<String, SearchAndGoResult> workmap) {
+				if (callback != null) {
+					boxPlayHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							callback.onProviderFinished(provider, workmap);
+						}
+					});
+				}
+			}
+			
+			@Override
+			public void onProviderFailed(final SearchAndGoProvider provider, final Exception exception) {
+				if (callback != null) {
+					boxPlayHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							callback.onProviderSearchFail(provider, exception);
+						}
+					});
+				}
+			}
+		});
+	}
+	
 	public static interface SearchAndGoSearchCallback {
 		
 		void onSearchStart();
 		
-		void onSearchFinish(List<SearchAndGoResult> results);
+		void onSearchFinish(Map<String, SearchAndGoResult> workmap);
 		
 		void onSearchFail(Exception exception);
+		
+		void onProviderStarted(SearchAndGoProvider provider);
+		
+		void onProviderSorting(SearchAndGoProvider provider);
+		
+		void onProviderFinished(SearchAndGoProvider provider, Map<String, SearchAndGoResult> workmap);
+		
+		void onProviderSearchFail(SearchAndGoProvider provider, Exception exception);
 		
 	}
 	

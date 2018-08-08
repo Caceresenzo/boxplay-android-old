@@ -2,6 +2,7 @@ package caceresenzo.apps.boxplay.fragments.culture.searchngo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mancj.materialsearchbar.MaterialSearchBar.OnSearchActionListener;
@@ -20,7 +21,8 @@ import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.managers.SearchAndGoManager;
 import caceresenzo.apps.boxplay.managers.SearchAndGoManager.SearchAndGoSearchCallback;
-import caceresenzo.libs.boxplay.culture.searchngo.SearchAndGoResult;
+import caceresenzo.libs.boxplay.culture.searchngo.providers.SearchAndGoProvider;
+import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 
 public class PageCultureSearchAndGoFragment extends Fragment {
 	
@@ -49,15 +51,35 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 			}
 			
 			@Override
-			public void onSearchFinish(List<SearchAndGoResult> searchResults) {
-				BoxPlayActivity.getBoxPlayActivity().toast("Callback: Search finished! size: " + searchResults.size()).show();
+			public void onSearchFinish(Map<String, SearchAndGoResult> workmap) {
+				BoxPlayActivity.getBoxPlayActivity().toast("Callback: Search finished! size: " + workmap.size()).show();
 				results.clear();
-				results.addAll(searchResults);
+				results.addAll(workmap.values());
 				searchAdapter.notifyDataSetChanged();
 			}
 			
 			@Override
 			public void onSearchFail(Exception exception) {
+				;
+			}
+			
+			@Override
+			public void onProviderStarted(SearchAndGoProvider provider) {
+				;
+			}
+			
+			@Override
+			public void onProviderSorting(SearchAndGoProvider provider) {
+				;
+			}
+			
+			@Override
+			public void onProviderFinished(SearchAndGoProvider provider, Map<String, SearchAndGoResult> workmap) {
+				;
+			}
+			
+			@Override
+			public void onProviderSearchFail(SearchAndGoProvider provider, Exception exception) {
 				;
 			}
 		});
@@ -77,12 +99,15 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 			
 			@Override
 			public void onSearchStateChanged(boolean enabled) {
-				BoxPlayActivity.getBoxPlayActivity().toast("MaterialSearchBar: onSearchStateChanged()").show();
+				if (!enabled) {
+					results.clear();
+					searchAdapter.notifyDataSetChanged();
+				}
 			}
 			
 			@Override
 			public void onButtonClicked(int buttonCode) {
-				BoxPlayActivity.getBoxPlayActivity().toast("MaterialSearchBar: onButtonClicked()").show();
+				;
 			}
 		});
 		
