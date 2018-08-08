@@ -65,7 +65,25 @@
     </style>
 
     <!--  -->
-    <style name="styleCustomToast">
+    <style name="AppTheme.NoActionBar">
+        <!-- <item name="windowActionBar">false</item> -->
+        <!-- <item name="windowNoTitle">true</item> -->
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:elevation">0dp</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!--  -->
+    <!-- Library Style -->
+    <!--  -->
+
+
+    <!-- Stylable Toast -->
+    <style name="customStylableToastStyle">
         <item name="strokeWidth">2dp</item>
         <item name="strokeColor">@color/colorAccent</item>
         <item name="colorBackground">@color/colorBackground</item>
@@ -78,17 +96,19 @@
         <item name="length">SHORT</item>
     </style>
 
-    <!--  -->
-    <style name="AppTheme.NoActionBar">
-        <!-- <item name="windowActionBar">false</item> -->
-        <!-- <item name="windowNoTitle">true</item> -->
+    <style name="customMaterialSearchBarStyle" parent="@style/MaterialSearchBarDark">
+        <item name="mt_dividerColor">@color/colorAccent</item>
+        <item name="mt_hint">@string/boxplay_culture_searchngo_searchbar_hint</item>
+        <item name="mt_maxSuggestionsCount">10</item>
+        <item name="mt_roundedSearchBarEnabled">true</item>
+        <item name="mt_navIconTint">@color/white</item>
+        <item name="mt_searchIconTint">@color/white</item>
+        <item name="mt_clearIconTint">@color/white</item>
+        <item name="mt_menuIconTint">@color/white</item>
+        <item name="mt_backIconTint">@color/white</item>
+        <item name="mt_textCursorTint">@color/colorAccent</item>
+        <item name="mt_textColor">@color/white</item>
+        <item name="mt_hintColor">@color/white</item>
     </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:elevation">0dp</item>
-        <item name="elevation">0dp</item>
-    </style>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

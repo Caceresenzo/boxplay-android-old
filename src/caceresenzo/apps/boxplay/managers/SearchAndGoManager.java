@@ -99,6 +99,18 @@ public class SearchAndGoManager extends AbstractManager {
 			}
 			
 			@Override
+			public void onSearchSorting() {
+				if (callback != null) {
+					boxPlayHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							callback.onSearchSorting();
+						}
+					});
+				}
+			}
+			
+			@Override
 			public void onSearchFinished(final Map<String, SearchAndGoResult> workmap) {
 				if (callback != null) {
 					boxPlayHandler.post(new Runnable() {
@@ -177,6 +189,8 @@ public class SearchAndGoManager extends AbstractManager {
 	public static interface SearchAndGoSearchCallback {
 		
 		void onSearchStart();
+		
+		void onSearchSorting();
 		
 		void onSearchFinish(Map<String, SearchAndGoResult> workmap);
 		

@@ -95,6 +95,13 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		// if (savedInstanceState == null) {
 		// showFragment(new PlaceholderFragment());
 		// }
+		
+		HANDLER.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				showFragment(new CultureFragment().withSearchAndGo());
+			}
+		}, 200);
 	}
 	
 	@Override
@@ -563,11 +570,11 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	}
 	
 	public StyleableToast toast(String string) {
-		return StyleableToast.makeText(this, string, R.style.styleCustomToast);
+		return StyleableToast.makeText(this, string, R.style.customStylableToastStyle);
 	}
 	
 	public StyleableToast toast(int ressourceId, Object... args) {
-		return StyleableToast.makeText(this, getString(ressourceId, args), Toast.LENGTH_LONG, R.style.styleCustomToast);
+		return StyleableToast.makeText(this, getString(ressourceId, args), Toast.LENGTH_LONG, R.style.customStylableToastStyle);
 	}
 	
 	public Toolbar getToolbar() {
