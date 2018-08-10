@@ -32,6 +32,8 @@ import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 
 public class PageCultureSearchAndGoFragment extends Fragment {
 	
+	public static PageCultureSearchAndGoDetailFragment detailFragment;
+	
 	private SearchAndGoManager searchAndGoManager;
 	
 	private List<SearchAndGoResult> results;
@@ -269,11 +271,14 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 	}
 	
 	class SearchAndGoResultViewHolder extends RecyclerView.ViewHolder {
+		private View view;
 		private TextView titleTextView, contentTextView, providerTextView, typeTextView;
 		private ImageView thumbnailImageView;
 		
 		public SearchAndGoResultViewHolder(View itemView) {
 			super(itemView);
+			
+			view = itemView;
 			
 			titleTextView = (TextView) itemView.findViewById(R.id.item_culture_searchngo_search_element_textview_title);
 			contentTextView = (TextView) itemView.findViewById(R.id.item_culture_searchngo_search_element_textview_content);
@@ -283,7 +288,18 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 			thumbnailImageView = (ImageView) itemView.findViewById(R.id.item_culture_searchngo_search_element_imageview_thumbnail);
 		}
 		
-		public void bind(SearchAndGoResult result) {
+		public void bind(final SearchAndGoResult result) {
+			view.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					if (detailFragment == null) {
+						return;
+					}
+					
+					detailFragment.applyResult(result);
+				}
+			});
+			
 			titleTextView.setText(result.getName());
 			contentTextView.setText("-/-"); // TOOD: Make a description generator
 			providerTextView.setText(result.getParentProvider().getSiteName().toUpperCase());
