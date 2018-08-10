@@ -2,13 +2,16 @@
 <resources>
 
     <string name="application_name">BoxPlay</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="boxplay_menu_action_search">Search</string>
-    <string name="boxplay_menu_action_update">Update</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!--  -->
+    <string name="transition_view_reveal">view_reveal</string>
     <!--  -->
     <string name="boxplay_viewhelper_recaching">Re-caching...\nPlease restart the app to apply new language everywhere!</string>
+    <!--  -->
+    <string name="boxplay_menu_action_search">Search</string>
+    <string name="boxplay_menu_action_update">Update</string>
+    <!--  -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <!--  -->
     <string name="boxplay_update_uptodate">Already up to date!</string>
     <string name="boxplay_update_available" formatted="false">Update available! %s</string>
@@ -51,6 +54,9 @@
 
 
     <!--  -->
+    <!-- Tutorial > BoxPlayActivity -->
+    <!--  -->
+
     <string name="boxplay_tutorial_main_drawer_title">Drawer</string>
     <string name="boxplay_tutorial_main_drawer_description">You will be able to access to other page from it!</string>
     <string name="boxplay_tutorial_main_search_title">Search</string>
@@ -63,7 +69,11 @@
     <string name="boxplay_tutorial_main_video_description">Contains all video available on the store!</string>
     <string name="boxplay_tutorial_main_music_title">BoxPlay Store Music</string>
     <string name="boxplay_tutorial_main_music_description">Contains all music available on the store!</string>
+
     <!--  -->
+    <!-- Tutorial > VideoActivity -->
+    <!--  -->
+
     <string name="boxplay_tutorial_video_back_title">Exit this menu</string>
     <string name="boxplay_tutorial_video_back_description">Get back to main app with this arrow or the back button</string>
     <string name="boxplay_tutorial_video_watch_list_title">Watching list</string>
@@ -74,8 +84,6 @@
     <string name="boxplay_tutorial_video_season_watched_description">Mark this season as watched when you finish to watch all of episodes!</string>
     <string name="boxplay_tutorial_video_episodes_title">See episodes</string>
     <string name="boxplay_tutorial_video_episodes_description">All episodes available are in this list, just watch one of them by opening the little menu!</string>
-    <!--  -->
-
 
     <!--  -->
     <!-- Store > Video -->
@@ -385,8 +393,7 @@
     <!-- Other -->
 
     <string name="title_activity_video">VideoActivity</string>
-    <string name="title_activity_videoplayer">VideoPlayerActivity</string>
-    <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="title_activity_music">MusicActivity</string>
+    <string name="title_activity_searchandgo_detail">SearchAndGoDetailActivity</string>
 
 </resources>

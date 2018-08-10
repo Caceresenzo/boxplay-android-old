@@ -13,6 +13,7 @@
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
         <item name="cardViewStyle">@style/cardViewStyle</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <!-- Card View Theme -->
@@ -99,8 +100,8 @@
     <style name="customMaterialSearchBarStyle" parent="@style/MaterialSearchBarDark">
         <item name="mt_dividerColor">@color/colorAccent</item>
         <item name="mt_hint">@string/boxplay_culture_searchngo_searchbar_hint</item>
-        <item name="mt_maxSuggestionsCount">10</item>
-        <item name="mt_roundedSearchBarEnabled">true</item>
+        <item name="mt_maxSuggestionsCount">0</item>
+        <item name="mt_roundedSearchBarEnabled">false</item>
         <item name="mt_navIconTint">@color/white</item>
         <item name="mt_searchIconTint">@color/white</item>
         <item name="mt_clearIconTint">@color/white</item>

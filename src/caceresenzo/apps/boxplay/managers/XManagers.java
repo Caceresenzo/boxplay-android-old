@@ -3,6 +3,8 @@ package caceresenzo.apps.boxplay.managers;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -30,6 +32,8 @@ public class XManagers {
 	
 	protected SharedPreferences preferences;
 	
+	private List<AbstractManager> managers;
+	
 	public XManagers() {
 		baseApplicationDirectory = new File("/sdcard" + "/" + "BoxPlay" + "/"); // TODO: getString(R.string.application_name) and Environment.getExternalStorageDirectory()
 		baseDataDirectory = new File(baseApplicationDirectory, "data/");
@@ -38,47 +42,55 @@ public class XManagers {
 	public XManagers initialize(BoxPlayActivity boxPlayActivity) {
 		this.boxPlayActivity = boxPlayActivity;
 		
+		managers = new ArrayList<>();
+		
 		// Config
 		preferences = PreferenceManager.getDefaultSharedPreferences(BoxPlayApplication.getBoxPlayApplication());
 		
 		// Permission
-		permissionManager = new PermissionManager();
-		permissionManager.initialize();
+		managers.add(permissionManager = new PermissionManager());
+		// permissionManager.initialize();
 		
 		// Data
-		dataManager = new DataManager();
-		dataManager.initialize();
+		managers.add(dataManager = new DataManager());
+		// dataManager.initialize();
 		
 		// Elements
-		videoManager = new VideoManager();
-		videoManager.initialize();
-		musicManager = new MusicManager();
-		musicManager.initialize();
+		managers.add(videoManager = new VideoManager());
+		// videoManager.initialize();
+		managers.add(musicManager = new MusicManager());
+		// musicManager.initialize();
 		
-		serverManager = new ServerManager();
-		serverManager.initialize();
+		managers.add(serverManager = new ServerManager());
+		// serverManager.initialize();
 		
 		// Update
-		updateManager = new UpdateManager();
-		updateManager.initialize();
+		managers.add(updateManager = new UpdateManager());
+		// updateManager.initialize();
 		
 		// Tutorials
-		tutorialManager = new TutorialManager();
-		tutorialManager.initialize();
+		managers.add(tutorialManager = new TutorialManager());
+		// tutorialManager.initialize();
 		
 		// Premium
-		premiumManager = new PremiumManager();
-		premiumManager.initialize();
+		managers.add(premiumManager = new PremiumManager());
+		// premiumManager.initialize();
 		
 		// Search n' Go
-		searchAndGoManager = new SearchAndGoManager();
-		searchAndGoManager.initialize();
+		managers.add(searchAndGoManager = new SearchAndGoManager());
+		// searchAndGoManager.initialize();
+		
+		for (AbstractManager manager : managers) {
+			manager.initialize();
+		}
 		
 		return this;
 	}
 	
-	public void finish() {
-		;
+	public void destroy() {
+		for (AbstractManager manager : managers) {
+			manager.destroy();
+		}
 	}
 	
 	public File getBaseApplicationDirectory() {
@@ -135,6 +147,10 @@ public class XManagers {
 		protected ViewHelper viewHelper = BoxPlayActivity.getViewHelper();
 		
 		protected void initialize() {
+			;
+		}
+		
+		protected void destroy() {
 			;
 		}
 		

@@ -14,8 +14,26 @@ import android.preference.PreferenceManager;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.helper.LocaleHelper;
+import caceresenzo.libs.comparator.Version;
+import caceresenzo.libs.comparator.VersionType;
 
 public class BoxPlayApplication extends Application {
+	
+	/**
+	 * Android request id
+	 */
+	public static final int REQUEST_ID_UPDATE = 20;
+	public static final int REQUEST_ID_VLC_VIDEO = 40;
+	public static final int REQUEST_ID_VLC_VIDEO_URL = 41;
+	public static final int REQUEST_ID_VLC_AUDIO = 42;
+	public static final int REQUEST_ID_PERMISSION = 100;
+	
+	/**
+	 * File provider
+	 */
+	public static final String FILEPROVIDER_AUTHORITY = "caceresenzo.apps.boxplay.provider";
+	
+	private static final Version VERSION = new Version("3.0.7", VersionType.BETA);
 	
 	private static BoxPlayApplication APPLICATION;
 	private SharedPreferences sharedPreferences;
@@ -100,6 +118,13 @@ public class BoxPlayApplication extends Application {
 	
 	public SharedPreferences getPreferences() {
 		return sharedPreferences;
+	}
+	
+	/**
+	 * Get BoxPlay version
+	 */
+	public static Version getVersion() {
+		return VERSION;
 	}
 	
 	public static BoxPlayApplication getBoxPlayApplication() {

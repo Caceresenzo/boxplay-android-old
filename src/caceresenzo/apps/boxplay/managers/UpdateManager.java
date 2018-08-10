@@ -16,6 +16,7 @@ import caceresenzo.android.libs.internet.AndroidUpdater;
 import caceresenzo.android.libs.internet.AndroidUpdater.OnUpdateStateChange;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.libs.bytes.ByteFormat;
 import caceresenzo.libs.comparator.Version;
@@ -180,7 +181,7 @@ public class UpdateManager extends AbstractManager {
 						
 						boxPlayActivity.toast(R.string.boxplay_update_available_download_starting).show();
 						downloadStarted = true;
-						AndroidUpdater.updateIfNeeded(boxPlayActivity, "BoxPlay", BoxPlayActivity.getVersion(), lastVersion, lastVersionUrl, new OnUpdateStateChange() {
+						AndroidUpdater.updateIfNeeded(boxPlayActivity, "BoxPlay", BoxPlayApplication.getVersion(), lastVersion, lastVersionUrl, new OnUpdateStateChange() {
 							@Override
 							public void onProgress(int length) {
 								downloadedPourcent = (int) (length * 100f / lastVersionLength);
@@ -217,7 +218,7 @@ public class UpdateManager extends AbstractManager {
 									}
 								});
 							}
-						}, BoxPlayActivity.REQUEST_ID_UPDATE);
+						}, BoxPlayApplication.REQUEST_ID_UPDATE);
 						
 					}
 				});
@@ -245,7 +246,7 @@ public class UpdateManager extends AbstractManager {
 			return;
 		}
 		
-		updateAvailable = lastVersion.compareTo(BoxPlayActivity.getVersion()) == 1;
+		updateAvailable = lastVersion.compareTo(BoxPlayApplication.getVersion()) == 1;
 	}
 	
 	public void showDialog() {

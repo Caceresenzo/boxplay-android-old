@@ -241,7 +241,7 @@ public class PageVideoStoreFragment extends StorePageFragment {
 				view.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						BoxPlayActivity.getViewHelper().startVideoActivity(group);
+						BoxPlayActivity.getViewHelper().startVideoActivity(view, group);
 					}
 				});
 				
@@ -304,9 +304,9 @@ public class PageVideoStoreFragment extends StorePageFragment {
 	}
 	
 	protected static class VideoListRowViewHolder extends RecyclerView.ViewHolder {
+		private View view;
 		private TextView titleTextView;
 		private ImageView thumbnailImageView;
-		private View view;
 		
 		public VideoListRowViewHolder(View itemView) {
 			super(itemView);
@@ -328,7 +328,7 @@ public class PageVideoStoreFragment extends StorePageFragment {
 				view.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						BoxPlayActivity.getViewHelper().startVideoActivity(group);
+						BoxPlayActivity.getViewHelper().startVideoActivity(view, group);
 					}
 				});
 				

@@ -8,6 +8,9 @@
     <string name="boxplay_menu_action_update">Mise à jour</string>
     <string name="boxplay_menu_action_search">Recherche</string>
     <!--  -->
+    <string name="navigation_drawer_open">Ouvrir le menu de navigation</string>
+    <string name="navigation_drawer_close">Fermer le menu de navigation</string>
+    <!--  -->
     <string name="boxplay_update_uptodate">Déjà à jour!</string>
     <string name="boxplay_update_available" formatted="false">Mise à jour dispo! %s</string>
     <string name="boxplay_update_available_message_format" formatted="false">Version: _version_ \nNom: _name_ \nTaille: _size_ \n\nTéléchargé: _downloaded_</string>
@@ -45,9 +48,10 @@
     <string name="boxplay_other_settings">Paramètres</string>
     <string name="boxplay_other_about">A propos</string>
     <!-- <string name="boxplay_preferences_title">BoxPlay Settings</string> -->
+
+
     <!--  -->
-
-
+    <!-- Tutorial > BoxPlayActivity -->
     <!--  -->
     <string name="boxplay_tutorial_main_drawer_title">Tirroir</string>
     <string name="boxplay_tutorial_main_drawer_description">Vous pourrez accéder aux autres pages depuis celui-ci!</string>
@@ -61,6 +65,9 @@
     <string name="boxplay_tutorial_main_video_description">Contient toutes les vidéos dispo sur le magasin!</string>
     <string name="boxplay_tutorial_main_music_title">Magasin Musique BoxPlay</string>
     <string name="boxplay_tutorial_main_music_description">Contient toutes les musiques dispo sur le magasin!</string>
+
+    <!--  -->
+    <!-- Tutorial > VideoActivity -->
     <!--  -->
     <string name="boxplay_tutorial_video_back_title">Quitter ce menu</string>
     <string name="boxplay_tutorial_video_back_description">Retourner à l\'application principale avec la flèche ou le bouton retour!</string>
@@ -72,8 +79,6 @@
     <string name="boxplay_tutorial_video_season_watched_description">Marquer cette saison en tant que vu quand vous avez fini de voir tous les épisodes!</string>
     <string name="boxplay_tutorial_video_episodes_title">Voir les épisodes</string>
     <string name="boxplay_tutorial_video_episodes_description">Tous les episodes dispo sont dans cette liste, regardez s\'en un en ouvrant son menu déroulant!</string>
-    <!--  -->
-
 
     <!--  -->
     <!-- Store > Video -->

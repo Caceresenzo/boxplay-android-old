@@ -11,20 +11,20 @@
 
     <TextView
         android:id="@+id/fragment_culture_searchno_textview_progress_last"
+        style="@style/textViewSimpleStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text="Last Progress" />
+
+    <TextView
+        android:id="@+id/fragment_culture_searchno_textview_progress_actual"
         style="@style/textViewTitleStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:gravity="left"
-        android:text="Progress" />
-
-    <TextView
-        android:id="@+id/fragment_culture_searchno_textview_progress_actual"
-        style="@style/textViewSimpleStyle"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="start"
         android:text="Progress" />
 
 </RelativeLayout>

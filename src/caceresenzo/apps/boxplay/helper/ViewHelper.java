@@ -11,9 +11,12 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.ColorRes;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import caceresenzo.android.libs.application.ApplicationUtils;
 import caceresenzo.apps.boxplay.R;
@@ -211,9 +214,19 @@ public class ViewHelper {
 	 */
 	private static VideoGroup passingVideoGroup;
 	
-	public void startVideoActivity(VideoGroup group) {
+	public void startVideoActivity(View view, VideoGroup group) {
 		passingVideoGroup = group;
-		boxPlayActivity.startActivity(new Intent(boxPlayActivity, VideoActivity.class));
+		
+		Intent intent = new Intent(boxPlayActivity, VideoActivity.class);
+		
+		String transitionName = boxPlayActivity.getString(R.string.transition_view_reveal);
+		
+		View viewStart = view;
+		
+		ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(boxPlayActivity, viewStart, transitionName);
+		ActivityCompat.startActivity(boxPlayActivity, intent, options.toBundle());
+		
+		// boxPlayActivity.startActivity(new Intent(boxPlayActivity, VideoActivity.class));
 	}
 	
 	public VideoGroup getPassingVideoGroup() {

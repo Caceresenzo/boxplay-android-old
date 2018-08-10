@@ -7,21 +7,22 @@ import java.util.Map;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mancj.materialsearchbar.MaterialSearchBar.OnSearchActionListener;
-import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import caceresenzo.android.libs.dialog.DialogUtils;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.managers.SearchAndGoManager;
@@ -35,8 +36,6 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 	
 	private List<SearchAndGoResult> results;
 	
-	private List<SearchSuggestionItem> suggestions = new ArrayList<>();
-	
 	private MaterialSearchBar materialSearchBar;
 	private RelativeLayout progressContainerRelativeLayout;
 	private TextView actualProgressTextView, lastProgressTextView;
@@ -44,7 +43,8 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 	private RecyclerView searchResultRecyclerView;
 	
 	private SearchAndGoResultViewAdapter searchAdapter;
-	private SearchSuggestionsAdapter searchSuggestionsAdapter;
+	
+	private OnSearchActionListener onSearchActionListener;
 	
 	public PageCultureSearchAndGoFragment() {
 		this.searchAndGoManager = BoxPlayActivity.getManagers().getSearchAndGoManager();
@@ -68,7 +68,6 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 			
 			@Override
 			public void onSearchFinish(Map<String, SearchAndGoResult> workmap) {
-				// BoxPlayActivity.getBoxPlayActivity().toast("Callback: Search finished! size: " + workmap.size()).show();
 				results.clear();
 				results.addAll(workmap.values());
 				searchAdapter.notifyDataSetChanged();
@@ -110,15 +109,11 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_culture_searchngo, container, false);
 		
 		materialSearchBar = (MaterialSearchBar) view.findViewById(R.id.fragment_culture_searchno_materialsearchbar_searchbar);
-		searchSuggestionsAdapter = new SearchSuggestionsAdapter(getLayoutInflater());
-		searchSuggestionsAdapter.setSuggestions(suggestions);
-		materialSearchBar.setCustomSuggestionAdapter(searchSuggestionsAdapter);
 		
-		materialSearchBar.setOnSearchActionListener(new OnSearchActionListener() {
+		materialSearchBar.setOnSearchActionListener(onSearchActionListener = new OnSearchActionListener() {
 			@Override
 			public void onSearchConfirmed(CharSequence text) {
 				searchAndGoManager.search(text.toString());
-				searchSuggestionsAdapter.addSuggestion(new SearchSuggestionItem(text.toString()));
 			}
 			
 			@Override
@@ -131,7 +126,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 			
 			@Override
 			public void onButtonClicked(int buttonCode) {
-				;
+				materialSearchBar.hideSuggestionsList();
 			}
 		});
 		
@@ -178,71 +173,26 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		lastProgress = progress;
 	}
 	
-	class SearchSuggestionsAdapter extends SuggestionsAdapter<SearchSuggestionItem, SuggestionHolder> {
-		
-		public SearchSuggestionsAdapter(LayoutInflater inflater) {
-			super(inflater);
-		}
-		
-		@Override
-		public int getSingleViewHeight() {
-			return 80;
-		}
-		
-		@Override
-		public SuggestionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-			View view = getLayoutInflater().inflate(R.layout.item_search_suggestion, parent, false);
-			return new SuggestionHolder(view);
-		}
-		
-		@Override
-		public void onBindSuggestionHolder(SearchSuggestionItem suggestion, SuggestionHolder holder, int position) {
-			holder.bind(suggestion);
-		}
-		
-		@Override
-		public Filter getFilter() {
-			return new Filter() {
-				@Override
-				protected FilterResults performFiltering(CharSequence constraint) {
-					FilterResults results = new FilterResults();
-					String term = constraint.toString();
-					
-					if (term.isEmpty()) {
-						suggestions = suggestions_clone;
-					} else {
-						suggestions = new ArrayList<>();
-						for (SearchSuggestionItem item : suggestions_clone) {
-							if (item.getQuery().toLowerCase().contains(term.toLowerCase())) {
-								suggestions.add(item);
-							}
-						}
-					}
-					
-					results.values = suggestions;
-					
-					return results;
-				}
-				
-				@Override
-				protected void publishResults(CharSequence constraint, FilterResults results) {
-					suggestions = (ArrayList<SearchSuggestionItem>) results.values;
-					notifyDataSetChanged();
-				}
-			};
-		}
-	}
-	
-	class SuggestionHolder extends RecyclerView.ViewHolder {
+	class SearchHistoryHolder extends RecyclerView.ViewHolder {
+		private View view;
 		protected TextView titleTextView, subtitleTextView;
 		
-		public SuggestionHolder(View itemView) {
+		public SearchHistoryHolder(View itemView) {
 			super(itemView);
+			view = itemView;
 			titleTextView = (TextView) itemView.findViewById(R.id.item_search_suggestion_textview_title);
 			subtitleTextView = (TextView) itemView.findViewById(R.id.item_search_suggestion_textview_subtitle);
 		}
 		
-		public void bind(SearchSuggestionItem suggestion) {
+		public void bind(final SearchHistoryItem suggestion) {
+			view.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					materialSearchBar.setText(suggestion.getQuery());
+					onSearchActionListener.onSearchConfirmed(suggestion.getQuery());
+				}
+			});
+			
 			titleTextView.setText(suggestion.getQuery());
 			
 			if (suggestion.getDate() != null) {
@@ -253,15 +203,20 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		}
 	}
 	
-	class SearchSuggestionItem {
+	/**
+	 * Class to hold information about a search history
+	 * 
+	 * @author Enzo CACERES
+	 */
+	public static class SearchHistoryItem {
 		private final String query;
-		private Date date;
+		private long date;
 		
-		public SearchSuggestionItem(String query) {
-			this(query, new Date(System.currentTimeMillis()));
+		public SearchHistoryItem(String query) {
+			this(query, System.currentTimeMillis());
 		}
 		
-		public SearchSuggestionItem(String query, Date date) {
+		public SearchHistoryItem(String query, long date) {
 			this.query = query;
 			this.date = date;
 		}
@@ -271,7 +226,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		}
 		
 		public Date getDate() {
-			return date;
+			return new Date(date);
 		}
 		
 		public void updateDate() {
@@ -279,7 +234,12 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		}
 		
 		public void setDate(Date date) {
-			this.date = date;
+			this.date = date.getTime();
+		}
+		
+		@Override
+		public String toString() {
+			return "SearchSuggestionItem[query=" + query + ", date=" + date + "]";
 		}
 	}
 	

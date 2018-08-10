@@ -28,6 +28,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
@@ -45,28 +46,27 @@ import caceresenzo.apps.boxplay.managers.XManagers;
 import caceresenzo.libs.comparator.Version;
 import caceresenzo.libs.comparator.VersionType;
 
+/**
+ * Main BoxPlay class
+ * 
+ * @author Enzo CACERES
+ */
 public class BoxPlayActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Tutorialable {
 	
-	public static final int REQUEST_ID_UPDATE = 20;
-	public static final int REQUEST_ID_VLC_VIDEO = 40;
-	public static final int REQUEST_ID_VLC_VIDEO_URL = 41;
-	public static final int REQUEST_ID_VLC_AUDIO = 42;
-	public static final int REQUEST_ID_PERMISSION = 100;
-	public static final String FILEPROVIDER_AUTHORITY = "caceresenzo.apps.boxplay.provider";
-	
-	public static final int TUTORIAL_PROGRESS_DRAWER = 0, //
-			TUTORIAL_PROGRESS_SEARCH = 1, //
-			TUTORIAL_PROGRESS_MENU = 2, //
-			TUTORIAL_PROGRESS_SWIPE = 3, //
-			TUTORIAL_PROGRESS_VIDEO = 4, //
-			TUTORIAL_PROGRESS_MUSIC = 5; //
+	/**
+	 * Tutorial path id
+	 */
+	public static final int TUTORIAL_PROGRESS_DRAWER = 0;
+	public static final int TUTORIAL_PROGRESS_SEARCH = 1;
+	public static final int TUTORIAL_PROGRESS_MENU = 2;
+	public static final int TUTORIAL_PROGRESS_SWIPE = 3;
+	public static final int TUTORIAL_PROGRESS_VIDEO = 4;
+	public static final int TUTORIAL_PROGRESS_MUSIC = 5;
 	
 	private static BoxPlayActivity INSTANCE;
 	private static Handler HANDLER = new Handler();
 	private static XManagers MANAGERS = new XManagers();
 	private static ViewHelper HELPER = new ViewHelper();
-	
-	private static final Version VERSION = new Version("3.0.7", VersionType.BETA);
 	
 	private Toolbar toolbar;
 	private DrawerLayout drawer;
@@ -88,7 +88,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		initializeViews();
 		initializeSystems();
 		
-		MANAGERS.initialize(this).finish();
+		MANAGERS.initialize(this);
 		
 		MANAGERS.getMusicManager().registerMusicSlidingPanel(slidingUpPanelLayout);
 		
@@ -181,6 +181,8 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		
 		MANAGERS.getMusicManager().saveDatabase();
 		
+		MANAGERS.destroy();
+		
 		super.onDestroy();
 	}
 	
@@ -189,7 +191,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		super.onActivityResult(requestCode, resultCode, data);
 		
 		switch (requestCode) {
-			case BoxPlayActivity.REQUEST_ID_VLC_VIDEO: {
+			case BoxPlayApplication.REQUEST_ID_VLC_VIDEO: {
 				VideoActivity videoActivity = VideoActivity.getVideoActivity();
 				if (videoActivity != null) {
 					videoActivity.onActivityResult(requestCode, resultCode, data);
@@ -199,15 +201,29 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		}
 	}
 	
+	/**
+	 * Asking Activity to recreate without any specific fragment to open after recreation
+	 */
 	public void askRecreate() {
 		askRecreate(null);
 	}
 	
+	/**
+	 * Asking Activity to recreate but with a specific fragment to open after recreation
+	 * 
+	 * If oldFrangent is null, default fragment will be open
+	 * 
+	 * @param oldFrangent
+	 *            Target fragment
+	 */
 	public void askRecreate(Fragment oldFrangent) {
 		oldFragmentToOpen = oldFrangent;
 		recreate();
 	}
 	
+	/**
+	 * Function to initialize views
+	 */
 	private void initializeViews() {
 		toolbar = (Toolbar) findViewById(R.id.activity_video_toolbar_bar);
 		setSupportActionBar(toolbar);
@@ -227,10 +243,16 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.activity_boxplay_slidinglayout_container);
 	}
 	
+	/**
+	 * Function to initialize sub-systems, like cache
+	 */
 	private void initializeSystems() {
 		HELPER.prepareCache(this);
 	}
 	
+	/**
+	 * Used to show the menu
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (menu instanceof MenuBuilder) {
@@ -243,6 +265,9 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		return true;
 	}
 	
+	/**
+	 * Function call when someone clicked on main menu item
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
@@ -272,9 +297,19 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 				break;
 			}
 		}
+		
 		return super.onOptionsItemSelected(item);
 	}
 	
+	/**
+	 * Called when someone press the back button
+	 * 
+	 * Added a custom behavior:
+	 * 
+	 * If someone has the option to open/collapse the drawer menu with the back button, application will never stop
+	 * 
+	 * If someone don't have this option, and the drawer is already close, the application will quit
+	 */
 	@Override
 	public void onBackPressed() {
 		if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -292,6 +327,11 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		}
 	}
 	
+	/**
+	 * Force a new selected item for the drawer
+	 * 
+	 * @param id Correspond to the id of the menu, if don't exists, nothing will append
+	 */
 	public void forceFragmentPath(int id) {
 		MenuItem targetItem = navigationView.getMenu().findItem(id);
 		
@@ -300,6 +340,9 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		}
 	}
 	
+	/**
+	 * Drawer function, called when a item has been clicked
+	 */
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item) {
 		int id = item.getItemId();
@@ -443,6 +486,11 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		return true;
 	}
 	
+	/**
+	 * Function used to fill the main {@link FrameLayout} of the application with a fragment instance
+	 * 
+	 * @param fragment The new fragment
+	 */
 	public void showFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		
@@ -456,6 +504,9 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		HELPER.setLastFragment(fragment);
 	}
 	
+	/**
+	 * Tutorialable, used to create the tutorial path
+	 */
 	@SuppressWarnings("deprecation")
 	@Override
 	public TapTargetSequence getTapTargetSequence() {
@@ -552,6 +603,12 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 				});
 	}
 	
+	/**
+	 * Quick function to apply tutorial common theme, reduce code
+	 * 
+	 * @param tapTarget Actual sequence
+	 * @return The actual sequence, but with common theme applied
+	 */
 	private TapTarget applyTutorialObjectTheme(TapTarget tapTarget) {
 		return tapTarget.dimColor(android.R.color.black) // Background
 				.outerCircleColor(R.color.colorAccent) // Big circle
@@ -601,22 +658,30 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		return optionsMenu;
 	}
 	
-	public static Version getVersion() {
-		return VERSION;
-	}
-	
+	/**
+	 * Get the {@link ViewHelper} instance
+	 */
 	public static ViewHelper getViewHelper() {
 		return HELPER;
 	}
 	
+	/**
+	 * Get the {@link XManagers} instance
+	 */
 	public static XManagers getManagers() {
 		return MANAGERS;
 	}
 	
+	/**
+	 * Get the main {@link Handler} instance
+	 */
 	public static Handler getHandler() {
 		return HANDLER;
 	}
 	
+	/**
+	 * Get the activity instance
+	 */
 	public static BoxPlayActivity getBoxPlayActivity() {
 		return INSTANCE;
 	}

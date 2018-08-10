@@ -17,6 +17,7 @@ import android.support.design.widget.Snackbar;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.activities.VideoActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.libs.boxplay.factory.VideoFactory;
 import caceresenzo.libs.boxplay.factory.VideoFactory.VideoFactoryListener;
@@ -231,7 +232,7 @@ public class VideoManager extends AbstractManager {
 			} else {
 				context = boxPlayActivity;
 			}
-			context.startActivityForResult(vlcIntent, BoxPlayActivity.REQUEST_ID_VLC_VIDEO);
+			context.startActivityForResult(vlcIntent, BoxPlayApplication.REQUEST_ID_VLC_VIDEO);
 		} catch (Exception exception) {
 			// BoxPlayActivity.getBoxPlayActivity().appendError("Error when starting VLC. \n\nIs VLC installed? \n\nException: " + exception.getLocalizedMessage());
 		}
@@ -255,7 +256,7 @@ public class VideoManager extends AbstractManager {
 			} else {
 				context = boxPlayActivity;
 			}
-			context.startActivityForResult(vlcIntent, BoxPlayActivity.REQUEST_ID_VLC_VIDEO_URL);
+			context.startActivityForResult(vlcIntent, BoxPlayApplication.REQUEST_ID_VLC_VIDEO_URL);
 		} catch (Exception exception) {
 			// BoxPlayActivity.getBoxPlayActivity().appendError("Error when starting VLC. \n\nIs VLC installed? \n\nException: " + exception.getLocalizedMessage());
 		}

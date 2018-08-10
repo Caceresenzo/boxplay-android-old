@@ -52,6 +52,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/placeholder_video" />
+        android:src="@drawable/placeholder_video"
+        android:transitionName="@string/transition_view_reveal" />
 
 </RelativeLayout>
