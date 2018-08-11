@@ -82,8 +82,6 @@ public class MusicActivity extends AppCompatActivity {
 			finish();
 		}
 		
-		int aze = R.color.colorBackground;
-		
 		initializeStrings();
 		
 		initializeViews();

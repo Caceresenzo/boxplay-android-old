@@ -25,14 +25,13 @@ import android.widget.TextView;
 import caceresenzo.android.libs.dialog.DialogUtils;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.activities.SearchAndGoDetailActivity;
 import caceresenzo.apps.boxplay.managers.SearchAndGoManager;
 import caceresenzo.apps.boxplay.managers.SearchAndGoManager.SearchAndGoSearchCallback;
 import caceresenzo.libs.boxplay.culture.searchngo.providers.SearchAndGoProvider;
 import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 
 public class PageCultureSearchAndGoFragment extends Fragment {
-	
-	public static PageCultureSearchAndGoDetailFragment detailFragment;
 	
 	private SearchAndGoManager searchAndGoManager;
 	
@@ -292,11 +291,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 			view.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					if (detailFragment == null) {
-						return;
-					}
-					
-					detailFragment.applyResult(result);
+					SearchAndGoDetailActivity.start(result);
 				}
 			});
 			

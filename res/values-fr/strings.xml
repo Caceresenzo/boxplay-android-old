@@ -216,6 +216,24 @@
 
     <string name="boxplay_culture_searchngo_title">Search n\' Go</string>
     <string name="boxplay_culture_searchngo_searchbar_hint">Rechercher...</string>
+    <!-- ENUMS -->
+    <string name="boxplay_culture_searchngo_search_result_data_type_thumbnail">Vignette</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_name">Nom</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_original_name">Nom original</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_alternative_name">Nom(s) alternatif(s)</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_other_name">Autre(s) nom(s)</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_type">Type</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_traduction_team">Équipe de Traduction</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_genders">Genre(s)</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_status">Status</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_authors">Autheur/e(s)</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_artists">Artist/e(s)</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_studios">Studio(s)</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_release_date">Date de parution</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_views">Vue(s)</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_resume">Résumé</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_rating">Note [ moyenne / max (nbr de vote) ]</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_null">NULL</string>
 
     <!--  -->
     <!-- Premium > Adult -->

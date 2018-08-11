@@ -4,7 +4,8 @@
     android:id="@+id/activity_video_coordinatorlayout_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground" >
+    android:background="@color/colorBackground"
+    android:transitionName="@string/transition_view_reveal" >
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/activity_video_appbarlayout_container"
@@ -22,7 +23,13 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleTextAppearance="@style/expandedappbar" >
 
-            <include layout="@layout/activity_video_header" />
+            <ImageView
+                android:id="@+id/activity_video_imageview_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder_video"
+                android:transitionName="@string/transition_view_reveal" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/activity_video_toolbar_bar"

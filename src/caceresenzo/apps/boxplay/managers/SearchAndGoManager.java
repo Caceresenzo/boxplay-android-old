@@ -23,6 +23,7 @@ import caceresenzo.libs.json.parser.JsonParser;
 import caceresenzo.libs.parse.ParseUtils;
 import caceresenzo.libs.string.SimpleLineStringBuilder;
 import caceresenzo.libs.string.StringUtils;
+import caceresenzo.libs.thread.HelpedThread;
 
 public class SearchAndGoManager extends AbstractManager {
 	
@@ -71,24 +72,17 @@ public class SearchAndGoManager extends AbstractManager {
 		return suggestions;
 	}
 	
-	private class Worker extends Thread {
-		
-		private boolean running = false;
-		
+	private class Worker extends HelpedThread {
 		private String localSearchQuery = "";
 		private List<SearchAndGoProvider> localProviders = new ArrayList<>();
 		
 		@Override
-		public void run() {
-			running(true);
-			
+		protected void onRun() {
 			try {
 				SearchAndGoProvider.provide(localProviders, localSearchQuery, true);
 			} catch (Exception exception) {
 				; // Handled by callbacks
 			}
-			
-			running(false);
 		}
 		
 		private void updateLocal(String query) {
@@ -98,16 +92,14 @@ public class SearchAndGoManager extends AbstractManager {
 			this.localProviders.addAll(providers);
 		}
 		
-		private boolean isRunning() {
-			return running;
+		@Override
+		protected void onCancelled() {
+			;
 		}
 		
-		private void running(boolean state) {
-			running = state;
-			
-			if (!state) {
-				worker = new Worker(); // New instance, this one will be forgot
-			}
+		@Override
+		protected void onFinished() {
+			worker = new Worker(); // New instance, this one will be forgot
 		}
 	}
 	

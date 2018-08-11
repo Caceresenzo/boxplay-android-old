@@ -16,7 +16,7 @@
         app:elevation="0dp" >
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/activity_video_toolbar_bar"
+            android:id="@+id/activity_boxplay_toolbar_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"

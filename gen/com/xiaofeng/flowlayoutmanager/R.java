@@ -4,7 +4,7 @@
  * aapt tool from the resource data it found.  It
  * should not be modified by hand.
  */
-package at.huber.youtubeExtractor;
+package com.xiaofeng.flowlayoutmanager;
 
 public final class R {
 	public static final class anim {
@@ -135,6 +135,11 @@ public final class R {
 		public static final int editTextStyle = 0x7f0100b9;
 		public static final int elevation = 0x7f010037;
 		public static final int expandActivityOverflowButtonDrawable = 0x7f01003b;
+		public static final int fastScrollEnabled = 0x7f010016;
+		public static final int fastScrollHorizontalThumbDrawable = 0x7f010019;
+		public static final int fastScrollHorizontalTrackDrawable = 0x7f01001a;
+		public static final int fastScrollVerticalThumbDrawable = 0x7f010017;
+		public static final int fastScrollVerticalTrackDrawable = 0x7f010018;
 		public static final int font = 0x7f010007;
 		public static final int fontFamily = 0x7f01004f;
 		public static final int fontProviderAuthority = 0x7f010000;
@@ -162,6 +167,7 @@ public final class R {
 		public static final int itemPadding = 0x7f01002f;
 		public static final int keylines = 0x7f01000a;
 		public static final int layout = 0x7f0100e5;
+		public static final int layoutManager = 0x7f010012;
 		public static final int layout_anchor = 0x7f01000d;
 		public static final int layout_anchorGravity = 0x7f01000f;
 		public static final int layout_behavior = 0x7f01000c;
@@ -208,6 +214,7 @@ public final class R {
 		public static final int ratingBarStyle = 0x7f0100bb;
 		public static final int ratingBarStyleIndicator = 0x7f0100bc;
 		public static final int ratingBarStyleSmall = 0x7f0100bd;
+		public static final int reverseLayout = 0x7f010014;
 		public static final int searchHintIcon = 0x7f0100ec;
 		public static final int searchIcon = 0x7f0100eb;
 		public static final int searchViewStyle = 0x7f010093;
@@ -219,11 +226,13 @@ public final class R {
 		public static final int showText = 0x7f0100fc;
 		public static final int showTitle = 0x7f010041;
 		public static final int singleChoiceItemLayout = 0x7f01003f;
+		public static final int spanCount = 0x7f010013;
 		public static final int spinBars = 0x7f0100cb;
 		public static final int spinnerDropDownItemStyle = 0x7f01007e;
 		public static final int spinnerStyle = 0x7f0100bf;
 		public static final int splitTrack = 0x7f0100fb;
 		public static final int srcCompat = 0x7f010043;
+		public static final int stackFromEnd = 0x7f010015;
 		public static final int state_above_anchor = 0x7f0100e2;
 		public static final int statusBarBackground = 0x7f01000b;
 		public static final int subMenuArrow = 0x7f0100e0;
@@ -463,6 +472,9 @@ public final class R {
 		public static final int compat_control_corner_material = 0x7f0b0008;
 		public static final int disabled_alpha_material_dark = 0x7f0b0065;
 		public static final int disabled_alpha_material_light = 0x7f0b0066;
+		public static final int fastscroll_default_thickness = 0x7f0b0014;
+		public static final int fastscroll_margin = 0x7f0b0015;
+		public static final int fastscroll_minimum_range = 0x7f0b0016;
 		public static final int highlight_alpha_material_colored = 0x7f0b0067;
 		public static final int highlight_alpha_material_dark = 0x7f0b0068;
 		public static final int highlight_alpha_material_light = 0x7f0b0069;
@@ -470,6 +482,9 @@ public final class R {
 		public static final int hint_alpha_material_light = 0x7f0b006b;
 		public static final int hint_pressed_alpha_material_dark = 0x7f0b006c;
 		public static final int hint_pressed_alpha_material_light = 0x7f0b006d;
+		public static final int item_touch_helper_max_drag_scroll_per_frame = 0x7f0b0017;
+		public static final int item_touch_helper_swipe_escape_max_velocity = 0x7f0b0018;
+		public static final int item_touch_helper_swipe_escape_velocity = 0x7f0b0019;
 		public static final int notification_action_icon_size = 0x7f0b0009;
 		public static final int notification_action_text_size = 0x7f0b000a;
 		public static final int notification_big_circle_margin = 0x7f0b000b;
@@ -658,6 +673,7 @@ public final class R {
 		public static final int image = 0x7f0e0065;
 		public static final int info = 0x7f0e015f;
 		public static final int italic = 0x7f0e0020;
+		public static final int item_touch_helper_previous_elevation = 0x7f0e0006;
 		public static final int left = 0x7f0e002c;
 		public static final int line1 = 0x7f0e0000;
 		public static final int line3 = 0x7f0e0001;
@@ -1462,6 +1478,18 @@ public final class R {
 		public static final int[] RecycleListView = { 0x7f0100e3, 0x7f0100e4 };
 		public static final int RecycleListView_paddingBottomNoButtons = 0;
 		public static final int RecycleListView_paddingTopNoTitle = 1;
+		public static final int[] RecyclerView = { 0x010100c4, 0x010100f1, 0x7f010012, 0x7f010013, 0x7f010014, 0x7f010015, 0x7f010016, 0x7f010017, 0x7f010018, 0x7f010019, 0x7f01001a };
+		public static final int RecyclerView_android_descendantFocusability = 1;
+		public static final int RecyclerView_android_orientation = 0;
+		public static final int RecyclerView_fastScrollEnabled = 6;
+		public static final int RecyclerView_fastScrollHorizontalThumbDrawable = 9;
+		public static final int RecyclerView_fastScrollHorizontalTrackDrawable = 10;
+		public static final int RecyclerView_fastScrollVerticalThumbDrawable = 7;
+		public static final int RecyclerView_fastScrollVerticalTrackDrawable = 8;
+		public static final int RecyclerView_layoutManager = 2;
+		public static final int RecyclerView_reverseLayout = 4;
+		public static final int RecyclerView_spanCount = 3;
+		public static final int RecyclerView_stackFromEnd = 5;
 		public static final int[] SearchView = { 0x010100da, 0x0101011f, 0x01010220, 0x01010264, 0x7f0100e5, 0x7f0100e6, 0x7f0100e7, 0x7f0100e8, 0x7f0100e9, 0x7f0100ea, 0x7f0100eb, 0x7f0100ec, 0x7f0100ed, 0x7f0100ee, 0x7f0100ef, 0x7f0100f0, 0x7f0100f1 };
 		public static final int SearchView_android_focusable = 0;
 		public static final int SearchView_android_imeOptions = 3;

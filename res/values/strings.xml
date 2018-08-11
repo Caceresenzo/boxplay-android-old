@@ -222,6 +222,24 @@
 
     <string name="boxplay_culture_searchngo_title">Search n\' Go</string>
     <string name="boxplay_culture_searchngo_searchbar_hint">Search...</string>
+    <!-- ENUMS -->
+    <string name="boxplay_culture_searchngo_search_result_data_type_thumbnail">Thumbnail</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_name">Name</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_original_name">Original Name</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_alternative_name">Alternative Name</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_other_name">Other Name</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_type">Type</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_traduction_team">Traduction Team</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_genders">Genders</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_status">Statut</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_authors">Author(s)</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_artists">Artist(s)</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_studios">Studio(s)</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_release_date">Release Date</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_views">Views</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_resume">Resume</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_rating">Rating [ average / max (votes) ]</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_null">NULL</string>
 
     <!--  -->
     <!-- Premium > Adult -->

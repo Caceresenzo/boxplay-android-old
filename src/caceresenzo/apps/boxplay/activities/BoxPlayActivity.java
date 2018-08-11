@@ -43,8 +43,8 @@ import caceresenzo.apps.boxplay.helper.LocaleHelper;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
 import caceresenzo.apps.boxplay.managers.TutorialManager.Tutorialable;
 import caceresenzo.apps.boxplay.managers.XManagers;
-import caceresenzo.libs.comparator.Version;
-import caceresenzo.libs.comparator.VersionType;
+import caceresenzo.libs.boxplay.culture.searchngo.providers.ProviderManager;
+import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 
 /**
  * Main BoxPlay class
@@ -225,7 +225,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	 * Function to initialize views
 	 */
 	private void initializeViews() {
-		toolbar = (Toolbar) findViewById(R.id.activity_video_toolbar_bar);
+		toolbar = (Toolbar) findViewById(R.id.activity_boxplay_toolbar_bar);
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setElevation(0);
 		
@@ -289,6 +289,11 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 			
 			case R.id.menu_main_action_debug: {
 				// startActivity(new Intent(this, VideoPlayerActivity.class));
+				
+				SearchAndGoDetailActivity.start(new SearchAndGoResult(ProviderManager.MANGALEL.create(), //
+						"Arifureta Shokugyou de Sekai Saikyou", //
+						"https://www.manga-lel.com/manga/arifureta-shokugyou-de-sekai-saikyou/", //
+						"https://www.manga-lel.com//uploads/manga/arifureta-shokugyou-de-sekai-saikyou/cover/cover_250x350.jpg")); //
 				break;
 			}
 			
@@ -330,7 +335,8 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	/**
 	 * Force a new selected item for the drawer
 	 * 
-	 * @param id Correspond to the id of the menu, if don't exists, nothing will append
+	 * @param id
+	 *            Correspond to the id of the menu, if don't exists, nothing will append
 	 */
 	public void forceFragmentPath(int id) {
 		MenuItem targetItem = navigationView.getMenu().findItem(id);
@@ -489,7 +495,8 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	/**
 	 * Function used to fill the main {@link FrameLayout} of the application with a fragment instance
 	 * 
-	 * @param fragment The new fragment
+	 * @param fragment
+	 *            The new fragment
 	 */
 	public void showFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getSupportFragmentManager();
@@ -606,7 +613,8 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	/**
 	 * Quick function to apply tutorial common theme, reduce code
 	 * 
-	 * @param tapTarget Actual sequence
+	 * @param tapTarget
+	 *            Actual sequence
 	 * @return The actual sequence, but with common theme applied
 	 */
 	private TapTarget applyTutorialObjectTheme(TapTarget tapTarget) {
