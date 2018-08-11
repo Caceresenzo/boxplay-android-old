@@ -161,12 +161,12 @@ public final class R {
 		public static final int changelogrow_material_layout = 0x7f04002b;
 		public static final int changelogrowheader_layout = 0x7f04002c;
 		public static final int changelogrowheader_material_layout = 0x7f04002d;
-		public static final int notification_action = 0x7f04006a;
-		public static final int notification_action_tombstone = 0x7f04006b;
-		public static final int notification_template_custom_big = 0x7f040074;
-		public static final int notification_template_icon_group = 0x7f040075;
-		public static final int notification_template_part_chronometer = 0x7f040079;
-		public static final int notification_template_part_time = 0x7f04007a;
+		public static final int notification_action = 0x7f04006b;
+		public static final int notification_action_tombstone = 0x7f04006c;
+		public static final int notification_template_custom_big = 0x7f040075;
+		public static final int notification_template_icon_group = 0x7f040076;
+		public static final int notification_template_part_chronometer = 0x7f04007a;
+		public static final int notification_template_part_time = 0x7f04007b;
 	}
 	public static final class raw {
 		public static final int changelog = 0x7f080000;

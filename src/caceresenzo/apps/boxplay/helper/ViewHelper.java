@@ -26,7 +26,7 @@ import caceresenzo.apps.boxplay.activities.VideoActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.store.PageMusicStoreFragment.MusicStoreSubCategory;
 import caceresenzo.apps.boxplay.fragments.store.PageVideoStoreFragment.VideoStoreSubCategory;
-import caceresenzo.libs.boxplay.culture.searchngo.data.ResultDataType;
+import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalDataType;
 import caceresenzo.libs.boxplay.models.element.enums.ElementLanguage;
 import caceresenzo.libs.boxplay.models.element.implementations.MusicElement;
 import caceresenzo.libs.boxplay.models.store.music.MusicFile;
@@ -121,23 +121,23 @@ public class ViewHelper {
 		enumCacheTranslation.put(MusicStoreSubCategory.RELEASE, boxPlayActivity.getString(R.string.boxplay_store_music_category_release));
 		
 		// Search n' Go
-		enumCacheTranslation.put(ResultDataType.THUMBNAIL, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_thumbnail));
-		enumCacheTranslation.put(ResultDataType.NAME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_name));
-		enumCacheTranslation.put(ResultDataType.ORIGINAL_NAME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_original_name));
-		enumCacheTranslation.put(ResultDataType.ALTERNATIVE_NAME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_alternative_name));
-		enumCacheTranslation.put(ResultDataType.OTHER_NAME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_other_name));
-		enumCacheTranslation.put(ResultDataType.TYPE, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_type));
-		enumCacheTranslation.put(ResultDataType.TRADUCTION_TEAM, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_traduction_team));
-		enumCacheTranslation.put(ResultDataType.GENDERS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_genders));
-		enumCacheTranslation.put(ResultDataType.STATUS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_status));
-		enumCacheTranslation.put(ResultDataType.AUTHORS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_authors));
-		enumCacheTranslation.put(ResultDataType.ARTISTS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_artists));
-		enumCacheTranslation.put(ResultDataType.STUDIOS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_studios));
-		enumCacheTranslation.put(ResultDataType.RELEASE_DATE, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_release_date));
-		enumCacheTranslation.put(ResultDataType.VIEWS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_views));
-		enumCacheTranslation.put(ResultDataType.RESUME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_resume));
-		enumCacheTranslation.put(ResultDataType.RATING, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_rating));
-		enumCacheTranslation.put(ResultDataType.NULL, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_null));
+		enumCacheTranslation.put(AdditionalDataType.THUMBNAIL, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_thumbnail));
+		enumCacheTranslation.put(AdditionalDataType.NAME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_name));
+		enumCacheTranslation.put(AdditionalDataType.ORIGINAL_NAME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_original_name));
+		enumCacheTranslation.put(AdditionalDataType.ALTERNATIVE_NAME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_alternative_name));
+		enumCacheTranslation.put(AdditionalDataType.OTHER_NAME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_other_name));
+		enumCacheTranslation.put(AdditionalDataType.TYPE, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_type));
+		enumCacheTranslation.put(AdditionalDataType.TRADUCTION_TEAM, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_traduction_team));
+		enumCacheTranslation.put(AdditionalDataType.GENDERS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_genders));
+		enumCacheTranslation.put(AdditionalDataType.STATUS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_status));
+		enumCacheTranslation.put(AdditionalDataType.AUTHORS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_authors));
+		enumCacheTranslation.put(AdditionalDataType.ARTISTS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_artists));
+		enumCacheTranslation.put(AdditionalDataType.STUDIOS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_studios));
+		enumCacheTranslation.put(AdditionalDataType.RELEASE_DATE, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_release_date));
+		enumCacheTranslation.put(AdditionalDataType.VIEWS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_views));
+		enumCacheTranslation.put(AdditionalDataType.RESUME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_resume));
+		enumCacheTranslation.put(AdditionalDataType.RATING, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_rating));
+		enumCacheTranslation.put(AdditionalDataType.NULL, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_null));
 		
 		/*
 		 * Vlc

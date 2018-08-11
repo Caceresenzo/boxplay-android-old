@@ -21,9 +21,9 @@ import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
 import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalResultData;
-import caceresenzo.libs.boxplay.culture.searchngo.data.ResultDataType;
-import caceresenzo.libs.boxplay.culture.searchngo.data.models.CategoryResultData;
-import caceresenzo.libs.boxplay.culture.searchngo.data.models.RatingResultData;
+import caceresenzo.libs.boxplay.culture.searchngo.data.models.additional.CategoryResultData;
+import caceresenzo.libs.boxplay.culture.searchngo.data.models.additional.RatingResultData;
+import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalDataType;
 import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 
 public class PageDetailInfoSearchAndGoFragment extends Fragment {
@@ -63,7 +63,7 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 	public void applyResult(SearchAndGoResult result, List<AdditionalResultData> additionals) {
 		this.items.clear();
 		
-		this.items.add(new ImageDetailItem(result.getBestImageUrl()).dataType(ResultDataType.THUMBNAIL));
+		this.items.add(new ImageDetailItem(result.getBestImageUrl()).dataType(AdditionalDataType.THUMBNAIL));
 		
 		for (AdditionalResultData additionalResultData : additionals) {
 			Object data = additionalResultData.getData();
@@ -428,7 +428,7 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 	}
 	
 	public abstract static class DetailListItem {
-		private ResultDataType dataType;
+		private AdditionalDataType dataType;
 		
 		public static final int TYPE_IMAGE = 0;
 		public static final int TYPE_STRING = 1;
@@ -437,11 +437,11 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 		
 		public abstract int getType();
 		
-		public ResultDataType getDataType() {
+		public AdditionalDataType getDataType() {
 			return dataType;
 		}
 		
-		public DetailListItem dataType(ResultDataType dataType) {
+		public DetailListItem dataType(AdditionalDataType dataType) {
 			this.dataType = dataType;
 			return this;
 		}
