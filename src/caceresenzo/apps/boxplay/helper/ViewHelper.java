@@ -137,6 +137,10 @@ public class ViewHelper {
 		enumCacheTranslation.put(AdditionalDataType.VIEWS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_views));
 		enumCacheTranslation.put(AdditionalDataType.RESUME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_resume));
 		enumCacheTranslation.put(AdditionalDataType.RATING, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_rating));
+		
+		enumCacheTranslation.put(AdditionalDataType.ITEM_VIDEO, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_item_video));
+		enumCacheTranslation.put(AdditionalDataType.ITEM_CHAPTER, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_item_chapter));
+		
 		enumCacheTranslation.put(AdditionalDataType.NULL, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_null));
 		
 		/*

@@ -5,7 +5,6 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +12,10 @@ import android.support.v7.widget.Toolbar;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.BaseViewPagerAdapter;
+import caceresenzo.apps.boxplay.fragments.culture.searchngo.detailpage.PageDetailContentSearchAndGoFragment;
 import caceresenzo.apps.boxplay.fragments.culture.searchngo.detailpage.PageDetailInfoSearchAndGoFragment;
 import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalResultData;
+import caceresenzo.libs.boxplay.culture.searchngo.providers.SearchAndGoProvider;
 import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 import caceresenzo.libs.thread.HelpedThread;
 import caceresenzo.libs.thread.ThreadUtils;
@@ -35,7 +36,7 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 	private BaseViewPagerAdapter adapter;
 	
 	private PageDetailInfoSearchAndGoFragment infoFragment;
-	private ContentFragment contentFragment;
+	private PageDetailContentSearchAndGoFragment contentFragment;
 	
 	private Worker worker;
 	
@@ -97,7 +98,7 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 		adapter = new BaseViewPagerAdapter(getSupportFragmentManager());
 		
 		adapter.addFragment(infoFragment = new PageDetailInfoSearchAndGoFragment(), "INFO");
-		adapter.addFragment(contentFragment = new ContentFragment(), "CONTENT");
+		adapter.addFragment(contentFragment = new PageDetailContentSearchAndGoFragment(), "CONTENT");
 		
 		viewPager.setAdapter(adapter);
 		viewPager.setOffscreenPageLimit(2);
@@ -118,15 +119,12 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 		application.startActivity(new Intent(application, SearchAndGoDetailActivity.class));
 	}
 	
-	public static class ContentFragment extends Fragment {
-		
-	}
-	
 	class Worker extends HelpedThread {
 		private final SearchAndGoDetailActivity parentActivity;
 		private SearchAndGoResult result;
 		
 		private List<AdditionalResultData> additionals;
+		private List<AdditionalResultData> contents;
 		
 		public Worker() {
 			this.parentActivity = INSTANCE;
@@ -134,7 +132,10 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 		
 		@Override
 		protected void onRun() {
-			additionals = result.getParentProvider().fetchMoreData(result);
+			SearchAndGoProvider provider = result.getParentProvider();
+			
+			additionals = provider.fetchMoreData(result);
+			contents = provider.fetchContent(result);
 		}
 		
 		@Override
@@ -156,6 +157,23 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 					@Override
 					public void run() {
 						infoFragment.applyResult(RESULT, additionals);
+					}
+				});
+			}
+			
+			if (contents != null) {
+				if (infoFragment == null) {
+					return;
+				}
+				
+				while (!contentFragment.isUiReady()) {
+					ThreadUtils.sleep(20L);
+				}
+				
+				BoxPlayActivity.getHandler().post(new Runnable() {
+					@Override
+					public void run() {
+						contentFragment.applyResult(RESULT, contents);
 					}
 				});
 			}
