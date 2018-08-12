@@ -1,0 +1,113 @@
+package caceresenzo.libs.boxplay.common.extractor.openload.implementations;
+
+import android.content.Context;
+import android.os.Handler;
+import android.webkit.ValueCallback;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.libs.boxplay.common.extractor.openload.OpenloadVideoExtractor;
+import caceresenzo.libs.boxplay.culture.searchngo.providers.ProviderHelper;
+import caceresenzo.libs.network.Downloader;
+import caceresenzo.libs.string.StringUtils;
+
+public class AndroidOpenloadVideoExtractor extends OpenloadVideoExtractor {
+	
+	private final Handler handler;
+	
+	private WebView webView;
+	
+	private String pageContent, resolvedHtml;
+	
+	public AndroidOpenloadVideoExtractor(final Context context) {
+		this.handler = BoxPlayActivity.getHandler();
+		
+		lock();
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				webView = new WebView(context);
+				unlock();
+			}
+		});
+	}
+	
+	@Override
+	public String downloadTargetPage(String url) {
+		getLogger().appendln("Downloading page: " + url);
+		
+		try {
+			pageContent = Downloader.getUrlContent(url);
+			getLogger().appendln("-- Finished > size= " + pageContent.length()).sparator();
+			return pageContent;
+		} catch (Exception exception) {
+			getLogger().appendln("-- Finished > Failed").sparator();
+			failed(true).notifyException(exception);
+			return null;
+		}
+	}
+	
+	@Override
+	public void injectJsCode(final String code) {
+		lock();
+		
+		getLogger().appendln("WebView > Starting code injection...");
+		
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				webView.getSettings().setJavaScriptEnabled(true);
+				webView.loadDataWithBaseURL("", code, "text/html", "utf-8", "");
+				webView.setWebViewClient(new WebViewClient() {
+					@Override
+					public void onPageFinished(WebView view, String url) {
+						getLogger().appendln("WebView > Page finished loaded");
+						unlock();
+					}
+				});
+			}
+		});
+	}
+	
+	@Override
+	public String getJsResult() {
+		lock();
+		
+		getLogger().appendln("WebView > Starting code extraction...");
+		
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				webView.evaluateJavascript("(function() { return (document.getElementsByTagName('html')[0].innerHTML); })();", new ValueCallback<String>() {
+					@Override
+					public void onReceiveValue(String html) {
+						resolvedHtml = html.replace("\\u003C", "<").replace("\\\"", "\"").replace("\\n", "\n");
+						
+						getLogger().appendln("WebView > Resolved HTML: \"" + StringUtils.cutIfTooLong(resolvedHtml, 150) + "\" (cut a length 150)");
+						
+						unlock();
+					}
+				});
+			}
+		});
+		
+		waitUntilUnlock();
+		
+		return resolvedHtml;
+	}
+	
+	@Override
+	public String getOpenloadKey(String jsCodeResult) {
+		String key = ProviderHelper.getStaticHelper().extract(REGEX_DOM_DATA_EXTRACTOR, jsCodeResult, 3);
+		
+		getLogger().appendln("Openload > Key: " + key);
+		
+		return key;
+	}
+	
+	@Override
+	public void notifyException(Exception exception) {
+		getLogger().appendln(exception.getClass() + ": An error occured").appendln("Stacktrace: ").appendln(StringUtils.fromException(exception));
+	}
+	
+}
