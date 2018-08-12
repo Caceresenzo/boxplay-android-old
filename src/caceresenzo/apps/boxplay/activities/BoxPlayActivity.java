@@ -290,10 +290,17 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 			case R.id.menu_main_action_debug: {
 				// startActivity(new Intent(this, VideoPlayerActivity.class));
 				
-				SearchAndGoDetailActivity.start(new SearchAndGoResult(ProviderManager.MANGALEL.create(), //
-						"Arifureta Shokugyou de Sekai Saikyou", //
-						"https://www.manga-lel.com/manga/arifureta-shokugyou-de-sekai-saikyou/", //
-						"https://www.manga-lel.com//uploads/manga/arifureta-shokugyou-de-sekai-saikyou/cover/cover_250x350.jpg")); //
+				// Manga
+				// SearchAndGoDetailActivity.start(new SearchAndGoResult(ProviderManager.MANGALEL.create(), //
+				// "Arifureta Shokugyou de Sekai Saikyou", //
+				// "https://www.manga-lel.com/manga/arifureta-shokugyou-de-sekai-saikyou/", //
+				// "https://www.manga-lel.com//uploads/manga/arifureta-shokugyou-de-sekai-saikyou/cover/cover_250x350.jpg")); //
+				
+				// Anime
+				SearchAndGoDetailActivity.start(new SearchAndGoResult(ProviderManager.JETANIME.create(), //
+						"Death March Kara Hajimaru Isekai Kyousoukyoku", //
+						"https://www.jetanime.co/anime/death-march-kara-hajimaru-isekai-kyousoukyoku/", //
+						"https://www.manga-lel.com//uploads/manga/death-march-kara-hajimaru-isekai-kyousoukyoku/cover/cover_250x350.jpg")); //
 				break;
 			}
 			
