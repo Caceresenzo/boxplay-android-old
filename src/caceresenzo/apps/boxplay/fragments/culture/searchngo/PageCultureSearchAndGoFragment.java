@@ -40,6 +40,8 @@ import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 
 public class PageCultureSearchAndGoFragment extends Fragment {
 	
+	public static final int MAX_CONTENT_ITEM_DISPLAYABLE = 70;
+	
 	private BoxPlayActivity boxPlayActivity;
 	
 	private SearchAndGoManager searchAndGoManager;
@@ -89,6 +91,15 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 			public void onSearchFinish(Map<String, SearchAndGoResult> workmap) {
 				results.clear();
 				results.addAll(workmap.values());
+				
+				if (results.size() > MAX_CONTENT_ITEM_DISPLAYABLE) {
+					BoxPlayActivity.getBoxPlayActivity().toast(R.string.boxplay_culture_searchngo_content_limit_reached, results.size(), MAX_CONTENT_ITEM_DISPLAYABLE).show();
+					
+					while (results.size() > MAX_CONTENT_ITEM_DISPLAYABLE) {
+						results.remove(results.size() - 1);
+					}
+				}
+				
 				searchAdapter.notifyDataSetChanged();
 				
 				updateProgress(getString(R.string.boxplay_culture_searchngo_search_status_global_finished));
@@ -142,7 +153,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 					searchAdapter.notifyDataSetChanged();
 					
 					informationContainerFrameLayout.setVisibility(View.VISIBLE);
-					informationTextView.setText(R.string.boxplay_culture_searchngo_info_no_query);
+					informationTextView.setText(R.string.boxplay_culture_searchngo_info_make_a_search);
 				}
 			}
 			
@@ -199,7 +210,6 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 	}
 	
 	public void setSearchBarHidden(boolean hidden) {
-		
 		bookmarkImageButton.setClickable(!hidden);
 		historyImageButton.setClickable(!hidden);
 		settingsImageButton.setClickable(!hidden);
@@ -230,36 +240,6 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		lastProgressTextView.setText(lastProgress);
 		
 		lastProgress = progress;
-	}
-	
-	class SearchHistoryHolder extends RecyclerView.ViewHolder {
-		private View view;
-		protected TextView titleTextView, subtitleTextView;
-		
-		public SearchHistoryHolder(View itemView) {
-			super(itemView);
-			view = itemView;
-			titleTextView = (TextView) itemView.findViewById(R.id.item_search_suggestion_textview_title);
-			subtitleTextView = (TextView) itemView.findViewById(R.id.item_search_suggestion_textview_subtitle);
-		}
-		
-		public void bind(final SearchHistoryItem historyItem) {
-			view.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					materialSearchBar.setText(historyItem.getQuery());
-					onSearchActionListener.onSearchConfirmed(historyItem.getQuery());
-				}
-			});
-			
-			titleTextView.setText(historyItem.getQuery());
-			
-			if (historyItem.getDate() != null) {
-				subtitleTextView.setText(historyItem.getDate().toLocaleString());
-			} else {
-				subtitleTextView.setVisibility(View.GONE);
-			}
-		}
 	}
 	
 	class SearchAndGoResultViewAdapter extends RecyclerView.Adapter<SearchAndGoResultViewHolder> {
@@ -406,7 +386,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 			builder.setTitle(R.string.boxplay_culture_searchngo_dialog_settings_item_provider);
 			
 			final ProviderManager[] creatableProviders = ProviderManager.values();
-			Set<String> enabledProvidersSet = preferences.getStringSet(getString(R.string.boxplay_other_settings_culture_searchngo_pref_enabled_providers_key), new ArraySet<String>());
+			Set<String> enabledProvidersSet = preferences.getStringSet(getString(R.string.boxplay_other_settings_culture_searchngo_pref_enabled_providers_key), searchAndGoManager.createDefaultProviderSet());
 			
 			final SearchAndGoProvider[] instancedSearchAndGoProviders = new SearchAndGoProvider[creatableProviders.length];
 			final String[] providerSites = new String[creatableProviders.length];

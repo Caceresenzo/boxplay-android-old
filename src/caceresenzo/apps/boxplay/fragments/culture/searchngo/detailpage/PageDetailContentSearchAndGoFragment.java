@@ -46,6 +46,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 	
 	private boolean uiReady = false;
 	
+	private SearchAndGoResult result;
 	private List<AdditionalResultData> contents = new ArrayList<>();
 	
 	private RecyclerView recyclerView;
@@ -89,6 +90,8 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 	}
 	
 	public void applyResult(SearchAndGoResult result, List<AdditionalResultData> additionals) {
+		this.result = result;
+		
 		this.contents.clear();
 		this.contents.addAll(additionals);
 		
@@ -277,7 +280,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 				DialogUtils.showDialog(BoxPlayActivity.getHandler(), getContext(), "Extraction logs", extractor.getLogger().getContent());
 			}
 			
-			BoxPlayActivity.getManagers().getVideoManager().openVLC(directUrl, videoItem.getName());
+			BoxPlayActivity.getManagers().getVideoManager().openVLC(directUrl, result.getName() + "\n" + videoItem.getName());
 		}
 		
 		@Override

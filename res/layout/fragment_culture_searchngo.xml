@@ -51,6 +51,7 @@
                     android:layout_margin="@dimen/searchngo_button_margin"
                     android:layout_weight="0.3"
                     android:padding="@dimen/searchngo_button_padding"
+                    android:visibility="gone"
                     android:src="@drawable/icon_bookmark_border_light" />
 
                 <ImageButton

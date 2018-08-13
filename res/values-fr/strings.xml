@@ -218,8 +218,9 @@
     <string name="boxplay_culture_searchngo_searchbar_hint">Rechercher...</string>
     <string name="boxplay_culture_searchngo_detail_tab_info">INFO</string>
     <string name="boxplay_culture_searchngo_detail_tab_content">CONTENU</string>
+    <string name="boxplay_culture_searchngo_content_limit_reached" formatted="false">Limite d\'affichage dépassé, reduction de %s à %s resultats.</string>
     <string name="boxplay_culture_searchngo_info_no_provider">Aucun fournisseur sélectionné.\nAllez dans les Paramètres, cliquez sur "Fournisseur", et selectionnez en au moins un.</string>
-    <string name="boxplay_culture_searchngo_info_no_query">Faite une recherche!</string>
+    <string name="boxplay_culture_searchngo_info_make_a_search">Faite une recherche!</string>
     <!-- DIALOGS -->
     <string name="boxplay_culture_searchngo_dialog_search_history">Historique de recherche (10 derniers)</string>
     <string name="boxplay_culture_searchngo_dialog_settings">Paramètres</string>

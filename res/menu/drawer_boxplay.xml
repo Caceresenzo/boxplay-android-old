@@ -28,7 +28,7 @@
     </item>
     <item
         android:title="@string/boxplay_connect"
-        android:visible="true">
+        android:visible="false">
         <menu>
             <group android:checkableBehavior="single" >
                 <item

@@ -12,6 +12,7 @@ import java.util.Set;
 import android.support.v4.util.ArraySet;
 import android.util.Log;
 import caceresenzo.apps.boxplay.R;
+import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.apps.boxplay.managers.XManagers.SubManager;
 import caceresenzo.libs.boxplay.common.extractor.ContentExtractor;
@@ -103,6 +104,8 @@ public class SearchAndGoManager extends AbstractManager {
 		if (searchHistoryItem == null) {
 			searchHistoryItem = new SearchHistoryItem(query);
 			getSearchHistory().add(searchHistoryItem);
+		} else {
+			searchHistoryItem.updateDate();
 		}
 		
 		getSearchSuggestionSubManager().save();
@@ -113,6 +116,16 @@ public class SearchAndGoManager extends AbstractManager {
 	}
 	
 	public void readProviders() {
+		Set<String> enabledProvidersSet = getManagers().getPreferences().getStringSet(getString(R.string.boxplay_other_settings_culture_searchngo_pref_enabled_providers_key), createDefaultProviderSet());
+		
+		for (ProviderManager creatableProvider : ProviderManager.values()) {
+			if (enabledProvidersSet.contains(creatableProvider.toString())) {
+				providers.add(creatableProvider.create());
+			}
+		}
+	}
+	
+	public Set<String> createDefaultProviderSet() {
 		ProviderManager[] creatableProviders = ProviderManager.values();
 		
 		Set<String> defaultValue = new ArraySet<String>();
@@ -120,13 +133,7 @@ public class SearchAndGoManager extends AbstractManager {
 			defaultValue.add(creatableProvider.toString());
 		}
 		
-		Set<String> enabledProvidersSet = getManagers().getPreferences().getStringSet(getString(R.string.boxplay_other_settings_culture_searchngo_pref_enabled_providers_key), defaultValue);
-		
-		for (ProviderManager creatableProvider : creatableProviders) {
-			if (enabledProvidersSet.contains(creatableProvider.toString())) {
-				providers.add(creatableProvider.create());
-			}
-		}
+		return defaultValue;
 	}
 	
 	public List<SearchHistoryItem> getSearchHistory() {
@@ -316,6 +323,8 @@ public class SearchAndGoManager extends AbstractManager {
 		
 		public void save() {
 			queryHistory.sort(QUERY_COMPARATOR);
+			
+			BoxPlayActivity.getBoxPlayActivity().toast("last; " + queryHistory.get(0).query).show();
 			
 			while (queryHistory.size() > MAX_SEARCH_QUERY_COUNT) {
 				queryHistory.remove(queryHistory.size() - 1);
