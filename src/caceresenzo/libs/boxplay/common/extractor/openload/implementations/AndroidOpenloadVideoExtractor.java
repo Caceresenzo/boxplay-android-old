@@ -38,10 +38,10 @@ public class AndroidOpenloadVideoExtractor extends OpenloadVideoExtractor {
 		
 		try {
 			pageContent = Downloader.getUrlContent(url);
-			getLogger().appendln("-- Finished > size= " + pageContent.length()).sparator();
+			getLogger().appendln("-- Finished > size= " + pageContent.length()).separator();
 			return pageContent;
 		} catch (Exception exception) {
-			getLogger().appendln("-- Finished > Failed").sparator();
+			getLogger().appendln("-- Finished > Failed").separator();
 			failed(true).notifyException(exception);
 			return null;
 		}
@@ -100,7 +100,7 @@ public class AndroidOpenloadVideoExtractor extends OpenloadVideoExtractor {
 	public String getOpenloadKey(String jsCodeResult) {
 		String key = ProviderHelper.getStaticHelper().extract(REGEX_DOM_DATA_EXTRACTOR, jsCodeResult, 3);
 		
-		getLogger().appendln("Openload > Key: " + key);
+		getLogger().separator().appendln("Openload > Key: " + key);
 		
 		return key;
 	}

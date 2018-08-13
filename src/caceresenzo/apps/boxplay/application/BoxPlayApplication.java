@@ -10,8 +10,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.helper.LocaleHelper;
@@ -53,6 +53,9 @@ public class BoxPlayApplication extends Application {
 				.addCommaSeparatedEmailAddresses("caceresenzo1502@gmail.com") //
 				.build() //
 		;
+		
+		StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+		StrictMode.setVmPolicy(builder.build());
 	}
 	
 	@Override

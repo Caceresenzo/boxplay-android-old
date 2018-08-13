@@ -11,6 +11,10 @@ import android.util.Log;
 import caceresenzo.apps.boxplay.fragments.culture.searchngo.PageCultureSearchAndGoFragment.SearchHistoryItem;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.apps.boxplay.managers.XManagers.SubManager;
+import caceresenzo.libs.boxplay.common.extractor.ContentExtractor;
+import caceresenzo.libs.boxplay.common.extractor.VideoContentExtractor;
+import caceresenzo.libs.boxplay.common.extractor.openload.OpenloadVideoExtractor;
+import caceresenzo.libs.boxplay.common.extractor.openload.implementations.AndroidOpenloadVideoExtractor;
 import caceresenzo.libs.boxplay.culture.searchngo.callback.ProviderSearchCallback;
 import caceresenzo.libs.boxplay.culture.searchngo.callback.SearchCallback;
 import caceresenzo.libs.boxplay.culture.searchngo.providers.ProviderCallback;
@@ -27,19 +31,21 @@ import caceresenzo.libs.thread.HelpedThread;
 
 public class SearchAndGoManager extends AbstractManager {
 	
-	private SearchSuggestionSubManager searchSuggestionSubManager;
+	public static final int MAX_SEARCH_QUERY_COUNT = 10;
+	
+	private SearchHistorySubManager searchHistorySubManager;
 	
 	private Worker worker;
 	private List<SearchAndGoProvider> providers;
 	
 	private SearchAndGoSearchCallback callback;
 	
-	private List<SearchHistoryItem> suggestions = new ArrayList<>();
+	private List<SearchHistoryItem> queryHistory = new ArrayList<>();
 	
 	@Override
 	public void initialize() {
-		this.searchSuggestionSubManager = new SearchSuggestionSubManager();
-		this.searchSuggestionSubManager.load();
+		this.searchHistorySubManager = new SearchHistorySubManager();
+		this.searchHistorySubManager.load();
 		
 		this.worker = new Worker();
 		
@@ -51,7 +57,21 @@ public class SearchAndGoManager extends AbstractManager {
 	
 	@Override
 	protected void destroy() {
-		// this.searchSuggestionSubManager.save();
+		this.searchHistorySubManager.save();
+	}
+	
+	public VideoContentExtractor createVideoExtractorFromCompatible(Class<? extends ContentExtractor>[] classes) {
+		if (classes == null || classes.length == 0) {
+			return null;
+		}
+		
+		Class<? extends ContentExtractor> firstItem = classes[0];
+		
+		if (firstItem.equals(OpenloadVideoExtractor.class)) {
+			return new AndroidOpenloadVideoExtractor(boxPlayActivity);
+		}
+		
+		return null;
 	}
 	
 	public void bindCallback(SearchAndGoSearchCallback callback) {
@@ -64,12 +84,29 @@ public class SearchAndGoManager extends AbstractManager {
 			return;
 		}
 		
-		worker.updateLocal(query);
-		worker.start();
+		worker.updateLocal(query).start();
+		
+		/**
+		 * Updating search history
+		 */
+		SearchHistoryItem searchHistoryItem = null;
+		for (SearchHistoryItem historyItem : getSearchHistory()) {
+			if (historyItem.getQuery().equals(query)) {
+				searchHistoryItem = historyItem;
+				break;
+			}
+		}
+		
+		if (searchHistoryItem == null) {
+			searchHistoryItem = new SearchHistoryItem(query);
+			getSearchHistory().add(searchHistoryItem);
+		}
+		
+		getSearchSuggestionSubManager().save();
 	}
 	
-	public List<SearchHistoryItem> getSuggestions() {
-		return suggestions;
+	public List<SearchHistoryItem> getSearchHistory() {
+		return queryHistory;
 	}
 	
 	private class Worker extends HelpedThread {
@@ -85,11 +122,13 @@ public class SearchAndGoManager extends AbstractManager {
 			}
 		}
 		
-		private void updateLocal(String query) {
+		private Worker updateLocal(String query) {
 			this.localSearchQuery = query;
 			
 			this.localProviders.clear();
 			this.localProviders.addAll(providers);
+			
+			return this;
 		}
 		
 		@Override
@@ -205,73 +244,68 @@ public class SearchAndGoManager extends AbstractManager {
 		});
 	}
 	
-	public SearchSuggestionSubManager getSearchSuggestionSubManager() {
-		return searchSuggestionSubManager;
+	public SearchHistorySubManager getSearchSuggestionSubManager() {
+		return searchHistorySubManager;
 	}
 	
-	public class SearchSuggestionSubManager extends SubManager implements JsonCharTable {
-		private final String JSON_KEY_SUGGESTIONS = "suggestions";
-		private final String JSON_KEY_SUGGESTIONS_QUERY = "query";
-		private final String JSON_KEY_SUGGESTIONS_DATE = "date";
+	public class SearchHistorySubManager extends SubManager implements JsonCharTable {
+		private final String JSON_KEY_HISTORY = "history";
+		private final String JSON_KEY_HISTORY_QUERY = "query";
+		private final String JSON_KEY_HISTORY_DATE = "date";
 		
-		private File suggestionFile = new File(getManagers().getBaseDataDirectory(), "suggestions.json");
+		private File suggestionFile = new File(getManagers().getBaseDataDirectory(), "search_history.json");
+		
+		private final Comparator<SearchHistoryItem> QUERY_COMPARATOR = new Comparator<SearchHistoryItem>() {
+			@Override
+			public int compare(SearchHistoryItem item1, SearchHistoryItem item2) {
+				return (int) (item2.getDate().getTime() - item1.getDate().getTime());
+			}
+		};
 		
 		@SuppressWarnings("unchecked")
 		public void load() {
-			suggestions.clear();
+			queryHistory.clear();
 			
 			try {
 				JsonObject json = (JsonObject) new JsonParser().parse(StringUtils.fromFile(suggestionFile));
 				
-				List<Map<String, Object>> suggestionsList = (List<Map<String, Object>>) json.get(JSON_KEY_SUGGESTIONS);
+				List<Map<String, Object>> searchHistoryList = (List<Map<String, Object>>) json.get(JSON_KEY_HISTORY);
 				
-				for (Map<String, Object> suggestionDataMap : suggestionsList) {
-					String query = ParseUtils.parseString(suggestionDataMap.get(JSON_KEY_SUGGESTIONS_QUERY), null);
-					long date = ParseUtils.parseLong(suggestionDataMap.get(JSON_KEY_SUGGESTIONS_DATE), -1);
+				for (Map<String, Object> searchHistoryDataMap : searchHistoryList) {
+					String query = ParseUtils.parseString(searchHistoryDataMap.get(JSON_KEY_HISTORY_QUERY), null);
+					long date = ParseUtils.parseLong(searchHistoryDataMap.get(JSON_KEY_HISTORY_DATE), -1);
 					
 					if (query == null || date == -1) {
 						continue;
 					}
 					
-					suggestions.add(new SearchHistoryItem(query, date));
+					queryHistory.add(new SearchHistoryItem(query, date));
 				}
 				
-				suggestions.sort(new Comparator<SearchHistoryItem>() {
-					@Override
-					public int compare(SearchHistoryItem item1, SearchHistoryItem item2) {
-						return (int) (item2.getDate().getTime() - item1.getDate().getTime());
-					}
-				});
-				
-				// DialogUtils.showDialog(boxPlayActivity, "success when loading", "Suggestions: " + suggestions.size() + "\n\nFile data: " + StringUtils.fromFile(suggestionFile));
+				queryHistory.sort(QUERY_COMPARATOR);
 			} catch (Exception exception) {
-				// DialogUtils.showDialog(boxPlayActivity, "exception when loading", StringUtils.fromException(exception));
-				// suggestions = new ArrayList<>();
+				;
 			}
-			
-			// while (suggestions.size() > 3) {
-			// suggestions.remove(0);
-			// }
 			
 			save();
 		}
 		
 		public void save() {
-			save(new ArrayList<SearchHistoryItem>());
-		}
-		
-		public void save(List<SearchHistoryItem> newSuggestions) {
-			SimpleLineStringBuilder builder = new SimpleLineStringBuilder();
+			queryHistory.sort(QUERY_COMPARATOR);
 			
-			suggestions.addAll(newSuggestions);
+			while (queryHistory.size() > MAX_SEARCH_QUERY_COUNT) {
+				queryHistory.remove(queryHistory.size() - 1);
+			}
+			
+			SimpleLineStringBuilder builder = new SimpleLineStringBuilder();
 			
 			builder.appendln("{");
 			
-			builder.appendln(TAB + "\"" + JSON_KEY_SUGGESTIONS + "\": [");
+			builder.appendln(TAB + "\"" + JSON_KEY_HISTORY + "\": [");
 			
 			List<String> alreadySavedQuery = new ArrayList<>();
 			
-			Iterator<SearchHistoryItem> iterator = suggestions.iterator();
+			Iterator<SearchHistoryItem> iterator = queryHistory.iterator();
 			while (iterator.hasNext()) {
 				SearchHistoryItem suggestion = iterator.next();
 				
@@ -282,14 +316,8 @@ public class SearchAndGoManager extends AbstractManager {
 				
 				builder.appendln(TAB + TAB + "{");
 				
-				builder.appendln(TAB + TAB + TAB + "\"" + JSON_KEY_SUGGESTIONS_QUERY + "\": \"" + (suggestion.getQuery().replace("\\", "\\\\").replace("\"", "\\\"")) + "\",");
-				builder.appendln(TAB + TAB + TAB + "\"" + JSON_KEY_SUGGESTIONS_DATE + "\": " + suggestion.getDate().getTime() + "");
-				
-				// JsonObject jsonObject = new JsonObject();
-				// jsonObject.put(JSON_KEY_SUGGESTIONS_QUERY, suggestion.getQuery());
-				// jsonObject.put(JSON_KEY_SUGGESTIONS_DATE, suggestion.getDate());
-				
-				// builder.appendln(TAB + TAB + TAB + jsonObject.toJsonString());
+				builder.appendln(TAB + TAB + TAB + "\"" + JSON_KEY_HISTORY_QUERY + "\": \"" + (suggestion.getQuery().replace("\\", "\\\\").replace("\"", "\\\"")) + "\",");
+				builder.appendln(TAB + TAB + TAB + "\"" + JSON_KEY_HISTORY_DATE + "\": " + suggestion.getDate().getTime() + "");
 				
 				builder.appendln(TAB + TAB + "}" + (iterator.hasNext() ? "," : ""));
 			}
@@ -301,18 +329,8 @@ public class SearchAndGoManager extends AbstractManager {
 			try {
 				getManagers().writeLocalFile(suggestionFile, builder.toString());
 			} catch (Exception exception) {
-				Log.e(getClass().getSimpleName(), "Failed to save suggestions.", exception);
+				Log.e(getClass().getSimpleName(), "Failed to save search history.", exception);
 			}
-			
-			// String readFromFile = "";
-			// try {
-			// readFromFile = StringUtils.fromFile(suggestionFile);
-			// } catch (Exception e) {
-			// readFromFile = e.getLocalizedMessage();
-			// }
-			
-			// DialogUtils.showDialog(boxPlayActivity, "json", "file: " + suggestionFile.getAbsolutePath() + "\n\nalready: " + alreadySavedQuery + "\n\nlist: " + newSuggestions + "\n\nbuilder: " + builder.toString() + "\n\nread from file: " + readFromFile);
-			
 		}
 	}
 	

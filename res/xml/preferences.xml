@@ -1,6 +1,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <!-- Store > Music -->
+
     <PreferenceCategory android:title="@string/boxplay_other_settings_store_music_category_title" >
+
+        <!-- Store > Music > Music Preferences -->
         <MultiSelectListPreference
             android:defaultValue="@array/empty_array"
             android:entries="@array/boxplay_other_settings_store_music_pref_my_genre_entries"
@@ -12,9 +16,12 @@
             android:title="@string/boxplay_other_settings_store_music_pref_my_genre_title" />
     </PreferenceCategory>
 
-    <!--  -->
+    <!-- BoxPlay -->
 
     <PreferenceCategory android:title="@string/boxplay_other_settings_boxplay_category_title" >
+
+        <!-- BoxPlay > Background Services -->
+
         <SwitchPreference
             android:defaultValue="true"
             android:enabled="false"
@@ -22,11 +29,15 @@
             android:summary=""
             android:title="@string/boxplay_other_settings_boxplay_pref_background_service_title" />
 
+        <!-- BoxPlay > Processing > Force data processing -->
+
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/boxplay_other_settings_boxplay_pref_force_factory_key"
             android:summary=""
             android:title="@string/boxplay_other_settings_boxplay_pref_force_factory_title" />
+
+        <!-- BoxPlay > Processing > Reset tutorial stats -->
 
         <Preference
             android:key="@string/boxplay_other_settings_boxplay_pref_reset_tutorials_key"
@@ -34,9 +45,12 @@
             android:title="@string/boxplay_other_settings_boxplay_pref_reset_tutorials_title" />
     </PreferenceCategory>
 
-    <!--  -->
+    <!-- Premium -->
 
     <PreferenceCategory android:title="@string/boxplay_other_settings_premium_category_title" >
+
+        <!-- Premium > Activation > Key -->
+
         <EditTextPreference
             android:inputType="textCapCharacters"
             android:key="@string/boxplay_other_settings_premium_pref_premium_key_key"
@@ -44,9 +58,24 @@
             android:title="@string/boxplay_other_settings_premium_pref_premium_key_title" />
     </PreferenceCategory>
 
-    <!--  -->
+    <!-- Extraction -->
+
+    <PreferenceCategory android:title="@string/boxplay_other_settings_debug_category_title" >
+
+        <!-- Extraction > Debug > Open logs at end -->
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/boxplay_other_settings_debug_pref_extractor_show_logs_key"
+            android:summary=""
+            android:title="@string/boxplay_other_settings_debug_pref_extractor_show_logs_title" />
+    </PreferenceCategory>
+
+    <!-- Menu -->
 
     <PreferenceCategory android:title="@string/boxplay_other_settings_menu_category_title" >
+
+        <!-- Menu > Drawer > Back button mode -->
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_key"
@@ -54,9 +83,12 @@
             android:title="@string/boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_title" />
     </PreferenceCategory>
 
-    <!--  -->
+    <!-- Application -->
 
     <PreferenceCategory android:title="@string/boxplay_other_settings_application_category_title" >
+
+        <!-- Application > Language -->
+
         <ListPreference
             android:defaultValue="@string/boxplay_other_settings_application_pref_language_default_value"
             android:entries="@array/boxplay_other_settings_application_pref_language_entries"
@@ -67,11 +99,15 @@
             android:summary=""
             android:title="@string/boxplay_other_settings_application_pref_language_title" />
 
+        <!-- Application > Crash Report > Enable -->
+
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/boxplay_other_settings_application_pref_crash_reporter_key"
             android:summary=""
             android:title="@string/boxplay_other_settings_application_pref_crash_reporter_title" />
+
+        <!-- Application > Cache > Clear Image Cache -->
 
         <Preference
             android:key="@string/boxplay_other_settings_application_pref_clear_image_cache_key"

@@ -216,6 +216,16 @@
 
     <string name="boxplay_culture_searchngo_title">Search n\' Go</string>
     <string name="boxplay_culture_searchngo_searchbar_hint">Rechercher...</string>
+    <string name="boxplay_culture_searchngo_search_status_global_started">Démarrage de la recherche globale...</string>
+    <string name="boxplay_culture_searchngo_search_status_global_sorting">Triage des résultats...</string>
+    <string name="boxplay_culture_searchngo_search_status_global_finished">Recherche globale terminé!</string>
+    <string name="boxplay_culture_searchngo_search_status_global_failed">La recherche à échoué.</string>
+    <string name="boxplay_culture_searchngo_search_status_provider_started">Recherche sur %s...</string>
+    <string name="boxplay_culture_searchngo_search_status_provider_sorting">Triage des resultats de %s...</string>
+    <string name="boxplay_culture_searchngo_search_status_provider_finished">La recherche sur %s est terminé!</string>
+    <string name="boxplay_culture_searchngo_search_status_provider_failed" formatted="false">La recherche sur %s à échoué. (erreur: %s)</string>
+    <string name="boxplay_culture_searchngo_detail_tab_info">INFO</string>
+    <string name="boxplay_culture_searchngo_detail_tab_content">CONTENU</string>
     <!-- ENUMS -->
     <string name="boxplay_culture_searchngo_search_result_data_type_thumbnail">Vignette</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_name">Nom</string>
@@ -279,6 +289,12 @@
     <string name="boxplay_other_settings_premium_pref_premium_key_summary_no_key">Aucune clé</string>
     <string name="boxplay_other_settings_premium_pref_premium_key_summary_valid">Clé valide (%s)</string>
     <string name="boxplay_other_settings_premium_pref_premium_key_summary_invalid">Clé invalide (%s)</string>
+    <!--  -->
+    <string name="boxplay_other_settings_debug_category_title">Débugage</string>
+    <!--  -->
+    <string name="boxplay_other_settings_debug_pref_extractor_show_logs_title">Montrer les informations des extracteurs</string>
+    <string name="boxplay_other_settings_debug_pref_extractor_show_logs_summary_enabled">Ouvrir les informations à la fin du travail d\'une extraction</string>
+    <string name="boxplay_other_settings_debug_pref_extractor_show_logs_summary_disabled">Ne pas ouvrir les informations à la fin du travail d\'une extraction</string>
     <!--  -->
     <string name="boxplay_other_settings_menu_category_title">Menu</string>
     <!--  -->

@@ -13,7 +13,6 @@ import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.Preference.OnPreferenceClickListener;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.widget.ListView;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.helper.LocaleHelper;
@@ -34,11 +33,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 		
 		sharedPreferences = BoxPlayActivity.getManagers().getPreferences();
 		
+		// Store > Music
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_store_music_pref_my_genre_key));
+		// BoxPlay
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_boxplay_pref_background_service_key));
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_boxplay_pref_force_factory_key));
+		// Premium
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_premium_pref_premium_key_key));
+		// Debug
+		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_debug_pref_extractor_show_logs_key));
+		// Menu
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_key));
+		// Application
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_application_pref_language_key));
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_application_pref_crash_reporter_key));
 		
@@ -109,6 +115,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 				} else {
 					preference.setSummary(R.string.boxplay_other_settings_application_pref_crash_reporter_summary_disabled);
 				}
+			}
+			//
+			else if (key == getString(R.string.boxplay_other_settings_debug_pref_extractor_show_logs_key)) {
+				
+				if (switchPreference.isChecked()) {
+					preference.setSummary(R.string.boxplay_other_settings_debug_pref_extractor_show_logs_summary_enabled);
+				} else {
+					preference.setSummary(R.string.boxplay_other_settings_debug_pref_extractor_show_logs_summary_disabled);
+				}
+				
+				BoxPlayActivity.getManagers().getDebugManager().updatePreferences();
 			}
 		} else if (preference instanceof CheckBoxPreference) {
 			CheckBoxPreference checkBoxPreference = (CheckBoxPreference) preference;
@@ -202,20 +219,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 	
 	public void reset() {
 		firstCheck = true;
-	}
-	
-	public void scrollToItem(String preferenceKey) {
-		ListView listView = getView().findViewById(android.R.id.list);
-		Preference preference = findPreference(preferenceKey);
-		if (preference != null && listView != null) {
-			for (int i = 0; i < listView.getAdapter().getCount(); i++) {
-				Preference iPref = (Preference) listView.getAdapter().getItem(i);
-				if (iPref == preference) {
-					listView.setSelection(i);
-					break;
-				}
-			}
-		}
 	}
 	
 }

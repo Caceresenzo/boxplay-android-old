@@ -2,13 +2,10 @@ package caceresenzo.apps.boxplay.fragments.premium.adult;
 
 import java.util.List;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +18,7 @@ import caceresenzo.android.libs.list.EndlessRecyclerViewScrollListener;
 import caceresenzo.android.libs.toast.ToastUtils;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.dialog.WorkingProgressDialog;
 import caceresenzo.apps.boxplay.managers.PremiumManager.AdultPremiumSubManager;
 import caceresenzo.apps.boxplay.managers.PremiumManager.AdultSubModuleCallback;
 import caceresenzo.libs.boxplay.models.premium.adult.AdultVideo;
@@ -86,7 +84,7 @@ public class AdultExplorerFragment extends Fragment {
 		
 		adultSubManager.fetchNextPage();
 		
-		workingProgressDialog = new WorkingProgressDialog().create();
+		workingProgressDialog = WorkingProgressDialog.create(BoxPlayActivity.getBoxPlayActivity());
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -189,48 +187,4 @@ public class AdultExplorerFragment extends Fragment {
 		}
 	}
 	
-	class WorkingProgressDialog extends DialogFragment {
-		private AlertDialog.Builder dialogBuilder;
-		private AlertDialog dialog;
-		
-		private TextView statusTextView;
-		
-		public WorkingProgressDialog create() {
-			LayoutInflater inflater = (LayoutInflater) BoxPlayActivity.getBoxPlayActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			
-			dialogBuilder = new AlertDialog.Builder(BoxPlayActivity.getBoxPlayActivity());
-			
-			View dialogView = inflater.inflate(R.layout.dialog_adult_explorer_working, null);
-			
-			statusTextView = (TextView) dialogView.findViewById(R.id.dialog_adult_explorer_working_textview_status);
-			
-			dialogBuilder.setView(dialogView);
-			dialogBuilder.setCancelable(false);
-			
-			dialog = dialogBuilder.create();
-			
-			return this;
-		}
-		
-		public void show() {
-			if (!dialog.isShowing()) {
-				dialog.show();
-			}
-		}
-		
-		public void hide() {
-			if (dialog.isShowing()) {
-				dialog.dismiss();
-			}
-		}
-		
-		public void update(int ressourceId, Object... arguments) {
-			update(AdultExplorerFragment.this.getString(ressourceId, arguments));
-		}
-		
-		public void update(String text) {
-			statusTextView.setText(text);
-		}
-		
-	}
 }

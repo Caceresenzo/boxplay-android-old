@@ -26,6 +26,7 @@ public class XManagers {
 	protected TutorialManager tutorialManager;
 	protected PremiumManager premiumManager;
 	protected SearchAndGoManager searchAndGoManager;
+	protected DebugManager debugManager;
 	
 	protected final File baseApplicationDirectory;
 	protected final File baseDataDirectory;
@@ -79,6 +80,9 @@ public class XManagers {
 		// Search n' Go
 		managers.add(searchAndGoManager = new SearchAndGoManager());
 		// searchAndGoManager.initialize();
+		
+		// Extraction
+		managers.add(debugManager = new DebugManager());
 		
 		for (AbstractManager manager : managers) {
 			manager.initialize();
@@ -141,7 +145,11 @@ public class XManagers {
 		return searchAndGoManager;
 	}
 	
-	protected static abstract class AbstractManager {
+	public DebugManager getDebugManager() {
+		return debugManager;
+	}
+	
+	protected abstract static class AbstractManager {
 		protected BoxPlayActivity boxPlayActivity = BoxPlayActivity.getBoxPlayActivity();
 		protected Handler boxPlayHandler = BoxPlayActivity.getHandler();
 		protected ViewHelper viewHelper = BoxPlayActivity.getViewHelper();
@@ -163,7 +171,7 @@ public class XManagers {
 		}
 	}
 	
-	protected static abstract class SubManager {
+	protected abstract static class SubManager {
 		protected void initialize() {
 			;
 		}
@@ -182,4 +190,5 @@ public class XManagers {
 		outputStream.write(string.getBytes());
 		outputStream.close();
 	}
+	
 }

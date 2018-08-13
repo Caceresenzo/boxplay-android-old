@@ -19,13 +19,19 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.activities.SearchAndGoDetailActivity;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
+import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalDataType;
 import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.data.models.additional.CategoryResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.data.models.additional.RatingResultData;
-import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalDataType;
 import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 
+/**
+ * Info page for {@link SearchAndGoDetailActivity}
+ * 
+ * @author Enzo CACERES
+ */
 public class PageDetailInfoSearchAndGoFragment extends Fragment {
 	private boolean uiReady = false;
 	
@@ -60,6 +66,14 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 		return view;
 	}
 	
+	/**
+	 * Apply data from the {#link SearchAndGoDetailActivit}'s worker
+	 * 
+	 * @param result
+	 *            Original clicked result
+	 * @param additionals
+	 *            New additional data
+	 */
 	public void applyResult(SearchAndGoResult result, List<AdditionalResultData> additionals) {
 		this.items.clear();
 		
@@ -101,6 +115,11 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 		}
 	}
 	
+	/**
+	 * Tell if the ui has been {@link View#findViewById(int)} and all view are ready to use
+	 * 
+	 * @return If the {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} has finished
+	 */
 	public boolean isUiReady() {
 		return uiReady;
 	}

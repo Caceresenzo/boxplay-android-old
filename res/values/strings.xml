@@ -222,6 +222,23 @@
 
     <string name="boxplay_culture_searchngo_title">Search n\' Go</string>
     <string name="boxplay_culture_searchngo_searchbar_hint">Search...</string>
+    <string name="boxplay_culture_searchngo_detail_tab_info">INFO</string>
+    <string name="boxplay_culture_searchngo_detail_tab_content">CONTENT</string>
+    <!-- DIALOGS -->
+    <string name="boxplay_culture_searchngo_dialog_search_history">Search history (10 last)</string>
+    <!-- CALLBACKS -->
+    <string name="boxplay_culture_searchngo_search_status_global_started">Starting global search...</string>
+    <string name="boxplay_culture_searchngo_search_status_global_sorting">Sorting results...</string>
+    <string name="boxplay_culture_searchngo_search_status_global_finished">Search finished!</string>
+    <string name="boxplay_culture_searchngo_search_status_global_failed">Search failed.</string>
+    <string name="boxplay_culture_searchngo_search_status_provider_started">Searching on %s...</string>
+    <string name="boxplay_culture_searchngo_search_status_provider_sorting">Sorting results of %s...</string>
+    <string name="boxplay_culture_searchngo_search_status_provider_finished">Search on %s finished!</string>
+    <string name="boxplay_culture_searchngo_search_status_provider_failed" formatted="false">Search on %s failed. (error: %s)</string>
+    <string name="boxplay_culture_searchngo_extractor_status_downloading_video_site_url">Downloading video site url "%s"...</string>
+    <string name="boxplay_culture_searchngo_extractor_status_downloading_url">Downloading url "%s"...</string>
+    <string name="boxplay_culture_searchngo_extractor_status_extracting_link">Extracting link...</string>
+    <string name="boxplay_culture_searchngo_extractor_status_formatting_result">Formatting result...</string>
     <!-- ENUMS -->
     <string name="boxplay_culture_searchngo_search_result_data_type_thumbnail">Thumbnail</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_name">Name</string>
@@ -324,6 +341,13 @@
     <string name="boxplay_other_settings_premium_pref_premium_key_summary_valid">Valid key (%s)</string>
     <string name="boxplay_other_settings_premium_pref_premium_key_summary_invalid">Invalid key (%s)</string>
     <string name="boxplay_other_settings_premium_pref_premium_key_key">premium_key</string>
+    <!--  -->
+    <string name="boxplay_other_settings_debug_category_title">Debug</string>
+    <!--  -->
+    <string name="boxplay_other_settings_debug_pref_extractor_show_logs_title">Show extractors logs</string>
+    <string name="boxplay_other_settings_debug_pref_extractor_show_logs_summary_enabled">Open logs at extraction end</string>
+    <string name="boxplay_other_settings_debug_pref_extractor_show_logs_summary_disabled">Don\'t open logs at extraction end</string>
+    <string name="boxplay_other_settings_debug_pref_extractor_show_logs_key">debug_extractor_show_logs</string>
     <!--  -->
     <string name="boxplay_other_settings_menu_category_title">Menu</string>
     <!--  -->

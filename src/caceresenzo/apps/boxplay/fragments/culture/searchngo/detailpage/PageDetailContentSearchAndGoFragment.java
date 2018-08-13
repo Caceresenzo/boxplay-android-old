@@ -3,8 +3,8 @@ package caceresenzo.apps.boxplay.fragments.culture.searchngo.detailpage;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,19 +18,31 @@ import android.widget.TextView;
 import caceresenzo.android.libs.dialog.DialogUtils;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.activities.SearchAndGoDetailActivity;
+import caceresenzo.apps.boxplay.dialog.WorkingProgressDialog;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
-import caceresenzo.libs.boxplay.common.extractor.openload.OpenloadVideoExtractor;
-import caceresenzo.libs.boxplay.common.extractor.openload.implementations.AndroidOpenloadVideoExtractor;
+import caceresenzo.apps.boxplay.managers.DebugManager;
+import caceresenzo.apps.boxplay.managers.SearchAndGoManager;
+import caceresenzo.libs.boxplay.common.extractor.VideoContentExtractor;
+import caceresenzo.libs.boxplay.common.extractor.VideoContentExtractor.VideoContentExtractorProgressCallback;
+import caceresenzo.libs.boxplay.culture.searchngo.content.image.IImageContentProvider;
+import caceresenzo.libs.boxplay.culture.searchngo.content.video.IVideoContentProvider;
 import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.data.models.content.VideoItemResultData;
-import caceresenzo.libs.boxplay.culture.searchngo.providers.ProviderManager;
-import caceresenzo.libs.boxplay.culture.searchngo.providers.implementations.JetAnimeSearchAndGoAnimeProvider;
 import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 import caceresenzo.libs.thread.HelpedThread;
 
+/**
+ * Content page for the {@link SearchAndGoDetailActivity}
+ * 
+ * @author Enzo CACERES
+ */
 public class PageDetailContentSearchAndGoFragment extends Fragment {
 	
+	private Handler handler;
 	private ViewHelper viewHelper;
+	private SearchAndGoManager searchAndGoManager;
+	private DebugManager debugManager;
 	
 	private boolean uiReady = false;
 	
@@ -41,12 +53,19 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 	
 	private ContentViewAdapter adapter;
 	
-	private ExtractionWorker extractionWorker;
+	private WorkingProgressDialog progressDialog;
+	
+	private VideoExtractionWorker videoExtractionWorker;
 	
 	public PageDetailContentSearchAndGoFragment() {
+		this.handler = BoxPlayActivity.getHandler();
 		this.viewHelper = BoxPlayActivity.getViewHelper();
+		this.searchAndGoManager = BoxPlayActivity.getManagers().getSearchAndGoManager();
+		this.debugManager = BoxPlayActivity.getManagers().getDebugManager();
 		
-		this.extractionWorker = new ExtractionWorker();
+		this.progressDialog = WorkingProgressDialog.create(SearchAndGoDetailActivity.getSearchAndGoDetaiLActivity());
+		
+		this.videoExtractionWorker = new VideoExtractionWorker();
 	}
 	
 	@Override
@@ -81,10 +100,20 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 		}
 	}
 	
+	/**
+	 * Tell if the ui has been {@link View#findViewById(int)} and all view are ready to use
+	 * 
+	 * @return If the {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} has finished
+	 */
 	public boolean isUiReady() {
 		return uiReady;
 	}
 	
+	/**
+	 * View adapter for content list item
+	 * 
+	 * @author Enzo CACERES
+	 */
 	class ContentViewAdapter extends RecyclerView.Adapter<ContentViewHolder> {
 		private List<AdditionalResultData> list;
 		
@@ -110,6 +139,11 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 		}
 	}
 	
+	/**
+	 * View holder for content item
+	 * 
+	 * @author Enzo CACERES
+	 */
 	class ContentViewHolder extends RecyclerView.ViewHolder {
 		private View view;
 		private TextView typeTextView, contentTextView;
@@ -157,20 +191,22 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 				view.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if (extractionWorker.isRunning()) {
+						if (videoExtractionWorker.isRunning()) {
 							BoxPlayActivity.getBoxPlayActivity().toast("ExtractionWorker is busy").show();
 							return;
 						}
 						
-						extractionWorker = new ExtractionWorker();
+						videoExtractionWorker = new VideoExtractionWorker();
 						
 						switch (additionalData.getType()) {
 							case ITEM_VIDEO: {
-								extractionWorker.applyData((VideoItemResultData) additionalData.getData()).start();
+								videoExtractionWorker.applyData((VideoItemResultData) additionalData.getData()).start();
+								progressDialog.show();
 								break;
 							}
 							
 							case ITEM_CHAPTER: {
+								BoxPlayActivity.getBoxPlayActivity().toast("No compatible " + IImageContentProvider.class.getSimpleName() + " found.").show();
 								break;
 							}
 							
@@ -185,45 +221,100 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 		}
 	}
 	
-	class ExtractionWorker extends HelpedThread {
+	/**
+	 * Worker thread to extract video direct link
+	 * 
+	 * @author Enzo CACERES
+	 */
+	class VideoExtractionWorker extends HelpedThread {
 		private VideoItemResultData videoItem;
+		
+		private IVideoContentProvider videoContentProvider;
+		private VideoContentExtractor extractor;
 		
 		@Override
 		protected void onRun() {
-			BoxPlayActivity.getBoxPlayActivity().toast("onRun();");
-			
-			OpenloadVideoExtractor extractor = new AndroidOpenloadVideoExtractor(getContext());
-			
-			JetAnimeSearchAndGoAnimeProvider provider = (JetAnimeSearchAndGoAnimeProvider) ProviderManager.JETANIME.create();
-			
-			final String directUrl = extractor.extractDirectVideoUrl(provider.extractVideoUrl(videoItem));
-			
-			DialogUtils.showDialog(BoxPlayActivity.getHandler(), getContext(), "Log", extractor.getLogger().getContent());
-			
-			BoxPlayActivity.getHandler().post(new Runnable() {
+			handler.post(new Runnable() {
 				@Override
 				public void run() {
-					BoxPlayActivity.getManagers().getVideoManager().openVLC(directUrl, videoItem.getName());
+					progressDialog.update(R.string.boxplay_culture_searchngo_extractor_status_downloading_video_site_url, videoItem.getUrl());
 				}
 			});
+			
+			final String directUrl = extractor.extractDirectVideoUrl(videoContentProvider.extractVideoUrl(videoItem), new VideoContentExtractorProgressCallback() {
+				@Override
+				public void onDownloadingUrl(final String targetUrl) {
+					handler.post(new Runnable() {
+						@Override
+						public void run() {
+							progressDialog.update(R.string.boxplay_culture_searchngo_extractor_status_downloading_url, targetUrl);
+						}
+					});
+				}
+				
+				@Override
+				public void onExtractingLink() {
+					handler.post(new Runnable() {
+						@Override
+						public void run() {
+							progressDialog.update(R.string.boxplay_culture_searchngo_extractor_status_extracting_link);
+						}
+					});
+				}
+				
+				@Override
+				public void onFormattingResult() {
+					handler.post(new Runnable() {
+						@Override
+						public void run() {
+							progressDialog.update(R.string.boxplay_culture_searchngo_extractor_status_formatting_result);
+						}
+					});
+				}
+			});
+			
+			if (debugManager.openLogsAtExtractorEnd()) {
+				DialogUtils.showDialog(BoxPlayActivity.getHandler(), getContext(), "Extraction logs", extractor.getLogger().getContent());
+			}
+			
+			BoxPlayActivity.getManagers().getVideoManager().openVLC(directUrl, videoItem.getName());
 		}
 		
 		@Override
 		protected void onFinished() {
-			BoxPlayActivity.getBoxPlayActivity().toast("onFinished();");
+			closeDialog();
 		}
 		
 		@Override
 		protected void onCancelled() {
-			BoxPlayActivity.getBoxPlayActivity().toast("onCancelled();");
+			closeDialog();
 		}
 		
-		public ExtractionWorker applyData(VideoItemResultData videoItem) {
+		private void closeDialog() {
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					progressDialog.update("");
+					progressDialog.hide();
+				}
+			});
+		}
+		
+		/**
+		 * Initialize worker thread local data
+		 * 
+		 * @param videoItem
+		 *            Target {@link VideoItemResultData} that will be extracted
+		 * @return Itself, now call {@link #start()}
+		 */
+		public VideoExtractionWorker applyData(VideoItemResultData videoItem) {
 			this.videoItem = videoItem;
+			
+			videoContentProvider = videoItem.getVideoContentProvider();
+			extractor = searchAndGoManager.createVideoExtractorFromCompatible(videoContentProvider.getCompatibleExtractorClass());
 			
 			return this;
 		}
-		
 	}
 	
 }

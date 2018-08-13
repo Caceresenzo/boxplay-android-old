@@ -77,7 +77,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	
 	private SlidingUpPanelLayout slidingUpPanelLayout;
 	
-	private static Fragment oldFragmentToOpen = null;
+	private static Fragment fragmentToOpen = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		HANDLER.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				showFragment(new CultureFragment().withSearchAndGo());
+				// showFragment(new CultureFragment().withSearchAndGo());
 			}
 		}, 200);
 	}
@@ -108,24 +108,24 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	protected void onStart() {
 		super.onStart();
 		
-		if (oldFragmentToOpen != null) {
+		if (fragmentToOpen != null) {
 			HANDLER.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					if (oldFragmentToOpen instanceof SettingsFragment) {
-						((SettingsFragment) oldFragmentToOpen).reset();
+					if (fragmentToOpen instanceof SettingsFragment) {
+						((SettingsFragment) fragmentToOpen).reset();
 						forceFragmentPath(R.id.drawer_boxplay_other_settings);
 						
 						HANDLER.postDelayed(new Runnable() {
 							@Override
 							public void run() {
-								((SettingsFragment) oldFragmentToOpen).scrollToPreference(getString(R.string.boxplay_other_settings_application_pref_language_key));
-								oldFragmentToOpen = null;
+								((SettingsFragment) fragmentToOpen).scrollToPreference(getString(R.string.boxplay_other_settings_application_pref_language_key));
+								fragmentToOpen = null;
 							}
 						}, 200);
 					}
 					
-					showFragment(oldFragmentToOpen);
+					showFragment(fragmentToOpen);
 				}
 			}, 200);
 		}
@@ -153,7 +153,6 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		} else {
 			if (MANAGERS.getUpdateManager().isFirstRunOnThisUpdate()) {
 				HANDLER.postDelayed(new Runnable() {
-					
 					@Override
 					public void run() {
 						HELPER.updateSeachMenu(R.id.drawer_boxplay_other_about);
@@ -217,7 +216,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	 *            Target fragment
 	 */
 	public void askRecreate(Fragment oldFrangent) {
-		oldFragmentToOpen = oldFrangent;
+		fragmentToOpen = oldFrangent;
 		recreate();
 	}
 	
@@ -300,7 +299,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 				SearchAndGoDetailActivity.start(new SearchAndGoResult(ProviderManager.JETANIME.create(), //
 						"Death March Kara Hajimaru Isekai Kyousoukyoku", //
 						"https://www.jetanime.co/anime/death-march-kara-hajimaru-isekai-kyousoukyoku/", //
-						"https://www.manga-lel.com//uploads/manga/death-march-kara-hajimaru-isekai-kyousoukyoku/cover/cover_250x350.jpg")); //
+						"https://www.jetanime.co/assets/imgs/death-march-kara-hajimaru-isekai-kyousoukyoku.jpg")); //
 				break;
 			}
 			
@@ -506,16 +505,23 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	 *            The new fragment
 	 */
 	public void showFragment(Fragment fragment) {
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		
-		fragmentManager //
-				.beginTransaction() //
-				.replace(R.id.activity_boxplay_framelayout_container_main, fragment) //
-				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN) //
-				.commit() //
-		;
-		
-		HELPER.setLastFragment(fragment);
+		if (fragment == null) {
+			return;
+		}
+		try {
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			
+			fragmentManager //
+					.beginTransaction() //
+					.replace(R.id.activity_boxplay_framelayout_container_main, fragment) //
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN) //
+					.commit() //
+			;
+			
+			HELPER.setLastFragment(fragment);
+		} catch (Exception exception) {
+			fragmentToOpen = fragment;
+		}
 	}
 	
 	/**

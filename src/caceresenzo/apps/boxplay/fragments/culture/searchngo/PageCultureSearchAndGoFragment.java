@@ -8,12 +8,13 @@ import java.util.Map;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mancj.materialsearchbar.MaterialSearchBar.OnSearchActionListener;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +23,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import caceresenzo.android.libs.dialog.DialogUtils;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.activities.SearchAndGoDetailActivity;
@@ -33,9 +33,14 @@ import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 
 public class PageCultureSearchAndGoFragment extends Fragment {
 	
+	private BoxPlayActivity boxPlayActivity;
+	
 	private SearchAndGoManager searchAndGoManager;
 	
+	private DialogCreator dialogCreator;
+	
 	private List<SearchAndGoResult> results;
+	private List<SearchHistoryItem> searchQueryHistory;
 	
 	private MaterialSearchBar materialSearchBar;
 	private RelativeLayout progressContainerRelativeLayout;
@@ -48,23 +53,24 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 	private OnSearchActionListener onSearchActionListener;
 	
 	public PageCultureSearchAndGoFragment() {
+		this.boxPlayActivity = BoxPlayActivity.getBoxPlayActivity();
+		
 		this.searchAndGoManager = BoxPlayActivity.getManagers().getSearchAndGoManager();
+		this.dialogCreator = new DialogCreator();
 		
 		this.results = new ArrayList<>();
-		// JetAnimeSearchAndGoProvider fakeProvider = new JetAnimeSearchAndGoProvider();
-		// results.add(new SearchAndGoResult(fakeProvider, "Hello", "http://google.com", "http://aez.com/aze.jpg", SearchCapability.ANIME));
-		// results.add(new SearchAndGoResult(fakeProvider, "Hello2", "http://google.com2", "http://aez.com/aze.jpg2", SearchCapability.MANGA));
+		this.searchQueryHistory = searchAndGoManager.getSearchHistory();
 		
 		this.searchAndGoManager.bindCallback(new SearchAndGoSearchCallback() {
 			@Override
 			public void onSearchStart() {
 				searchStart();
-				updateProgress("Starting global search...");
+				updateProgress(getString(R.string.boxplay_culture_searchngo_search_status_global_started));
 			}
 			
 			@Override
 			public void onSearchSorting() {
-				updateProgress("Sorting global search...");
+				updateProgress(getString(R.string.boxplay_culture_searchngo_search_status_global_sorting));
 			}
 			
 			@Override
@@ -73,34 +79,34 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 				results.addAll(workmap.values());
 				searchAdapter.notifyDataSetChanged();
 				
-				updateProgress("Searching finished!");
+				updateProgress(getString(R.string.boxplay_culture_searchngo_search_status_global_finished));
 				searchStop();
 			}
 			
 			@Override
 			public void onSearchFail(Exception exception) {
-				updateProgress("Searching failed!");
+				updateProgress(getString(R.string.boxplay_culture_searchngo_search_status_global_failed));
 				searchStop();
 			}
 			
 			@Override
 			public void onProviderStarted(SearchAndGoProvider provider) {
-				updateProgress("Searching on " + provider.getSiteName());
+				updateProgress(getString(R.string.boxplay_culture_searchngo_search_status_provider_started, provider.getSiteName()));
 			}
 			
 			@Override
 			public void onProviderSorting(SearchAndGoProvider provider) {
-				updateProgress("Sorting results...");
+				updateProgress(getString(R.string.boxplay_culture_searchngo_search_status_provider_sorting, provider.getSiteName()));
 			}
 			
 			@Override
 			public void onProviderFinished(SearchAndGoProvider provider, Map<String, SearchAndGoResult> workmap) {
-				updateProgress("Finished searching on " + provider.getSiteName());
+				updateProgress(getString(R.string.boxplay_culture_searchngo_search_status_provider_finished, provider.getSiteName()));
 			}
 			
 			@Override
 			public void onProviderSearchFail(SearchAndGoProvider provider, Exception exception) {
-				updateProgress("Search failed on " + provider.getSiteName());
+				updateProgress(getString(R.string.boxplay_culture_searchngo_search_status_provider_failed, provider.getSiteName(), exception.getLocalizedMessage()));
 			}
 		});
 	}
@@ -139,6 +145,13 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		bookmarkImageButton = (ImageButton) view.findViewById(R.id.fragment_culture_searchno_imagebutton_bookmark);
 		historyImageButton = (ImageButton) view.findViewById(R.id.fragment_culture_searchno_imagebutton_history);
 		settingsImageButton = (ImageButton) view.findViewById(R.id.fragment_culture_searchno_imagebutton_settings);
+		
+		historyImageButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dialogCreator.showHistoryDialog();
+			}
+		});
 		
 		searchResultRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_culture_searchno_recyclerview_search_result);
 		searchResultRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -301,6 +314,39 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 			typeTextView.setText(result.getType().toString().toUpperCase());
 			
 			BoxPlayActivity.getViewHelper().downloadToImageView(thumbnailImageView, result.getBestImageUrl());
+		}
+	}
+	
+	class DialogCreator {
+		private AlertDialog searchHistoryDialog;
+		
+		public void showHistoryDialog() {
+			AlertDialog.Builder builder = new AlertDialog.Builder(boxPlayActivity);
+			builder.setTitle(getString(R.string.boxplay_culture_searchngo_dialog_search_history));
+			
+			String[] queryArray = new String[searchQueryHistory.size()];
+			
+			for (int i = 0; i < searchQueryHistory.size(); i++) {
+				queryArray[i] = searchQueryHistory.get(i).getQuery();
+			}
+			
+			builder.setItems(queryArray, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					try {
+						SearchHistoryItem historyItem = searchQueryHistory.get(which);
+						
+						historyItem.updateDate();
+						materialSearchBar.setText(historyItem.getQuery());
+						onSearchActionListener.onSearchConfirmed(historyItem.getQuery());
+					} catch (Exception exception) {
+						Log.wtf("Error when applying query history", exception);
+					}
+				}
+			});
+			
+			searchHistoryDialog = builder.create();
+			searchHistoryDialog.show();
 		}
 	}
 	

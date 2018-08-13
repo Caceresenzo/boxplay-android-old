@@ -27,11 +27,12 @@ public class DataManager extends AbstractManager {
 	
 	private Snackbar snackbar;
 	
+	@Override
 	public void initialize() {
 		fetchData(false);
 	}
 	
-	public void fetchData(boolean force) {
+	public void fetchData(final boolean forceFetch) {
 		if (!working) {
 			working = true;
 			
@@ -61,6 +62,10 @@ public class DataManager extends AbstractManager {
 							
 							boolean newContent = oldServerJsonRevision != serverJsonRevision;
 							boolean force = getManagers().getPreferences().getBoolean(getString(R.string.boxplay_other_settings_boxplay_pref_force_factory_key), false);
+							
+							if (forceFetch) {
+								force = true;
+							}
 							
 							if (newContent || force) {
 								getManagers().getVideoManager().callFactory();

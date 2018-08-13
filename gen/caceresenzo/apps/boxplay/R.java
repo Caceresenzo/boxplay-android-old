@@ -4531,7 +4531,7 @@ These two are only used when an Icon is applied to the StyleableToast
         public static final int design_menu_item_action_area_stub=0x7f0e00e0;
         public static final int design_menu_item_text=0x7f0e00df;
         public static final int design_navigation_view=0x7f0e00de;
-        public static final int dialog_adult_explorer_working_textview_status=0x7f0e00e3;
+        public static final int dialog_progress_working_textview_status=0x7f0e00e3;
         public static final int disableHome=0x7f0e0034;
         public static final int drawer_boxplay_connect_chat=0x7f0e0186;
         public static final int drawer_boxplay_connect_feed=0x7f0e0184;
@@ -4891,7 +4891,7 @@ These two are only used when an Icon is applied to the StyleableToast
         public static final int design_navigation_menu=0x7f04003b;
         public static final int design_navigation_menu_item=0x7f04003c;
         public static final int design_text_input_password_icon=0x7f04003d;
-        public static final int dialog_adult_explorer_working=0x7f04003e;
+        public static final int dialog_progress_working=0x7f04003e;
         public static final int expand_button=0x7f04003f;
         public static final int fragment_about_changelog=0x7f040040;
         public static final int fragment_about_hosting=0x7f040041;
@@ -5055,28 +5055,47 @@ These two are only used when an Icon is applied to the StyleableToast
          */
         public static final int boxplay_culture=0x7f090066;
         public static final int boxplay_culture_searchngo=0x7f090067;
-        public static final int boxplay_culture_searchngo_search_result_data_type_alternative_name=0x7f0900f5;
-        public static final int boxplay_culture_searchngo_search_result_data_type_artists=0x7f0900fc;
-        public static final int boxplay_culture_searchngo_search_result_data_type_authors=0x7f0900fb;
-        public static final int boxplay_culture_searchngo_search_result_data_type_genders=0x7f0900f9;
-        public static final int boxplay_culture_searchngo_search_result_data_type_item_chapter=0x7f090103;
-        public static final int boxplay_culture_searchngo_search_result_data_type_item_video=0x7f090102;
-        public static final int boxplay_culture_searchngo_search_result_data_type_name=0x7f0900f3;
-        public static final int boxplay_culture_searchngo_search_result_data_type_null=0x7f090104;
-        public static final int boxplay_culture_searchngo_search_result_data_type_original_name=0x7f0900f4;
-        public static final int boxplay_culture_searchngo_search_result_data_type_other_name=0x7f0900f6;
-        public static final int boxplay_culture_searchngo_search_result_data_type_rating=0x7f090101;
-        public static final int boxplay_culture_searchngo_search_result_data_type_release_date=0x7f0900fe;
-        public static final int boxplay_culture_searchngo_search_result_data_type_resume=0x7f090100;
-        public static final int boxplay_culture_searchngo_search_result_data_type_status=0x7f0900fa;
-        public static final int boxplay_culture_searchngo_search_result_data_type_studios=0x7f0900fd;
+        public static final int boxplay_culture_searchngo_detail_tab_content=0x7f0900f3;
+        public static final int boxplay_culture_searchngo_detail_tab_info=0x7f0900f2;
+        /**  DIALOGS 
+         */
+        public static final int boxplay_culture_searchngo_dialog_search_history=0x7f0900f4;
+        public static final int boxplay_culture_searchngo_extractor_status_downloading_url=0x7f0900fe;
+        public static final int boxplay_culture_searchngo_extractor_status_downloading_video_site_url=0x7f0900fd;
+        public static final int boxplay_culture_searchngo_extractor_status_extracting_link=0x7f0900ff;
+        public static final int boxplay_culture_searchngo_extractor_status_formatting_result=0x7f090100;
+        public static final int boxplay_culture_searchngo_search_result_data_type_alternative_name=0x7f090104;
+        public static final int boxplay_culture_searchngo_search_result_data_type_artists=0x7f09010b;
+        public static final int boxplay_culture_searchngo_search_result_data_type_authors=0x7f09010a;
+        public static final int boxplay_culture_searchngo_search_result_data_type_genders=0x7f090108;
+        public static final int boxplay_culture_searchngo_search_result_data_type_item_chapter=0x7f090112;
+        public static final int boxplay_culture_searchngo_search_result_data_type_item_video=0x7f090111;
+        public static final int boxplay_culture_searchngo_search_result_data_type_name=0x7f090102;
+        public static final int boxplay_culture_searchngo_search_result_data_type_null=0x7f090113;
+        public static final int boxplay_culture_searchngo_search_result_data_type_original_name=0x7f090103;
+        public static final int boxplay_culture_searchngo_search_result_data_type_other_name=0x7f090105;
+        public static final int boxplay_culture_searchngo_search_result_data_type_rating=0x7f090110;
+        public static final int boxplay_culture_searchngo_search_result_data_type_release_date=0x7f09010d;
+        public static final int boxplay_culture_searchngo_search_result_data_type_resume=0x7f09010f;
+        public static final int boxplay_culture_searchngo_search_result_data_type_status=0x7f090109;
+        public static final int boxplay_culture_searchngo_search_result_data_type_studios=0x7f09010c;
         /**  ENUMS 
  ENUMS 
          */
-        public static final int boxplay_culture_searchngo_search_result_data_type_thumbnail=0x7f0900f2;
-        public static final int boxplay_culture_searchngo_search_result_data_type_traduction_team=0x7f0900f8;
-        public static final int boxplay_culture_searchngo_search_result_data_type_type=0x7f0900f7;
-        public static final int boxplay_culture_searchngo_search_result_data_type_views=0x7f0900ff;
+        public static final int boxplay_culture_searchngo_search_result_data_type_thumbnail=0x7f090101;
+        public static final int boxplay_culture_searchngo_search_result_data_type_traduction_team=0x7f090107;
+        public static final int boxplay_culture_searchngo_search_result_data_type_type=0x7f090106;
+        public static final int boxplay_culture_searchngo_search_result_data_type_views=0x7f09010e;
+        public static final int boxplay_culture_searchngo_search_status_global_failed=0x7f0900f8;
+        public static final int boxplay_culture_searchngo_search_status_global_finished=0x7f0900f7;
+        public static final int boxplay_culture_searchngo_search_status_global_sorting=0x7f0900f6;
+        /**  CALLBACKS 
+         */
+        public static final int boxplay_culture_searchngo_search_status_global_started=0x7f0900f5;
+        public static final int boxplay_culture_searchngo_search_status_provider_failed=0x7f0900fc;
+        public static final int boxplay_culture_searchngo_search_status_provider_finished=0x7f0900fb;
+        public static final int boxplay_culture_searchngo_search_status_provider_sorting=0x7f0900fa;
+        public static final int boxplay_culture_searchngo_search_status_provider_started=0x7f0900f9;
         public static final int boxplay_culture_searchngo_searchbar_hint=0x7f0900f1;
         /**   
  Culture > Search n' Go 
@@ -5088,25 +5107,25 @@ These two are only used when an Icon is applied to the StyleableToast
         public static final int boxplay_culture_searchngo_title=0x7f0900f0;
         /**  Urls 
          */
-        public static final int boxplay_data_download_url=0x7f090157;
-        public static final int boxplay_error_activity_invalid_data=0x7f09014d;
-        public static final int boxplay_error_config_failed=0x7f090153;
-        public static final int boxplay_error_fragment_type_unbind=0x7f09014e;
+        public static final int boxplay_data_download_url=0x7f09016b;
+        public static final int boxplay_error_activity_invalid_data=0x7f090161;
+        public static final int boxplay_error_config_failed=0x7f090167;
+        public static final int boxplay_error_fragment_type_unbind=0x7f090162;
         /**  Error 
  Ending - About 
  Error 
          */
-        public static final int boxplay_error_manager_json_null=0x7f09014c;
-        public static final int boxplay_error_not_implemented_yet=0x7f09014f;
-        public static final int boxplay_error_row_default_button=0x7f090156;
-        public static final int boxplay_error_row_default_content=0x7f090155;
+        public static final int boxplay_error_manager_json_null=0x7f090160;
+        public static final int boxplay_error_not_implemented_yet=0x7f090163;
+        public static final int boxplay_error_row_default_button=0x7f09016a;
+        public static final int boxplay_error_row_default_content=0x7f090169;
         /**  Error Row 
  Error Row 
          */
-        public static final int boxplay_error_row_default_title=0x7f090154;
-        public static final int boxplay_error_video_activity_invalid_time=0x7f090150;
-        public static final int boxplay_error_video_activity_vlc_error=0x7f090151;
-        public static final int boxplay_error_video_file_forget=0x7f090152;
+        public static final int boxplay_error_row_default_title=0x7f090168;
+        public static final int boxplay_error_video_activity_invalid_time=0x7f090164;
+        public static final int boxplay_error_video_activity_vlc_error=0x7f090165;
+        public static final int boxplay_error_video_file_forget=0x7f090166;
         /**   
   
          */
@@ -5130,122 +5149,133 @@ These two are only used when an Icon is applied to the StyleableToast
         /**  Other > About 
  Other > About 
          */
-        public static final int boxplay_other_about_about=0x7f090136;
+        public static final int boxplay_other_about_about=0x7f09014a;
         /**  Ending - About 
   
          */
-        public static final int boxplay_other_about_changelog=0x7f090148;
+        public static final int boxplay_other_about_changelog=0x7f09015c;
         /**  Description 
  Description 
          */
-        public static final int boxplay_other_about_description=0x7f090137;
+        public static final int boxplay_other_about_description=0x7f09014b;
         /**  Starting - About 
  Starting - About 
          */
-        public static final int boxplay_other_about_group_app_information=0x7f090138;
-        public static final int boxplay_other_about_group_app_information_version=0x7f090139;
-        public static final int boxplay_other_about_group_team_designer=0x7f090144;
+        public static final int boxplay_other_about_group_app_information=0x7f09014c;
+        public static final int boxplay_other_about_group_app_information_version=0x7f09014d;
+        public static final int boxplay_other_about_group_team_designer=0x7f090158;
         /**   
   
          */
-        public static final int boxplay_other_about_group_team_format=0x7f09013a;
-        public static final int boxplay_other_about_group_team_format_separator=0x7f090142;
-        public static final int boxplay_other_about_group_team_format_type_api=0x7f09013c;
-        public static final int boxplay_other_about_group_team_format_type_application=0x7f09013b;
-        public static final int boxplay_other_about_group_team_format_type_because=0x7f090141;
-        public static final int boxplay_other_about_group_team_format_type_eclipse=0x7f090140;
-        public static final int boxplay_other_about_group_team_format_type_hosting=0x7f09013f;
-        public static final int boxplay_other_about_group_team_format_type_icons=0x7f09013e;
-        public static final int boxplay_other_about_group_team_format_type_ui=0x7f09013d;
-        public static final int boxplay_other_about_group_team_helper=0x7f090146;
+        public static final int boxplay_other_about_group_team_format=0x7f09014e;
+        public static final int boxplay_other_about_group_team_format_separator=0x7f090156;
+        public static final int boxplay_other_about_group_team_format_type_api=0x7f090150;
+        public static final int boxplay_other_about_group_team_format_type_application=0x7f09014f;
+        public static final int boxplay_other_about_group_team_format_type_because=0x7f090155;
+        public static final int boxplay_other_about_group_team_format_type_eclipse=0x7f090154;
+        public static final int boxplay_other_about_group_team_format_type_hosting=0x7f090153;
+        public static final int boxplay_other_about_group_team_format_type_icons=0x7f090152;
+        public static final int boxplay_other_about_group_team_format_type_ui=0x7f090151;
+        public static final int boxplay_other_about_group_team_helper=0x7f09015a;
         /**   
   
          */
-        public static final int boxplay_other_about_group_team_programmer=0x7f090143;
-        public static final int boxplay_other_about_group_team_supporter=0x7f090145;
+        public static final int boxplay_other_about_group_team_programmer=0x7f090157;
+        public static final int boxplay_other_about_group_team_supporter=0x7f090159;
         /**   
   
          */
-        public static final int boxplay_other_about_hosting=0x7f090147;
+        public static final int boxplay_other_about_hosting=0x7f09015b;
         /**  Libraries 
  Libraries 
          */
-        public static final int boxplay_other_about_libraries=0x7f090149;
-        public static final int boxplay_other_about_libraries_error_no_url=0x7f09014a;
-        public static final int boxplay_other_about_libraries_format=0x7f09014b;
+        public static final int boxplay_other_about_libraries=0x7f09015d;
+        public static final int boxplay_other_about_libraries_error_no_url=0x7f09015e;
+        public static final int boxplay_other_about_libraries_format=0x7f09015f;
         public static final int boxplay_other_settings=0x7f09006b;
         /**   
   
          */
-        public static final int boxplay_other_settings_application_category_title=0x7f090129;
-        public static final int boxplay_other_settings_application_pref_clear_image_cache_key=0x7f090135;
-        public static final int boxplay_other_settings_application_pref_clear_image_cache_summary_done=0x7f090133;
-        public static final int boxplay_other_settings_application_pref_clear_image_cache_summary_error=0x7f090134;
+        public static final int boxplay_other_settings_application_category_title=0x7f09013d;
+        public static final int boxplay_other_settings_application_pref_clear_image_cache_key=0x7f090149;
+        public static final int boxplay_other_settings_application_pref_clear_image_cache_summary_done=0x7f090147;
+        public static final int boxplay_other_settings_application_pref_clear_image_cache_summary_error=0x7f090148;
         /**   
          */
-        public static final int boxplay_other_settings_application_pref_clear_image_cache_title=0x7f090132;
-        public static final int boxplay_other_settings_application_pref_crash_reporter_key=0x7f090131;
-        public static final int boxplay_other_settings_application_pref_crash_reporter_summary_disabled=0x7f090130;
-        public static final int boxplay_other_settings_application_pref_crash_reporter_summary_enabled=0x7f09012f;
-        /**   
-  
-         */
-        public static final int boxplay_other_settings_application_pref_crash_reporter_title=0x7f09012e;
-        public static final int boxplay_other_settings_application_pref_language_default_value=0x7f09012d;
-        public static final int boxplay_other_settings_application_pref_language_key=0x7f09012c;
-        public static final int boxplay_other_settings_application_pref_language_summary=0x7f09012b;
+        public static final int boxplay_other_settings_application_pref_clear_image_cache_title=0x7f090146;
+        public static final int boxplay_other_settings_application_pref_crash_reporter_key=0x7f090145;
+        public static final int boxplay_other_settings_application_pref_crash_reporter_summary_disabled=0x7f090144;
+        public static final int boxplay_other_settings_application_pref_crash_reporter_summary_enabled=0x7f090143;
         /**   
   
          */
-        public static final int boxplay_other_settings_application_pref_language_title=0x7f09012a;
+        public static final int boxplay_other_settings_application_pref_crash_reporter_title=0x7f090142;
+        public static final int boxplay_other_settings_application_pref_language_default_value=0x7f090141;
+        public static final int boxplay_other_settings_application_pref_language_key=0x7f090140;
+        public static final int boxplay_other_settings_application_pref_language_summary=0x7f09013f;
         /**   
   
          */
-        public static final int boxplay_other_settings_boxplay_category_title=0x7f090111;
-        public static final int boxplay_other_settings_boxplay_pref_background_service_key=0x7f090115;
-        public static final int boxplay_other_settings_boxplay_pref_background_service_summary_disabled=0x7f090114;
-        public static final int boxplay_other_settings_boxplay_pref_background_service_summary_enabled=0x7f090113;
+        public static final int boxplay_other_settings_application_pref_language_title=0x7f09013e;
         /**   
   
          */
-        public static final int boxplay_other_settings_boxplay_pref_background_service_title=0x7f090112;
-        public static final int boxplay_other_settings_boxplay_pref_force_factory_key=0x7f090119;
-        public static final int boxplay_other_settings_boxplay_pref_force_factory_summary_disabled=0x7f090118;
-        public static final int boxplay_other_settings_boxplay_pref_force_factory_summary_enabled=0x7f090117;
+        public static final int boxplay_other_settings_boxplay_category_title=0x7f090120;
+        public static final int boxplay_other_settings_boxplay_pref_background_service_key=0x7f090124;
+        public static final int boxplay_other_settings_boxplay_pref_background_service_summary_disabled=0x7f090123;
+        public static final int boxplay_other_settings_boxplay_pref_background_service_summary_enabled=0x7f090122;
         /**   
   
          */
-        public static final int boxplay_other_settings_boxplay_pref_force_factory_title=0x7f090116;
-        public static final int boxplay_other_settings_boxplay_pref_reset_tutorials_key=0x7f09011d;
-        public static final int boxplay_other_settings_boxplay_pref_reset_tutorials_summary_done=0x7f09011b;
-        public static final int boxplay_other_settings_boxplay_pref_reset_tutorials_summary_error=0x7f09011c;
+        public static final int boxplay_other_settings_boxplay_pref_background_service_title=0x7f090121;
+        public static final int boxplay_other_settings_boxplay_pref_force_factory_key=0x7f090128;
+        public static final int boxplay_other_settings_boxplay_pref_force_factory_summary_disabled=0x7f090127;
+        public static final int boxplay_other_settings_boxplay_pref_force_factory_summary_enabled=0x7f090126;
         /**   
   
          */
-        public static final int boxplay_other_settings_boxplay_pref_reset_tutorials_title=0x7f09011a;
+        public static final int boxplay_other_settings_boxplay_pref_force_factory_title=0x7f090125;
+        public static final int boxplay_other_settings_boxplay_pref_reset_tutorials_key=0x7f09012c;
+        public static final int boxplay_other_settings_boxplay_pref_reset_tutorials_summary_done=0x7f09012a;
+        public static final int boxplay_other_settings_boxplay_pref_reset_tutorials_summary_error=0x7f09012b;
         /**   
   
          */
-        public static final int boxplay_other_settings_menu_category_title=0x7f090124;
-        public static final int boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_key=0x7f090128;
-        public static final int boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_summary_disabled=0x7f090127;
-        public static final int boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_summary_enabled=0x7f090126;
+        public static final int boxplay_other_settings_boxplay_pref_reset_tutorials_title=0x7f090129;
         /**   
   
          */
-        public static final int boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_title=0x7f090125;
+        public static final int boxplay_other_settings_debug_category_title=0x7f090133;
+        public static final int boxplay_other_settings_debug_pref_extractor_show_logs_key=0x7f090137;
+        public static final int boxplay_other_settings_debug_pref_extractor_show_logs_summary_disabled=0x7f090136;
+        public static final int boxplay_other_settings_debug_pref_extractor_show_logs_summary_enabled=0x7f090135;
         /**   
   
          */
-        public static final int boxplay_other_settings_premium_category_title=0x7f09011e;
-        public static final int boxplay_other_settings_premium_pref_premium_key_key=0x7f090123;
-        public static final int boxplay_other_settings_premium_pref_premium_key_summary_invalid=0x7f090122;
-        public static final int boxplay_other_settings_premium_pref_premium_key_summary_no_key=0x7f090120;
-        public static final int boxplay_other_settings_premium_pref_premium_key_summary_valid=0x7f090121;
+        public static final int boxplay_other_settings_debug_pref_extractor_show_logs_title=0x7f090134;
         /**   
   
          */
-        public static final int boxplay_other_settings_premium_pref_premium_key_title=0x7f09011f;
+        public static final int boxplay_other_settings_menu_category_title=0x7f090138;
+        public static final int boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_key=0x7f09013c;
+        public static final int boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_summary_disabled=0x7f09013b;
+        public static final int boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_summary_enabled=0x7f09013a;
+        /**   
+  
+         */
+        public static final int boxplay_other_settings_menu_pref_drawer_extend_collapse_back_button_title=0x7f090139;
+        /**   
+  
+         */
+        public static final int boxplay_other_settings_premium_category_title=0x7f09012d;
+        public static final int boxplay_other_settings_premium_pref_premium_key_key=0x7f090132;
+        public static final int boxplay_other_settings_premium_pref_premium_key_summary_invalid=0x7f090131;
+        public static final int boxplay_other_settings_premium_pref_premium_key_summary_no_key=0x7f09012f;
+        public static final int boxplay_other_settings_premium_pref_premium_key_summary_valid=0x7f090130;
+        /**   
+  
+         */
+        public static final int boxplay_other_settings_premium_pref_premium_key_title=0x7f09012e;
         /**   
  Settings 
   
@@ -5254,15 +5284,15 @@ These two are only used when an Icon is applied to the StyleableToast
  Settings 
   
          */
-        public static final int boxplay_other_settings_store_music_category_title=0x7f09010b;
-        public static final int boxplay_other_settings_store_music_pref_my_genre_dialog_ok=0x7f09010f;
-        public static final int boxplay_other_settings_store_music_pref_my_genre_key=0x7f090110;
-        public static final int boxplay_other_settings_store_music_pref_my_genre_summary=0x7f09010d;
-        public static final int boxplay_other_settings_store_music_pref_my_genre_summary_empty=0x7f09010e;
+        public static final int boxplay_other_settings_store_music_category_title=0x7f09011a;
+        public static final int boxplay_other_settings_store_music_pref_my_genre_dialog_ok=0x7f09011e;
+        public static final int boxplay_other_settings_store_music_pref_my_genre_key=0x7f09011f;
+        public static final int boxplay_other_settings_store_music_pref_my_genre_summary=0x7f09011c;
+        public static final int boxplay_other_settings_store_music_pref_my_genre_summary_empty=0x7f09011d;
         /**   
   
          */
-        public static final int boxplay_other_settings_store_music_pref_my_genre_title=0x7f09010c;
+        public static final int boxplay_other_settings_store_music_pref_my_genre_title=0x7f09011b;
         public static final int boxplay_player_music_button_back=0x7f0900eb;
         public static final int boxplay_player_music_button_next=0x7f0900ec;
         public static final int boxplay_player_music_button_pause=0x7f0900ea;
@@ -5289,14 +5319,14 @@ These two are only used when an Icon is applied to the StyleableToast
  Premium > Adult 
   
          */
-        public static final int boxplay_premium_adult_adult=0x7f090105;
-        public static final int boxplay_premium_adult_status_computing_url=0x7f09010a;
+        public static final int boxplay_premium_adult_adult=0x7f090114;
+        public static final int boxplay_premium_adult_status_computing_url=0x7f090119;
         /**  Processor status 
          */
-        public static final int boxplay_premium_adult_status_downloading_data=0x7f090108;
-        public static final int boxplay_premium_adult_status_parsing=0x7f090109;
-        public static final int boxplay_premium_adult_warning_dialog_done=0x7f090107;
-        public static final int boxplay_premium_adult_warning_dialog_message=0x7f090106;
+        public static final int boxplay_premium_adult_status_downloading_data=0x7f090117;
+        public static final int boxplay_premium_adult_status_parsing=0x7f090118;
+        public static final int boxplay_premium_adult_warning_dialog_done=0x7f090116;
+        public static final int boxplay_premium_adult_warning_dialog_message=0x7f090115;
         /**   
   
          */
@@ -5598,14 +5628,14 @@ These two are only used when an Icon is applied to the StyleableToast
         public static final int status_bar_notification_info_overflow=0x7f090000;
         public static final int summary_collapsed_preference_list=0x7f09002e;
         public static final int title_activity_main2=0x7f090021;
-        public static final int title_activity_music=0x7f090159;
-        public static final int title_activity_searchandgo_detail=0x7f09015a;
+        public static final int title_activity_music=0x7f09016d;
+        public static final int title_activity_searchandgo_detail=0x7f09016e;
         /**  Other 
  Urls 
  <string name="boxplay_data_download_url">https://caceres.freeboxos.fr:583/share/n9npNCIdbJr1Wbq8/Android/data/boxplay_3.json</string> 
  Other 
          */
-        public static final int title_activity_video=0x7f090158;
+        public static final int title_activity_video=0x7f09016c;
         /**   
          */
         public static final int transition_view_reveal=0x7f09004b;

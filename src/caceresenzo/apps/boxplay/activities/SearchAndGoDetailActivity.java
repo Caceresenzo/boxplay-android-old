@@ -97,8 +97,8 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 		
 		adapter = new BaseViewPagerAdapter(getSupportFragmentManager());
 		
-		adapter.addFragment(infoFragment = new PageDetailInfoSearchAndGoFragment(), "INFO");
-		adapter.addFragment(contentFragment = new PageDetailContentSearchAndGoFragment(), "CONTENT");
+		adapter.addFragment(infoFragment = new PageDetailInfoSearchAndGoFragment(), getString(R.string.boxplay_culture_searchngo_detail_tab_info));
+		adapter.addFragment(contentFragment = new PageDetailContentSearchAndGoFragment(), getString(R.string.boxplay_culture_searchngo_detail_tab_content));
 		
 		viewPager.setAdapter(adapter);
 		viewPager.setOffscreenPageLimit(2);
@@ -144,11 +144,7 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 				return;
 			}
 			
-			if (additionals != null) {
-				if (infoFragment == null) {
-					return;
-				}
-				
+			if (additionals != null && infoFragment != null) {
 				while (!infoFragment.isUiReady()) {
 					ThreadUtils.sleep(20L);
 				}
@@ -161,11 +157,7 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 				});
 			}
 			
-			if (contents != null) {
-				if (infoFragment == null) {
-					return;
-				}
-				
+			if (contents != null && contentFragment != null) {
 				while (!contentFragment.isUiReady()) {
 					ThreadUtils.sleep(20L);
 				}
@@ -188,6 +180,10 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 			this.result = result;
 			return this;
 		}
+	}
+	
+	public static SearchAndGoDetailActivity getSearchAndGoDetaiLActivity() {
+		return INSTANCE;
 	}
 	
 }
