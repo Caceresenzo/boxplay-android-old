@@ -216,16 +216,28 @@
 
     <string name="boxplay_culture_searchngo_title">Search n\' Go</string>
     <string name="boxplay_culture_searchngo_searchbar_hint">Rechercher...</string>
-    <string name="boxplay_culture_searchngo_search_status_global_started">Démarrage de la recherche globale...</string>
-    <string name="boxplay_culture_searchngo_search_status_global_sorting">Triage des résultats...</string>
-    <string name="boxplay_culture_searchngo_search_status_global_finished">Recherche globale terminé!</string>
-    <string name="boxplay_culture_searchngo_search_status_global_failed">La recherche à échoué.</string>
-    <string name="boxplay_culture_searchngo_search_status_provider_started">Recherche sur %s...</string>
-    <string name="boxplay_culture_searchngo_search_status_provider_sorting">Triage des resultats de %s...</string>
-    <string name="boxplay_culture_searchngo_search_status_provider_finished">La recherche sur %s est terminé!</string>
-    <string name="boxplay_culture_searchngo_search_status_provider_failed" formatted="false">La recherche sur %s à échoué. (erreur: %s)</string>
     <string name="boxplay_culture_searchngo_detail_tab_info">INFO</string>
     <string name="boxplay_culture_searchngo_detail_tab_content">CONTENU</string>
+    <string name="boxplay_culture_searchngo_info_no_provider">Aucun fournisseur sélectionné.\nAllez dans les Paramètres, cliquez sur "Fournisseur", et selectionnez en au moins un.</string>
+    <string name="boxplay_culture_searchngo_info_no_query">Faite une recherche!</string>
+    <!-- DIALOGS -->
+    <string name="boxplay_culture_searchngo_dialog_search_history">Historique de recherche (10 derniers)</string>
+    <string name="boxplay_culture_searchngo_dialog_settings">Paramètres</string>
+    <string name="boxplay_culture_searchngo_dialog_settings_item_provider">Fournisseurs</string>
+    <!-- CALLBACKS -->
+    <string name="boxplay_culture_searchngo_search_status_global_started">Démarrage de la recherche globale...</string>
+    <string name="boxplay_culture_searchngo_search_status_global_sorting">Triage des résultats...</string>
+    <string name="boxplay_culture_searchngo_search_status_global_finished">Recherche globale terminée!</string>
+    <string name="boxplay_culture_searchngo_search_status_global_failed">La recherche a échoué.</string>
+    <string name="boxplay_culture_searchngo_search_status_provider_started">Recherche sur %s...</string>
+    <string name="boxplay_culture_searchngo_search_status_provider_sorting">Triage des resultats de %s...</string>
+    <string name="boxplay_culture_searchngo_search_status_provider_finished">La recherche sur %s est terminée!</string>
+    <string name="boxplay_culture_searchngo_search_status_provider_failed" formatted="false">La recherche sur %s a échoué. (erreur: %s)</string>
+    <string name="boxplay_culture_searchngo_extractor_status_downloading_video_site_url">Téléchargement de l\'url du site video "%s"...</string>
+    <string name="boxplay_culture_searchngo_extractor_status_downloading_url">Téléchargement de l\'url "%s"...</string>
+    <string name="boxplay_culture_searchngo_extractor_status_extracting_link">Extraction du lien...</string>
+    <string name="boxplay_culture_searchngo_extractor_status_formatting_result">Formattage du résultat...</string>
+
     <!-- ENUMS -->
     <string name="boxplay_culture_searchngo_search_result_data_type_thumbnail">Vignette</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_name">Nom</string>

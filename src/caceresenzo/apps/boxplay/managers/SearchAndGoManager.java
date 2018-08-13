@@ -3,12 +3,15 @@ package caceresenzo.apps.boxplay.managers;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import android.support.v4.util.ArraySet;
 import android.util.Log;
-import caceresenzo.apps.boxplay.fragments.culture.searchngo.PageCultureSearchAndGoFragment.SearchHistoryItem;
+import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.apps.boxplay.managers.XManagers.SubManager;
 import caceresenzo.libs.boxplay.common.extractor.ContentExtractor;
@@ -50,7 +53,7 @@ public class SearchAndGoManager extends AbstractManager {
 		this.worker = new Worker();
 		
 		this.providers = new ArrayList<>();
-		providers.addAll(ProviderManager.createAll()); // TODO: Do a user selection
+		readProviders();
 		
 		registerCallbacks();
 	}
@@ -103,6 +106,27 @@ public class SearchAndGoManager extends AbstractManager {
 		}
 		
 		getSearchSuggestionSubManager().save();
+	}
+	
+	public List<SearchAndGoProvider> getProviders() {
+		return providers;
+	}
+	
+	public void readProviders() {
+		ProviderManager[] creatableProviders = ProviderManager.values();
+		
+		Set<String> defaultValue = new ArraySet<String>();
+		for (ProviderManager creatableProvider : creatableProviders) {
+			defaultValue.add(creatableProvider.toString());
+		}
+		
+		Set<String> enabledProvidersSet = getManagers().getPreferences().getStringSet(getString(R.string.boxplay_other_settings_culture_searchngo_pref_enabled_providers_key), defaultValue);
+		
+		for (ProviderManager creatableProvider : creatableProviders) {
+			if (enabledProvidersSet.contains(creatableProvider.toString())) {
+				providers.add(creatableProvider.create());
+			}
+		}
 	}
 	
 	public List<SearchHistoryItem> getSearchHistory() {
@@ -331,6 +355,46 @@ public class SearchAndGoManager extends AbstractManager {
 			} catch (Exception exception) {
 				Log.e(getClass().getSimpleName(), "Failed to save search history.", exception);
 			}
+		}
+	}
+	
+	/**
+	 * Class to hold information about a search history
+	 * 
+	 * @author Enzo CACERES
+	 */
+	public static class SearchHistoryItem {
+		private final String query;
+		private long date;
+		
+		public SearchHistoryItem(String query) {
+			this(query, System.currentTimeMillis());
+		}
+		
+		public SearchHistoryItem(String query, long date) {
+			this.query = query;
+			this.date = date;
+		}
+		
+		public String getQuery() {
+			return query;
+		}
+		
+		public Date getDate() {
+			return new Date(date);
+		}
+		
+		public void updateDate() {
+			setDate(new Date(System.currentTimeMillis()));
+		}
+		
+		public void setDate(Date date) {
+			this.date = date.getTime();
+		}
+		
+		@Override
+		public String toString() {
+			return "SearchSuggestionItem[query=" + query + ", date=" + date + "]";
 		}
 	}
 	

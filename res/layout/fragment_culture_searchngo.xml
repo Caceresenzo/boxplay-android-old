@@ -27,7 +27,7 @@
                 android:layout_marginTop="@dimen/main_card_margin_vertical_big" >
 
                 <com.mancj.materialsearchbar.MaterialSearchBar
-                    android:id="@+id/fragment_culture_searchno_materialsearchbar_searchbar"
+                    android:id="@+id/fragment_culture_searchngo_materialsearchbar_searchbar"
                     style="@style/customMaterialSearchBarStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -44,7 +44,7 @@
                 android:orientation="horizontal" >
 
                 <ImageButton
-                    android:id="@+id/fragment_culture_searchno_imagebutton_bookmark"
+                    android:id="@+id/fragment_culture_searchngo_imagebutton_bookmark"
                     style="@style/imageViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     android:src="@drawable/icon_bookmark_border_light" />
 
                 <ImageButton
-                    android:id="@+id/fragment_culture_searchno_imagebutton_history"
+                    android:id="@+id/fragment_culture_searchngo_imagebutton_history"
                     style="@style/imageViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                     android:src="@drawable/icon_history_light" />
 
                 <ImageButton
-                    android:id="@+id/fragment_culture_searchno_imagebutton_settings"
+                    android:id="@+id/fragment_culture_searchngo_imagebutton_settings"
                     style="@style/imageViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
             <include layout="@layout/view_line_separator" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/fragment_culture_searchno_recyclerview_search_result"
+                android:id="@+id/fragment_culture_searchngo_recyclerview_search_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/main_card_margin_vertical_big"
@@ -87,5 +87,34 @@
                 android:fillViewport="true" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/fragment_culture_searchngo_progressbar_loading"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <FrameLayout
+        android:id="@+id/fragment_culture_searchngo_framelayout_info_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/fragment_culture_searchngo_textview_info_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_culture_searchngo_imageview_info_icon"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="@string/boxplay_culture_searchngo_info_make_a_search" />
+        </RelativeLayout>
+    </FrameLayout>
 
 </RelativeLayout>

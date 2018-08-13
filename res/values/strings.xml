@@ -224,8 +224,12 @@
     <string name="boxplay_culture_searchngo_searchbar_hint">Search...</string>
     <string name="boxplay_culture_searchngo_detail_tab_info">INFO</string>
     <string name="boxplay_culture_searchngo_detail_tab_content">CONTENT</string>
+    <string name="boxplay_culture_searchngo_info_no_provider">Error: No provider selected.\nGo into Settings, click Providers, and select at least one.</string>
+    <string name="boxplay_culture_searchngo_info_make_a_search">Make a search!</string>
     <!-- DIALOGS -->
     <string name="boxplay_culture_searchngo_dialog_search_history">Search history (10 last)</string>
+    <string name="boxplay_culture_searchngo_dialog_settings">Settings</string>
+    <string name="boxplay_culture_searchngo_dialog_settings_item_provider">Providers</string>
     <!-- CALLBACKS -->
     <string name="boxplay_culture_searchngo_search_status_global_started">Starting global search...</string>
     <string name="boxplay_culture_searchngo_search_status_global_sorting">Sorting results...</string>
@@ -276,6 +280,8 @@
     <!-- Settings -->
     <!--  -->
 
+    <string name="boxplay_other_settings_culture_searchngo_pref_enabled_providers_key">searchngo_enabled_providers</string>
+    <!--  -->
     <string name="boxplay_other_settings_store_music_category_title">Store > Music</string>
     <!--  -->
     <string name="boxplay_other_settings_store_music_pref_my_genre_title">My Music Genre</string>
