@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
 
+	<changelogversion versionName="3.0.8 BETA" changeDate="14/08/2018">
+		<changelogtext>[b]Search n' Go PREVIEW 1[/b]</changelogtext>
+		<changelogtext>[b]New![/b] UI Icons</changelogtext>
+		<changelogtext>[b]New![/b] Search n' Go Page</changelogtext>
+		<changelogtext>[b]New![/b] Video extractor</changelogtext>
+		<changelogtext>[b]New![/b] Search engine</changelogtext>
+		<changelogtext>[b]Fixed![/b] Bugs in the library page causing the Tabs not fully scrolling</changelogtext>
+		<changelogtext>[b]Optimized![/b] BoxPlay3 Core Library</changelogtext>
+	</changelogversion>
+
 	<changelogversion versionName="3.0.7 BETA" changeDate="05/08/2018">
 		<changelogtext>[b]UI Rework Update (with Quentin)[/b]</changelogtext>
 		<changelogtext>[b]New![/b] UI Design</changelogtext>

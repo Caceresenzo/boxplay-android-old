@@ -34,7 +34,7 @@ public class BoxPlayApplication extends Application {
 	 */
 	public static final String FILEPROVIDER_AUTHORITY = "caceresenzo.apps.boxplay.provider";
 	
-	private static final Version VERSION = new Version("3.0.7", VersionType.BETA);
+	private static final Version VERSION = new Version("3.0.8", VersionType.BETA);
 	
 	private static BoxPlayApplication APPLICATION;
 	private SharedPreferences sharedPreferences;

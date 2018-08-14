@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
+    
+    <changelogversion versionName="3.0.8 BETA" changeDate="14/08/2018">
+		<changelogtext>[b]Search n' Go PREVIEW 1[/b]</changelogtext>
+		<changelogtext>[b]Nouveau![/b] Icons pour l'interface</changelogtext>
+		<changelogtext>[b]Nouveau![/b] Search n' Go Page</changelogtext>
+		<changelogtext>[b]Nouveau![/b] Extracteur de vidéo</changelogtext>
+		<changelogtext>[b]Nouveau![/b] Moteur de recherche</changelogtext>
+		<changelogtext>[b]Fixé![/b] Un bug sur la page des bibliothèques qui causait que les tabs ne remontait pas</changelogtext>
+		<changelogtext>[b]Optimisé![/b] La bibliothèque du noyau de BoxPlay3</changelogtext>
+	</changelogversion>
 
 	<changelogversion versionName="3.0.7 BETA" changeDate="05/08/2018">
-		<changelogtext>[b]Mise à jour de l'Interface, completement retravaillé (avec Quentin)[/b]</changelogtext>
-		<changelogtext>[b]Nouveau![/b] Designe de l'interfdace</changelogtext>
+		<changelogtext>[b]Mise à jour de l'Interface, complètement retravaillé (avec Quentin)[/b]</changelogtext>
+		<changelogtext>[b]Nouveau![/b] Designe de l'interface</changelogtext>
 		<changelogtext>[b]Nouveau![/b] L'appli se relance quand vous changez de language</changelogtext>
 		<changelogtext>[b]Fixé![/b] Quelque bugs</changelogtext>
 		<changelogtext>[b]Optimisé![/b] Système des tutoriels</changelogtext>
