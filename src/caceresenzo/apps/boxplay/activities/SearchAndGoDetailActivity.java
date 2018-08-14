@@ -116,7 +116,10 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 		
 		BoxPlayApplication application = BoxPlayApplication.getBoxPlayApplication();
 		
-		application.startActivity(new Intent(application, SearchAndGoDetailActivity.class));
+		Intent intent = new Intent(application, SearchAndGoDetailActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		
+		application.startActivity(intent);
 	}
 	
 	class Worker extends HelpedThread {

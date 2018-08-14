@@ -2,6 +2,7 @@ package caceresenzo.apps.boxplay.managers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
@@ -313,7 +314,8 @@ public class SearchAndGoManager extends AbstractManager {
 					queryHistory.add(new SearchHistoryItem(query, date));
 				}
 				
-				queryHistory.sort(QUERY_COMPARATOR);
+				Collections.sort(queryHistory, QUERY_COMPARATOR);
+				// queryHistory.sort(QUERY_COMPARATOR);
 			} catch (Exception exception) {
 				;
 			}
@@ -322,9 +324,8 @@ public class SearchAndGoManager extends AbstractManager {
 		}
 		
 		public void save() {
-			queryHistory.sort(QUERY_COMPARATOR);
-			
-			BoxPlayActivity.getBoxPlayActivity().toast("last; " + queryHistory.get(0).query).show();
+			// queryHistory.sort(QUERY_COMPARATOR);
+			Collections.sort(queryHistory, QUERY_COMPARATOR);
 			
 			while (queryHistory.size() > MAX_SEARCH_QUERY_COUNT) {
 				queryHistory.remove(queryHistory.size() - 1);

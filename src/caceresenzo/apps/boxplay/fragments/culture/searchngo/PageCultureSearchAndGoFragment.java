@@ -76,6 +76,10 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		this.searchQueryHistory = searchAndGoManager.getSearchHistory();
 		
 		this.searchAndGoManager.bindCallback(new SearchAndGoSearchCallback() {
+			private String getString(int ressourceId, Object... formatArgs) {
+				return boxPlayActivity.getString(ressourceId, formatArgs);
+			}
+			
 			@Override
 			public void onSearchStart() {
 				searchStart();
