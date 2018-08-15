@@ -3,6 +3,7 @@ package caceresenzo.apps.boxplay.fragments.other.about;
 import android.support.design.widget.TabLayout;
 import android.view.View;
 import caceresenzo.apps.boxplay.R;
+import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.BaseTabLayoutFragment;
 import caceresenzo.apps.boxplay.fragments.utils.ViewFragment;
@@ -54,7 +55,7 @@ public class AboutFragment extends BaseTabLayoutFragment {
 				 */
 				.addGroup(getString(R.string.boxplay_other_about_group_app_information)) //
 				.addItem( //
-						new Element(getString(R.string.boxplay_other_about_group_app_information_version, BoxPlayApplication.getVersion().get()), null) //
+						new Element(getString(R.string.boxplay_other_about_group_app_information_version, BoxPlayApplication.getVersion().get() + (BoxPlayActivity.BUILD_DEBUG ? " DEBUG-BUILD" : "")), null) //
 								.setBackgroundColor(R.color.colorBackground)) //
 				
 				/*

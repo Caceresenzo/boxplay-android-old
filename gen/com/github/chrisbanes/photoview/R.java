@@ -4,7 +4,7 @@
  * aapt tool from the resource data it found.  It
  * should not be modified by hand.
  */
-package com.budiyev.android.imageloader;
+package com.github.chrisbanes.photoview;
 
 public final class R {
 	public static final class anim {

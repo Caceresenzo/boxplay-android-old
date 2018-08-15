@@ -12,20 +12,28 @@ public class ViewFragment extends Fragment {
 	
 	public static final String TAG = ViewFragment.class.getSimpleName();
 	
+	private boolean activityCreated = false;
+	
 	private FrameLayout containerFrameLayout;
 	private View targetView;
+	private boolean withScroll;
 	
 	public ViewFragment() {
-		;
+		this(null, true);
 	}
 	
 	public ViewFragment(View view) {
-		setTargetView(view);
+		this(view, true);
+	}
+	
+	public ViewFragment(View view, boolean withScroll) {
+		this.targetView = view;
+		this.withScroll = withScroll;
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_view, container, false);
+		View view = inflater.inflate(withScroll ? R.layout.fragment_view : R.layout.fragment_view_noscroll, container, false);
 		containerFrameLayout = (FrameLayout) view.findViewById(R.id.fragment_view_framelayout_container);
 		return view;
 	}
@@ -34,9 +42,9 @@ public class ViewFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		if (targetView != null) {
-			containerFrameLayout.addView(targetView);
-		}
+		activityCreated = true;
+		
+		applyView();
 	}
 	
 	public View getTargetView() {
@@ -45,6 +53,16 @@ public class ViewFragment extends Fragment {
 	
 	public void setTargetView(View targetView) {
 		this.targetView = targetView;
+		
+		if (activityCreated) {
+			applyView();
+		}
+	}
+	
+	private void applyView() {
+		if (targetView != null) {
+			containerFrameLayout.addView(targetView);
+		}
 	}
 	
 }

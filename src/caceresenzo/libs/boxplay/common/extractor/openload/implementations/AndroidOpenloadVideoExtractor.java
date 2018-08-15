@@ -6,7 +6,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
-import caceresenzo.libs.boxplay.common.extractor.openload.OpenloadVideoExtractor;
+import caceresenzo.libs.boxplay.common.extractor.video.implementations.OpenloadVideoExtractor;
 import caceresenzo.libs.boxplay.culture.searchngo.providers.ProviderHelper;
 import caceresenzo.libs.network.Downloader;
 import caceresenzo.libs.string.StringUtils;
@@ -114,11 +114,6 @@ public class AndroidOpenloadVideoExtractor extends OpenloadVideoExtractor {
 		getLogger().separator().appendln("Openload > Key: " + key);
 		
 		return key;
-	}
-	
-	@Override
-	public void notifyException(Exception exception) {
-		getLogger().appendln(exception.getClass() + ": An error occured").appendln("Stacktrace: ").appendln(StringUtils.fromException(exception));
 	}
 	
 }

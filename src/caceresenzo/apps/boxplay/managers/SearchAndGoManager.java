@@ -16,9 +16,11 @@ import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.apps.boxplay.managers.XManagers.SubManager;
 import caceresenzo.libs.boxplay.common.extractor.ContentExtractor;
-import caceresenzo.libs.boxplay.common.extractor.VideoContentExtractor;
-import caceresenzo.libs.boxplay.common.extractor.openload.OpenloadVideoExtractor;
+import caceresenzo.libs.boxplay.common.extractor.image.manga.MangaContentExtractor;
+import caceresenzo.libs.boxplay.common.extractor.image.manga.implementations.GenericMangaLelChapterExtractor;
 import caceresenzo.libs.boxplay.common.extractor.openload.implementations.AndroidOpenloadVideoExtractor;
+import caceresenzo.libs.boxplay.common.extractor.video.VideoContentExtractor;
+import caceresenzo.libs.boxplay.common.extractor.video.implementations.OpenloadVideoExtractor;
 import caceresenzo.libs.boxplay.culture.searchngo.callback.ProviderSearchCallback;
 import caceresenzo.libs.boxplay.culture.searchngo.callback.SearchCallback;
 import caceresenzo.libs.boxplay.culture.searchngo.providers.ProviderCallback;
@@ -73,6 +75,20 @@ public class SearchAndGoManager extends AbstractManager {
 		
 		if (firstItem.equals(OpenloadVideoExtractor.class)) {
 			return new AndroidOpenloadVideoExtractor(boxPlayActivity);
+		}
+		
+		return null;
+	}
+	
+	public MangaContentExtractor createMangaExtractorFromCompatible(Class<? extends ContentExtractor>[] classes) {
+		if (classes == null || classes.length == 0) {
+			return null;
+		}
+		
+		Class<? extends ContentExtractor> firstItem = classes[0];
+		
+		if (firstItem.equals(GenericMangaLelChapterExtractor.class)) {
+			return new GenericMangaLelChapterExtractor();
 		}
 		
 		return null;
@@ -403,7 +419,7 @@ public class SearchAndGoManager extends AbstractManager {
 		
 		@Override
 		public String toString() {
-			return "SearchSuggestionItem[query=" + query + ", date=" + date + "]";
+			return "SearchHistoryItem[query=" + query + ", date=" + date + "]";
 		}
 	}
 	

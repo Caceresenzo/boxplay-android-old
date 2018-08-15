@@ -18,16 +18,17 @@ import android.widget.TextView;
 import caceresenzo.android.libs.dialog.DialogUtils;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.activities.MangaChapterReaderActivity;
 import caceresenzo.apps.boxplay.activities.SearchAndGoDetailActivity;
 import caceresenzo.apps.boxplay.dialog.WorkingProgressDialog;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
 import caceresenzo.apps.boxplay.managers.DebugManager;
 import caceresenzo.apps.boxplay.managers.SearchAndGoManager;
-import caceresenzo.libs.boxplay.common.extractor.VideoContentExtractor;
-import caceresenzo.libs.boxplay.common.extractor.VideoContentExtractor.VideoContentExtractorProgressCallback;
-import caceresenzo.libs.boxplay.culture.searchngo.content.image.IImageContentProvider;
+import caceresenzo.libs.boxplay.common.extractor.video.VideoContentExtractor;
+import caceresenzo.libs.boxplay.common.extractor.video.VideoContentExtractor.VideoContentExtractorProgressCallback;
 import caceresenzo.libs.boxplay.culture.searchngo.content.video.IVideoContentProvider;
 import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalResultData;
+import caceresenzo.libs.boxplay.culture.searchngo.data.models.content.ChapterItemResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.data.models.content.VideoItemResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 import caceresenzo.libs.thread.HelpedThread;
@@ -211,7 +212,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 							}
 							
 							case ITEM_CHAPTER: {
-								boxPlayActivity.toast("No compatible " + IImageContentProvider.class.getSimpleName() + " found.").show();
+								MangaChapterReaderActivity.start((ChapterItemResultData) additionalData.getData());
 								break;
 							}
 							
@@ -249,7 +250,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 			});
 			
 			try {
-				directUrl = extractor.extractDirectVideoUrl(videoContentProvider.extractVideoUrl(videoItem), new VideoContentExtractorProgressCallback() {
+				directUrl = extractor.extractDirectVideoUrl(videoContentProvider.extractVideoPageUrl(videoItem), new VideoContentExtractorProgressCallback() {
 					@Override
 					public void onDownloadingUrl(final String targetUrl) {
 						handler.post(new Runnable() {

@@ -52,6 +52,8 @@
     <dimen name="searchngo_element_text_margin_next_to_separator">8dp</dimen>
     <dimen name="searchngo_element_seperator_margin">8dp</dimen>
     <dimen name="searchngo_element_card_height">170dp</dimen>
+    <dimen name="manga_chapter_reader_panel_height">40dp</dimen>
+    <dimen name="manga_chapter_reader_panel_max_height">170dp</dimen>
 
     <!-- ADULT (element) -->
     <dimen name="adult_video_width">184dp</dimen>

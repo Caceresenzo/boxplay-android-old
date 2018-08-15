@@ -19,7 +19,7 @@ import caceresenzo.libs.comparator.VersionType;
 
 public class BoxPlayApplication extends Application {
 	
-	private static final Version VERSION = new Version("3.0.9", VersionType.BETA);
+	private static final Version VERSION = new Version("3.1.0", VersionType.BETA);
 	
 	/**
 	 * Android request id

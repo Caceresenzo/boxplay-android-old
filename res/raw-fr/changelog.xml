@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
 
+	<changelogversion versionName="3.1.0 BETA" changeDate="15/08/2018">
+		<changelogtext>[b]Search n' Go PREVIEW 3[/b]</changelogtext>
+		<changelogtext>[b]Nouveau![/b] Lecteur de Manga primitif</changelogtext>
+	</changelogversion>
+
 	<changelogversion versionName="3.0.9 BETA" changeDate="15/08/2018">
 		<changelogtext>[b]Search n' Go PREVIEW 2[/b]</changelogtext>
 		<changelogtext>[b]Nouveau![/b] Site: VOIRFILM.bz</changelogtext>

@@ -48,41 +48,62 @@ public class XManagers {
 		// Config
 		preferences = PreferenceManager.getDefaultSharedPreferences(BoxPlayApplication.getBoxPlayApplication());
 		
-		// Permission
-		managers.add(permissionManager = new PermissionManager());
-		// permissionManager.initialize();
+		if (permissionManager == null) {
+			// Permission
+			managers.add(permissionManager = new PermissionManager());
+			// permissionManager.initialize();
+		}
 		
-		// Data
-		managers.add(dataManager = new DataManager());
-		// dataManager.initialize();
+		if (dataManager == null) {
+			// Data
+			managers.add(dataManager = new DataManager());
+			// dataManager.initialize();
+		}
 		
-		// Elements
-		managers.add(videoManager = new VideoManager());
-		// videoManager.initialize();
-		managers.add(musicManager = new MusicManager());
-		// musicManager.initialize();
+		if (videoManager == null) {
+			// Elements
+			managers.add(videoManager = new VideoManager());
+			// videoManager.initialize();
+		}
 		
-		managers.add(serverManager = new ServerManager());
-		// serverManager.initialize();
+		if (musicManager == null) {
+			managers.add(musicManager = new MusicManager());
+			// musicManager.initialize();
+		}
 		
-		// Update
-		managers.add(updateManager = new UpdateManager());
-		// updateManager.initialize();
+		if (serverManager == null) {
+			managers.add(serverManager = new ServerManager());
+			// serverManager.initialize();
+		}
 		
-		// Tutorials
-		managers.add(tutorialManager = new TutorialManager());
-		// tutorialManager.initialize();
+		if (updateManager == null) {
+			// Update
+			managers.add(updateManager = new UpdateManager());
+			// updateManager.initialize();
+			
+		}
+		if (tutorialManager == null) {
+			// Tutorials
+			managers.add(tutorialManager = new TutorialManager());
+			// tutorialManager.initialize();
+		}
 		
-		// Premium
-		managers.add(premiumManager = new PremiumManager());
-		// premiumManager.initialize();
+		if (premiumManager == null) {
+			// Premium
+			managers.add(premiumManager = new PremiumManager());
+			// premiumManager.initialize();
+		}
 		
-		// Search n' Go
-		managers.add(searchAndGoManager = new SearchAndGoManager());
-		// searchAndGoManager.initialize();
+		if (searchAndGoManager == null) {
+			// Search n' Go
+			managers.add(searchAndGoManager = new SearchAndGoManager());
+			// searchAndGoManager.initialize();
+		}
 		
-		// Extraction
-		managers.add(debugManager = new DebugManager());
+		if (debugManager == null) {
+			// Extraction
+			managers.add(debugManager = new DebugManager());
+		}
 		
 		for (AbstractManager manager : managers) {
 			manager.initialize();
@@ -94,6 +115,16 @@ public class XManagers {
 	public void destroy() {
 		for (AbstractManager manager : managers) {
 			manager.destroy();
+		}
+	}
+	
+	public void checkAndRecreate() {
+		if (managers == null) {
+			managers = new ArrayList<>();
+			
+			if (BoxPlayActivity.getBoxPlayActivity() != null) {
+				initialize(BoxPlayActivity.getBoxPlayActivity());
+			}
 		}
 	}
 	
@@ -110,42 +141,52 @@ public class XManagers {
 	}
 	
 	public PermissionManager getPermissionManager() {
+		checkAndRecreate();
 		return permissionManager;
 	}
 	
 	public DataManager getDataManager() {
+		checkAndRecreate();
 		return dataManager;
 	}
 	
 	public VideoManager getVideoManager() {
+		checkAndRecreate();
 		return videoManager;
 	}
 	
 	public MusicManager getMusicManager() {
+		checkAndRecreate();
 		return musicManager;
 	}
 	
 	public ServerManager getServerManager() {
+		checkAndRecreate();
 		return serverManager;
 	}
 	
 	public UpdateManager getUpdateManager() {
+		checkAndRecreate();
 		return updateManager;
 	}
 	
 	public TutorialManager getTutorialManager() {
+		checkAndRecreate();
 		return tutorialManager;
 	}
 	
 	public PremiumManager getPremiumManager() {
+		checkAndRecreate();
 		return premiumManager;
 	}
 	
 	public SearchAndGoManager getSearchAndGoManager() {
+		checkAndRecreate();
 		return searchAndGoManager;
 	}
 	
 	public DebugManager getDebugManager() {
+		checkAndRecreate();
 		return debugManager;
 	}
 	

@@ -53,6 +53,8 @@ import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
  */
 public class BoxPlayActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Tutorialable {
 	
+	public static final boolean BUILD_DEBUG = false;
+	
 	/**
 	 * Tutorial path id
 	 */
@@ -95,13 +97,6 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		// if (savedInstanceState == null) {
 		// showFragment(new PlaceholderFragment());
 		// }
-		
-		HANDLER.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				// showFragment(new CultureFragment().withSearchAndGo());
-			}
-		}, 200);
 	}
 	
 	@Override
@@ -249,6 +244,39 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		HELPER.prepareCache(this);
 	}
 	
+	private void initializeDebug() {
+		if (!BUILD_DEBUG) {
+			return;
+		}
+		
+		optionsMenu.findItem(R.id.menu_main_action_debug).setVisible(true);
+		
+		HANDLER.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				// showFragment(new CultureFragment().withSearchAndGo());
+			}
+		}, 200);
+	}
+	
+	private void onDebugClick(MenuItem menuItem) {
+		// startActivity(new Intent(this, VideoPlayerActivity.class));
+		
+		// Manga
+		SearchAndGoDetailActivity.start(new SearchAndGoResult(ProviderManager.MANGALEL.create(), //
+				"Arifureta Shokugyou de Sekai Saikyou", //
+				"https://www.manga-lel.com/manga/arifureta-shokugyou-de-sekai-saikyou/", //
+				"https://www.manga-lel.com//uploads/manga/arifureta-shokugyou-de-sekai-saikyou/cover/cover_250x350.jpg")); //
+		
+		// MangaChapterReaderActivity.start(null);
+		
+		// Anime
+		// SearchAndGoDetailActivity.start(new SearchAndGoResult(ProviderManager.JETANIME.create(), //
+		// "Death March Kara Hajimaru Isekai Kyousoukyoku", //
+		// "https://www.jetanime.co/anime/death-march-kara-hajimaru-isekai-kyousoukyoku/", //
+		// "https://www.jetanime.co/assets/imgs/death-march-kara-hajimaru-isekai-kyousoukyoku.jpg")); //
+	}
+	
 	/**
 	 * Used to show the menu
 	 */
@@ -260,6 +288,8 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		
 		getMenuInflater().inflate(R.menu.main, menu);
 		optionsMenu = menu;
+		
+		initializeDebug();
 		
 		return true;
 	}
@@ -287,19 +317,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 			}
 			
 			case R.id.menu_main_action_debug: {
-				// startActivity(new Intent(this, VideoPlayerActivity.class));
-				
-				// Manga
-				// SearchAndGoDetailActivity.start(new SearchAndGoResult(ProviderManager.MANGALEL.create(), //
-				// "Arifureta Shokugyou de Sekai Saikyou", //
-				// "https://www.manga-lel.com/manga/arifureta-shokugyou-de-sekai-saikyou/", //
-				// "https://www.manga-lel.com//uploads/manga/arifureta-shokugyou-de-sekai-saikyou/cover/cover_250x350.jpg")); //
-				
-				// Anime
-				SearchAndGoDetailActivity.start(new SearchAndGoResult(ProviderManager.JETANIME.create(), //
-						"Death March Kara Hajimaru Isekai Kyousoukyoku", //
-						"https://www.jetanime.co/anime/death-march-kara-hajimaru-isekai-kyousoukyoku/", //
-						"https://www.jetanime.co/assets/imgs/death-march-kara-hajimaru-isekai-kyousoukyoku.jpg")); //
+				onDebugClick(item);
 				break;
 			}
 			
@@ -703,7 +721,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	/**
 	 * Get the activity instance
 	 */
-	public static BoxPlayActivity getBoxPlayActivity() {
+	public static BoxPlayActivity getBoxPlayActivity() {		
 		return INSTANCE;
 	}
 	

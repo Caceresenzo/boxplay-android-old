@@ -266,6 +266,10 @@
     <string name="boxplay_culture_searchngo_search_result_data_type_item_video">Vidéo</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_item_chapter">Chapitre</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_null">NULL</string>
+    <!-- MANGA VIEWER -->
+    <string name="boxplay_manga_chapter_reader_format_info" formatted="false">%s\nPage %s/%s</string>
+    <string name="boxplay_manga_chapter_reader_format_error" formatted="false">- ERREUR -\n%s\n\n- Stacktrace -\n%s\n\nS\'il vous plait, envoyez moi une capture d\'écren si vous voyez ceci!</string>
+    <string name="boxplay_manga_chapter_reader_controller_coming_soon">À Venir !</string>
 
     <!--  -->
     <!-- Premium > Adult -->

@@ -61,8 +61,6 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 			finish();
 		}
 		
-		initializeStrings();
-		
 		initializeViews();
 		
 		displayResult();
@@ -78,10 +76,6 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 		contentFragment = null;
 		
 		worker.cancel();
-	}
-	
-	private void initializeStrings() {
-		;
 	}
 	
 	private void initializeViews() {
@@ -107,6 +101,11 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 	}
 	
 	private void displayResult() {
+		if (RESULT == null) {
+			finish();
+			return;
+		}
+		
 		actionBar.setTitle(RESULT.getName());
 		worker.applyResult(RESULT).start();
 	}
