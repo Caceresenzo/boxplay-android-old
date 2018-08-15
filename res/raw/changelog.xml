@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
 
+	<changelogversion versionName="3.0.9 BETA" changeDate="14/08/2018">
+		<changelogtext>[b]Search n' Go PREVIEW 2[/b]</changelogtext>
+		<changelogtext>[b]New![/b] Site: VOIRFILM.bz</changelogtext>
+		<changelogtext>[b]Fixed![/b] Extractor was not checking if the streaming was possible before processing the page</changelogtext>
+	</changelogversion>
+
 	<changelogversion versionName="3.0.8 BETA" changeDate="14/08/2018">
 		<changelogtext>[b]Search n' Go PREVIEW 1[/b]</changelogtext>
 		<changelogtext>[b]New![/b] UI Icons</changelogtext>

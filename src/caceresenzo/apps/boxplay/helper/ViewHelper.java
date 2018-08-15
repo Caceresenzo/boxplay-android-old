@@ -127,14 +127,20 @@ public class ViewHelper {
 		enumCacheTranslation.put(AdditionalDataType.ALTERNATIVE_NAME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_alternative_name));
 		enumCacheTranslation.put(AdditionalDataType.OTHER_NAME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_other_name));
 		enumCacheTranslation.put(AdditionalDataType.TYPE, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_type));
+		enumCacheTranslation.put(AdditionalDataType.QUALITY, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_quality));
+		enumCacheTranslation.put(AdditionalDataType.VERSION, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_version));
 		enumCacheTranslation.put(AdditionalDataType.TRADUCTION_TEAM, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_traduction_team));
 		enumCacheTranslation.put(AdditionalDataType.GENDERS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_genders));
 		enumCacheTranslation.put(AdditionalDataType.STATUS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_status));
+		enumCacheTranslation.put(AdditionalDataType.COUNTRY, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_country));
+		enumCacheTranslation.put(AdditionalDataType.DIRECTOR, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_director));
 		enumCacheTranslation.put(AdditionalDataType.AUTHORS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_authors));
+		enumCacheTranslation.put(AdditionalDataType.ACTORS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_actors));
 		enumCacheTranslation.put(AdditionalDataType.ARTISTS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_artists));
 		enumCacheTranslation.put(AdditionalDataType.STUDIOS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_studios));
 		enumCacheTranslation.put(AdditionalDataType.RELEASE_DATE, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_release_date));
 		enumCacheTranslation.put(AdditionalDataType.VIEWS, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_views));
+		enumCacheTranslation.put(AdditionalDataType.DURATION, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_duration));
 		enumCacheTranslation.put(AdditionalDataType.RESUME, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_resume));
 		enumCacheTranslation.put(AdditionalDataType.RATING, boxPlayActivity.getString(R.string.boxplay_culture_searchngo_search_result_data_type_rating));
 		

@@ -39,6 +39,7 @@ import caceresenzo.libs.thread.HelpedThread;
  */
 public class PageDetailContentSearchAndGoFragment extends Fragment {
 	
+	private BoxPlayActivity boxPlayActivity;
 	private Handler handler;
 	private ViewHelper viewHelper;
 	private SearchAndGoManager searchAndGoManager;
@@ -59,6 +60,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 	private VideoExtractionWorker videoExtractionWorker;
 	
 	public PageDetailContentSearchAndGoFragment() {
+		this.boxPlayActivity = BoxPlayActivity.getBoxPlayActivity();
 		this.handler = BoxPlayActivity.getHandler();
 		this.viewHelper = BoxPlayActivity.getViewHelper();
 		this.searchAndGoManager = BoxPlayActivity.getManagers().getSearchAndGoManager();
@@ -195,7 +197,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 					@Override
 					public void onClick(View view) {
 						if (videoExtractionWorker.isRunning()) {
-							BoxPlayActivity.getBoxPlayActivity().toast("ExtractionWorker is busy").show();
+							boxPlayActivity.toast("ExtractionWorker is busy").show();
 							return;
 						}
 						
@@ -209,7 +211,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 							}
 							
 							case ITEM_CHAPTER: {
-								BoxPlayActivity.getBoxPlayActivity().toast("No compatible " + IImageContentProvider.class.getSimpleName() + " found.").show();
+								boxPlayActivity.toast("No compatible " + IImageContentProvider.class.getSimpleName() + " found.").show();
 								break;
 							}
 							
@@ -235,6 +237,8 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 		private IVideoContentProvider videoContentProvider;
 		private VideoContentExtractor extractor;
 		
+		private String directUrl;
+		
 		@Override
 		protected void onRun() {
 			handler.post(new Runnable() {
@@ -244,43 +248,58 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 				}
 			});
 			
-			final String directUrl = extractor.extractDirectVideoUrl(videoContentProvider.extractVideoUrl(videoItem), new VideoContentExtractorProgressCallback() {
-				@Override
-				public void onDownloadingUrl(final String targetUrl) {
-					handler.post(new Runnable() {
-						@Override
-						public void run() {
-							progressDialog.update(R.string.boxplay_culture_searchngo_extractor_status_downloading_url, targetUrl);
-						}
-					});
-				}
+			try {
+				directUrl = extractor.extractDirectVideoUrl(videoContentProvider.extractVideoUrl(videoItem), new VideoContentExtractorProgressCallback() {
+					@Override
+					public void onDownloadingUrl(final String targetUrl) {
+						handler.post(new Runnable() {
+							@Override
+							public void run() {
+								progressDialog.update(R.string.boxplay_culture_searchngo_extractor_status_downloading_url, targetUrl);
+							}
+						});
+					}
+					
+					@Override
+					public void onStreamingNotAvailable() {
+						handler.post(new Runnable() {
+							@Override
+							public void run() {
+								boxPlayActivity.toast(R.string.boxplay_culture_searchngo_extractor_status_streaming_not_available).show();
+							}
+						});
+					}
+					
+					@Override
+					public void onExtractingLink() {
+						handler.post(new Runnable() {
+							@Override
+							public void run() {
+								progressDialog.update(R.string.boxplay_culture_searchngo_extractor_status_extracting_link);
+							}
+						});
+					}
+					
+					@Override
+					public void onFormattingResult() {
+						handler.post(new Runnable() {
+							@Override
+							public void run() {
+								progressDialog.update(R.string.boxplay_culture_searchngo_extractor_status_formatting_result);
+							}
+						});
+					}
+				});
 				
-				@Override
-				public void onExtractingLink() {
-					handler.post(new Runnable() {
-						@Override
-						public void run() {
-							progressDialog.update(R.string.boxplay_culture_searchngo_extractor_status_extracting_link);
-						}
-					});
-				}
-				
-				@Override
-				public void onFormattingResult() {
-					handler.post(new Runnable() {
-						@Override
-						public void run() {
-							progressDialog.update(R.string.boxplay_culture_searchngo_extractor_status_formatting_result);
-						}
-					});
-				}
-			});
+				BoxPlayActivity.getManagers().getVideoManager().openVLC(directUrl, result.getName() + "\n" + videoItem.getName());
+			} catch (Exception exception) {
+				extractor.notifyException(exception);
+				BoxPlayActivity.getBoxPlayActivity().toast(R.string.boxplay_culture_searchngo_extractor_error_failed_to_extract, exception.getLocalizedMessage());
+			}
 			
 			if (debugManager.openLogsAtExtractorEnd()) {
 				DialogUtils.showDialog(BoxPlayActivity.getHandler(), getContext(), "Extraction logs", extractor.getLogger().getContent());
 			}
-			
-			BoxPlayActivity.getManagers().getVideoManager().openVLC(directUrl, result.getName() + "\n" + videoItem.getName());
 		}
 		
 		@Override

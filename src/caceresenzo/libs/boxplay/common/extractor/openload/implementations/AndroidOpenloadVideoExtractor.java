@@ -13,6 +13,8 @@ import caceresenzo.libs.string.StringUtils;
 
 public class AndroidOpenloadVideoExtractor extends OpenloadVideoExtractor {
 	
+	public static final String FILE_DELETED = "We can't find the file you are looking for. It maybe got deleted by the owner or was removed due a copyright violation.";
+	
 	private final Handler handler;
 	
 	private WebView webView;
@@ -45,6 +47,15 @@ public class AndroidOpenloadVideoExtractor extends OpenloadVideoExtractor {
 			failed(true).notifyException(exception);
 			return null;
 		}
+	}
+	
+	@Override
+	public boolean checkStreamingAvailability(String html) {
+		if (html == null) {
+			return false;
+		}
+		
+		return !html.contains(FILE_DELETED);
 	}
 	
 	@Override

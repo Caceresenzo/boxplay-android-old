@@ -221,6 +221,7 @@
     <string name="boxplay_culture_searchngo_content_limit_reached" formatted="false">Limite d\'affichage dépassé, reduction de %s à %s resultats.</string>
     <string name="boxplay_culture_searchngo_info_no_provider">Aucun fournisseur sélectionné.\nAllez dans les Paramètres, cliquez sur \"Fournisseurs\", et selectionnez en au moins un.</string>
     <string name="boxplay_culture_searchngo_info_make_a_search">Faite une recherche!</string>
+    <string name="boxplay_culture_searchngo_extractor_error_failed_to_extract">Une erreur est apparu lors de l\'extraction: %s \n\nAllez dans les paramètres, et choissisez d\'ouvrir les logs d\'extraction pour plus de details!</string>
     <!-- DIALOGS -->
     <string name="boxplay_culture_searchngo_dialog_search_history">Historique de recherche (10 derniers)</string>
     <string name="boxplay_culture_searchngo_dialog_settings">Paramètres</string>
@@ -236,9 +237,9 @@
     <string name="boxplay_culture_searchngo_search_status_provider_failed" formatted="false">La recherche sur %s a échoué. (erreur: %s)</string>
     <string name="boxplay_culture_searchngo_extractor_status_downloading_video_site_url">Téléchargement de l\'url du site video "%s"...</string>
     <string name="boxplay_culture_searchngo_extractor_status_downloading_url">Téléchargement de l\'url "%s"...</string>
+    <string name="boxplay_culture_searchngo_extractor_status_streaming_not_available">Le streaming n\'est pas disponible pour ce fichier.</string>
     <string name="boxplay_culture_searchngo_extractor_status_extracting_link">Extraction du lien...</string>
     <string name="boxplay_culture_searchngo_extractor_status_formatting_result">Formattage du résultat...</string>
-
     <!-- ENUMS -->
     <string name="boxplay_culture_searchngo_search_result_data_type_thumbnail">Vignette</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_name">Nom</string>
@@ -246,14 +247,20 @@
     <string name="boxplay_culture_searchngo_search_result_data_type_alternative_name">Nom(s) alternatif(s)</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_other_name">Autre(s) nom(s)</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_type">Type</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_quality">Qualité</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_version">Version</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_traduction_team">Équipe de Traduction</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_genders">Genre(s)</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_status">Status</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_country">Pays</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_director">Directeur</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_authors">Autheur/e(s)</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_actors">Acteur/rice(s)</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_artists">Artist/e(s)</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_studios">Studio(s)</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_release_date">Date de parution</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_views">Vue(s)</string>
+    <string name="boxplay_culture_searchngo_search_result_data_type_duration">Durée</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_resume">Résumé</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_rating">Note [ moyenne / max (nbr de vote) ]</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_item_video">Vidéo</string>

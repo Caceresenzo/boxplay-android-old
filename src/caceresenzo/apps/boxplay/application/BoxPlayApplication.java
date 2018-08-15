@@ -20,6 +20,8 @@ import caceresenzo.libs.comparator.VersionType;
 
 public class BoxPlayApplication extends Application {
 	
+	private static final Version VERSION = new Version("3.0.9", VersionType.BETA);
+	
 	/**
 	 * Android request id
 	 */
@@ -33,8 +35,6 @@ public class BoxPlayApplication extends Application {
 	 * File provider
 	 */
 	public static final String FILEPROVIDER_AUTHORITY = "caceresenzo.apps.boxplay.provider";
-	
-	private static final Version VERSION = new Version("3.0.8", VersionType.BETA);
 	
 	private static BoxPlayApplication APPLICATION;
 	private SharedPreferences sharedPreferences;

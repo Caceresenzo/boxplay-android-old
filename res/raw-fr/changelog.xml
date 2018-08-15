@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
+
+	<changelogversion versionName="3.0.9 BETA" changeDate="15/08/2018">
+		<changelogtext>[b]Search n' Go PREVIEW 2[/b]</changelogtext>
+		<changelogtext>[b]Nouveau![/b] Site: VOIRFILM.bz</changelogtext>
+		<changelogtext>[b]Fixé![/b] L'extracteur ne vérifiait pas si le streaming était possible avant d'extraire la page</changelogtext>
+	</changelogversion>
     
     <changelogversion versionName="3.0.8 BETA" changeDate="14/08/2018">
 		<changelogtext>[b]Search n' Go PREVIEW 1[/b]</changelogtext>
