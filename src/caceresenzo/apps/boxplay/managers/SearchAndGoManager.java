@@ -13,7 +13,6 @@ import java.util.Set;
 import android.support.v4.util.ArraySet;
 import android.util.Log;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.apps.boxplay.managers.XManagers.SubManager;
 import caceresenzo.libs.boxplay.common.extractor.ContentExtractor;

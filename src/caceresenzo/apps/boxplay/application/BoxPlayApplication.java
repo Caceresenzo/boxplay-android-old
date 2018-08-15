@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import caceresenzo.apps.boxplay.R;
@@ -96,22 +95,6 @@ public class BoxPlayApplication extends Application {
 		}
 	}
 	
-	private static Context updateResources(Context context, String language) {
-		Locale locale = new Locale(language);
-		Locale.setDefault(locale);
-		
-		Resources res = context.getResources();
-		Configuration config = new Configuration(res.getConfiguration());
-		if (Build.VERSION.SDK_INT >= 17) {
-			config.setLocale(locale);
-			context = context.createConfigurationContext(config);
-		} else {
-			config.locale = locale;
-			res.updateConfiguration(config, res.getDisplayMetrics());
-		}
-		return context;
-	}
-	
 	public String getLocaleString() {
 		return sharedPreferences.getString(getString(R.string.boxplay_other_settings_application_pref_language_key), getString(R.string.boxplay_other_settings_application_pref_language_default_value)).toLowerCase();
 	}
@@ -134,4 +117,5 @@ public class BoxPlayApplication extends Application {
 	public static BoxPlayApplication getBoxPlayApplication() {
 		return APPLICATION;
 	}
+	
 }
