@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
 
+	<changelogversion versionName="3.1.1 BETA" changeDate="15/08/2018">
+		<changelogtext>[b]Search n' Go PREVIEW 4[/b]</changelogtext>
+		<changelogtext>[b]New![/b] Primtive video download button</changelogtext>
+	</changelogversion>
+
 	<changelogversion versionName="3.1.0 BETA" changeDate="15/08/2018">
 		<changelogtext>[b]Search n' Go PREVIEW 3[/b]</changelogtext>
 		<changelogtext>[b]New![/b] Primitive Manga Reader</changelogtext>

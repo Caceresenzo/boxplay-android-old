@@ -44,11 +44,20 @@
                 style="@style/textViewSimpleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/item_culture_searchandgo_activitypage_detail_content_imageview_download"
                 android:layout_toRightOf="@+id/item_culture_searchandgo_activitypage_detail_content_imageview_icon"
                 android:gravity="start|left"
                 android:text="CONTENT" />
+
+            <ImageView
+                android:id="@+id/item_culture_searchandgo_activitypage_detail_content_imageview_download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="16dp"
+                android:src="@drawable/icon_download_light" />
         </RelativeLayout>
     </LinearLayout>
 

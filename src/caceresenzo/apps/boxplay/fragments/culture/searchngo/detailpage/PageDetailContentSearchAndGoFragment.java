@@ -3,11 +3,13 @@ package caceresenzo.apps.boxplay.fragments.culture.searchngo.detailpage;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import caceresenzo.android.libs.dialog.DialogUtils;
+import caceresenzo.android.libs.internet.AndroidDownloader;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.activities.MangaChapterReaderActivity;
@@ -31,6 +34,7 @@ import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.data.models.content.ChapterItemResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.data.models.content.VideoItemResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
+import caceresenzo.libs.filesystem.FileUtils;
 import caceresenzo.libs.thread.HelpedThread;
 
 /**
@@ -39,6 +43,9 @@ import caceresenzo.libs.thread.HelpedThread;
  * @author Enzo CACERES
  */
 public class PageDetailContentSearchAndGoFragment extends Fragment {
+	
+	public static final String ACTION_STREAMING = "action.streaming";
+	public static final String ACTION_DOWNLOAD = "action.download";
 	
 	private BoxPlayActivity boxPlayActivity;
 	private Handler handler;
@@ -153,7 +160,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 	class ContentViewHolder extends RecyclerView.ViewHolder {
 		private View view;
 		private TextView typeTextView, contentTextView;
-		private ImageView iconImageView;
+		private ImageView iconImageView, downloadImageView;
 		
 		public ContentViewHolder(View itemView) {
 			super(itemView);
@@ -164,16 +171,18 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 			
 			iconImageView = (ImageView) itemView.findViewById(R.id.item_culture_searchandgo_activitypage_detail_content_imageview_icon);
 			contentTextView = (TextView) itemView.findViewById(R.id.item_culture_searchandgo_activitypage_detail_content_textview_content);
+			downloadImageView = (ImageView) itemView.findViewById(R.id.item_culture_searchandgo_activitypage_detail_content_imageview_download);
 		}
 		
 		public void bind(final AdditionalResultData additionalData) {
 			typeTextView.setText(viewHelper.enumToStringCacheTranslation(additionalData.getType()));
 			
 			int targetRessourceId;
-			boolean validType = true;
+			boolean validType = true, hideDownload = true;
 			switch (additionalData.getType()) {
 				case ITEM_VIDEO: {
 					targetRessourceId = R.drawable.icon_video_library_light;
+					hideDownload = false;
 					break;
 				}
 				
@@ -190,11 +199,11 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 			}
 			
 			iconImageView.setImageResource(targetRessourceId);
-			
 			contentTextView.setText(additionalData.convert());
+			downloadImageView.setVisibility(hideDownload ? View.GONE : View.VISIBLE);
 			
 			if (validType) {
-				view.setOnClickListener(new OnClickListener() {
+				OnClickListener onClickListener = new OnClickListener() {
 					@Override
 					public void onClick(View view) {
 						if (videoExtractionWorker.isRunning()) {
@@ -204,9 +213,14 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 						
 						videoExtractionWorker = new VideoExtractionWorker();
 						
+						String action = ACTION_STREAMING;
+						if (view.equals(downloadImageView)) {
+							action = ACTION_DOWNLOAD;
+						}
+						
 						switch (additionalData.getType()) {
 							case ITEM_VIDEO: {
-								videoExtractionWorker.applyData((VideoItemResultData) additionalData.getData()).start();
+								videoExtractionWorker.applyData((VideoItemResultData) additionalData.getData(), action).start();
 								progressDialog.show();
 								break;
 							}
@@ -222,7 +236,10 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 						}
 						
 					}
-				});
+				};
+				
+				view.setOnClickListener(onClickListener);
+				downloadImageView.setOnClickListener(onClickListener);
 			}
 		}
 	}
@@ -234,6 +251,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 	 */
 	class VideoExtractionWorker extends HelpedThread {
 		private VideoItemResultData videoItem;
+		private String action;
 		
 		private IVideoContentProvider videoContentProvider;
 		private VideoContentExtractor extractor;
@@ -291,8 +309,31 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 						});
 					}
 				});
+				// boxPlayActivity.toast("action: " + action).show();
+				// DialogUtils.showDialog(getContext(), "action", action);
 				
-				BoxPlayActivity.getManagers().getVideoManager().openVLC(directUrl, result.getName() + "\n" + videoItem.getName());
+				switch (action) {
+					case ACTION_STREAMING: {
+						BoxPlayActivity.getManagers().getVideoManager().openVLC(directUrl, result.getName() + "\n" + videoItem.getName());
+						break;
+					}
+					
+					case ACTION_DOWNLOAD: {
+						handler.post(new Runnable() {
+							@Override
+							public void run() {
+								String filename = String.format("%s %s.mp4", FileUtils.remplaceIllegalChar(result.getName()), videoItem.getName());
+								Log.e(getClass().getSimpleName(), "Downloading file: " + filename);
+								AndroidDownloader.askDownload(boxPlayActivity, Uri.parse(directUrl), filename);
+							}
+						});						
+						break;
+					}
+					
+					default: {
+						throw new IllegalStateException();
+					}
+				}
 			} catch (Exception exception) {
 				extractor.notifyException(exception);
 				BoxPlayActivity.getBoxPlayActivity().toast(R.string.boxplay_culture_searchngo_extractor_error_failed_to_extract, exception.getLocalizedMessage());
@@ -328,10 +369,12 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 		 * 
 		 * @param videoItem
 		 *            Target {@link VideoItemResultData} that will be extracted
+		 * @param action
 		 * @return Itself, now call {@link #start()}
 		 */
-		public VideoExtractionWorker applyData(VideoItemResultData videoItem) {
+		public VideoExtractionWorker applyData(VideoItemResultData videoItem, String action) {
 			this.videoItem = videoItem;
+			this.action = action;
 			
 			videoContentProvider = videoItem.getVideoContentProvider();
 			extractor = searchAndGoManager.createVideoExtractorFromCompatible(videoContentProvider.getCompatibleExtractorClass());
