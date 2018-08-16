@@ -5,13 +5,11 @@ import java.util.Locale;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import com.rohitss.uceh.UCEHandler;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
@@ -87,13 +85,23 @@ public class BoxPlayApplication extends Application {
 	public static void attachActivity(BaseBoxPlayActivty baseBoxPlayActivty) {
 		BoxPlayApplication.ATTACHED_ACTIVITY = baseBoxPlayActivty;
 		
+		MANAGERS.onUiReady(ATTACHED_ACTIVITY);
+		
 		if (ATTACHED_ACTIVITY instanceof BoxPlayActivity) {
 			getViewHelper().setBoxPlayActivity((BoxPlayActivity) ATTACHED_ACTIVITY);
 		}
 	}
 	
+	public boolean isUiReady() {
+		if (ATTACHED_ACTIVITY == null) {
+			return false;
+		}
+		
+		return ATTACHED_ACTIVITY.isReady();
+	}
+	
 	public Snackbar snackbar(String text, int duration) {
-		return Snackbar.make(ATTACHED_ACTIVITY.getCoordinatorLayout(), text, Snackbar.LENGTH_LONG);
+		return Snackbar.make(ATTACHED_ACTIVITY.getCoordinatorLayout(), text, duration);
 	}
 	
 	public Snackbar snackbar(int ressourceId, int duration, Object... args) {
@@ -107,12 +115,6 @@ public class BoxPlayApplication extends Application {
 	public StyleableToast toast(int ressourceId, Object... args) {
 		return StyleableToast.makeText(this, getString(ressourceId, args), Toast.LENGTH_LONG, R.style.customStylableToastStyle);
 	}
-	
-	// @Override
-	// public void onConfigurationChanged(Configuration newConfig) {
-	// super.onConfigurationChanged(newConfig);
-	// setLocale();
-	// }
 	
 	public void setLocale() {
 		setLocale(false);
@@ -156,18 +158,9 @@ public class BoxPlayApplication extends Application {
 	public BaseBoxPlayActivty getAttachedActivity() {
 		return ATTACHED_ACTIVITY;
 	}
-
+	
 	public FragmentManager getSupportFragmentManager() {
 		return getAttachedActivity().getSupportFragmentManager();
-	}
-
-
-	public boolean isUiReady() {
-		if (ATTACHED_ACTIVITY == null) {
-			return false;
-		}
-		
-		return ATTACHED_ACTIVITY.isReady();
 	}
 	
 	/**
@@ -198,6 +191,9 @@ public class BoxPlayApplication extends Application {
 		return VERSION;
 	}
 	
+	/**
+	 * Get main application instance
+	 */
 	public static BoxPlayApplication getBoxPlayApplication() {
 		return APPLICATION;
 	}

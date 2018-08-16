@@ -6,6 +6,7 @@ import java.util.Map;
 
 import android.support.design.widget.Snackbar;
 import caceresenzo.apps.boxplay.R;
+import caceresenzo.apps.boxplay.activities.base.BaseBoxPlayActivty;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.other.about.PageAboutHostingFragment;
 import caceresenzo.apps.boxplay.fragments.store.StorePageFragment;
@@ -29,7 +30,7 @@ public class DataManager extends AbstractManager {
 	private Snackbar snackbar;
 	
 	@Override
-	public void initialize() {
+	protected void initializeWhenUiReady(BaseBoxPlayActivty attachedActivity) {
 		fetchData(false);
 	}
 	
@@ -51,7 +52,6 @@ public class DataManager extends AbstractManager {
 							snackbar.show();
 						}
 					});
-					
 					
 					final int oldServerJsonRevision = serverJsonRevision;
 					try {

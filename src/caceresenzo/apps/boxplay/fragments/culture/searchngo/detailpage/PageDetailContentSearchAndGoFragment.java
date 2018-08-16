@@ -74,14 +74,14 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 		this.searchAndGoManager = BoxPlayApplication.getManagers().getSearchAndGoManager();
 		this.debugManager = BoxPlayApplication.getManagers().getDebugManager();
 		
-		this.progressDialog = WorkingProgressDialog.create(SearchAndGoDetailActivity.getSearchAndGoDetaiLActivity());
-		
 		this.videoExtractionWorker = new VideoExtractionWorker();
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_culture_searchngo_activitypage_details, container, false);
+		
+		this.progressDialog = WorkingProgressDialog.create(SearchAndGoDetailActivity.getSearchAndGoDetailActivity());
 		
 		progressBar = (ProgressBar) view.findViewById(R.id.fragment_culture_searchngo_activitypage_details_progressbar_loading);
 		
@@ -280,11 +280,11 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 					}
 					
 					@Override
-					public void onStreamingNotAvailable() {
+					public void onFileNotAvailable() {
 						handler.post(new Runnable() {
 							@Override
 							public void run() {
-								boxPlayApplication.toast(R.string.boxplay_culture_searchngo_extractor_status_streaming_not_available).show();
+								boxPlayApplication.toast(R.string.boxplay_culture_searchngo_extractor_status_file_not_available).show();
 							}
 						});
 					}
@@ -309,8 +309,6 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 						});
 					}
 				});
-				// boxPlayActivity.toast("action: " + action).show();
-				// DialogUtils.showDialog(getContext(), "action", action);
 				
 				switch (action) {
 					case ACTION_STREAMING: {

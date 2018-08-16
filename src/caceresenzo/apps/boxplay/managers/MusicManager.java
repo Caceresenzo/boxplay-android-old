@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.MusicActivity;
+import caceresenzo.apps.boxplay.activities.base.BaseBoxPlayActivty;
 import caceresenzo.apps.boxplay.fragments.store.MusicPlayerFragment;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.apps.boxplay.providers.media.music.MusicController;
@@ -42,16 +43,16 @@ public class MusicManager extends AbstractManager {
 	private MusicDatabaseOpenHelper musicDatabaseOpenHelper;
 	
 	private List<SlidingUpPanelLayout> slidingUpPanelLayouts;
-
+	
 	@Override
-	public void initialize() {
+	protected void initializeWhenUiReady(BaseBoxPlayActivty attachedActivity) {
 		musicController = MusicController.getMusicController();
 		
 		groups = new ArrayList<MusicGroup>();
 		
 		musicDatabaseOpenHelper = new MusicDatabaseOpenHelper(boxPlayApplication);
 		
-		slidingUpPanelLayouts = new ArrayList<SlidingUpPanelLayout>();
+		slidingUpPanelLayouts = new ArrayList<>();
 	}
 	
 	public void callFactory() {

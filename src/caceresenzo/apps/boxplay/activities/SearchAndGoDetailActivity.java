@@ -25,6 +25,8 @@ public class SearchAndGoDetailActivity extends BaseBoxPlayActivty {
 	
 	public static final String BUNDLE_KEY_SEARCH_RESULT_ITEM = "search_result_item";
 	
+	private static SearchAndGoDetailActivity INSTANCE;
+	
 	private SearchAndGoResult searchAndGoResult;
 	
 	private Toolbar toolbar;
@@ -232,7 +234,7 @@ public class SearchAndGoDetailActivity extends BaseBoxPlayActivty {
 		}
 	}
 	
-	public static SearchAndGoDetailActivity getSearchAndGoDetaiLActivity() {
+	public static SearchAndGoDetailActivity getSearchAndGoDetailActivity() {
 		return (SearchAndGoDetailActivity) INSTANCE;
 	}
 	

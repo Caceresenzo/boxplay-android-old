@@ -66,10 +66,11 @@ public class VideoActivity extends BaseBoxPlayActivty implements Tutorialable {
 	public static final String BUNDLE_KEY_VLC_EXTRA_POSITION = "extra_position";
 	public static final String BUNDLE_KEY_VLC_EXTRA_DURATION = "extra_duration";
 	
+	private static VideoActivity INSTANCE;
+	
 	private VideoGroup videoGroup;
 	private VideoSeason videoSeason;
 	
-	private CoordinatorLayout coordinatorLayout;
 	private AppBarLayout appBarLayout;
 	private Toolbar toolbar;
 	private ActionBar actionBar;

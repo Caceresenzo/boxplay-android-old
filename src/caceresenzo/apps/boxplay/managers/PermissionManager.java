@@ -5,25 +5,32 @@ import java.lang.reflect.Method;
 import android.Manifest;
 import android.os.Build;
 import android.os.StrictMode;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import android.util.Log;
+import caceresenzo.apps.boxplay.activities.base.BaseBoxPlayActivty;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 
 public class PermissionManager extends AbstractManager {
 	
+	public static final String TAG = PermissionManager.class.getSimpleName();
+	
 	@Override
 	protected void initialize() {
-		askPermission();
 		hackSecureMode();
+	}
+	
+	@Override
+	protected void initializeWhenUiReady(BaseBoxPlayActivty attachedActivity) {
+		askPermission();
 	}
 	
 	private void askPermission() {
 		if (Build.VERSION.SDK_INT >= 23) {
 			try {
 				String[] permissions = { Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.INTERNET, Manifest.permission.REQUEST_INSTALL_PACKAGES };
-				BoxPlayActivity.getBoxPlayActivity().requestPermissions(permissions, BoxPlayApplication.REQUEST_ID_PERMISSION);
+				boxPlayApplication.getAttachedActivity().requestPermissions(permissions, BoxPlayApplication.REQUEST_ID_PERMISSION);
 			} catch (Exception exception) {
-				exception.printStackTrace();
+				Log.e(TAG, "Failed to request permissions", exception);
 			}
 		}
 	}
@@ -34,7 +41,7 @@ public class PermissionManager extends AbstractManager {
 				Method method = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
 				method.invoke(null);
 			} catch (Exception exception) {
-				exception.printStackTrace();
+				Log.e(TAG, "Failed to call disableDeathOnFileUriExposure()", exception);
 			}
 		}
 	}

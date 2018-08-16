@@ -211,6 +211,7 @@ public class ViewHelper {
 	 * Fragment Help
 	 */
 	private Fragment lastFragment;
+	private int lastFragmentMenuItemId;
 	
 	public Fragment getLastFragment() {
 		return lastFragment;
@@ -218,6 +219,14 @@ public class ViewHelper {
 	
 	public void setLastFragment(Fragment lastFragment) {
 		this.lastFragment = lastFragment;
+	}
+	
+	public int getLastFragmentMenuItemId() {
+		return lastFragmentMenuItemId;
+	}
+	
+	public void setLastFragmentMenuItemId(int lastFragmentMenuItemId) {
+		this.lastFragmentMenuItemId = lastFragmentMenuItemId;
 	}
 	
 	/*

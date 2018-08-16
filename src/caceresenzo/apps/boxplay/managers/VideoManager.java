@@ -33,7 +33,7 @@ public class VideoManager extends AbstractManager {
 	private static final String JSON_KEY_WATCHING_GROUP = "watching_group";
 	private static final String JSON_KEY_WATCHED_SEASON = "watched_season";
 	private static final String JSON_KEY_DATA_VIDEO = "data_video";
-	private HashMap<Object, Object> mapJsonUserData = new HashMap<Object, Object>();
+	private HashMap<Object, Object> mapJsonUserData = new HashMap<>();
 	private final File videoStoreDotJsonFile = new File(getManagers().baseDataDirectory, "videoStore.json");
 	
 	private VideoFactory videoFactory = new VideoFactory();
@@ -41,8 +41,9 @@ public class VideoManager extends AbstractManager {
 	
 	private VideoFile lastVideoFileOpen;
 	
+	@Override
 	public void initialize() {
-		groups = new ArrayList<VideoGroup>();
+		groups = new ArrayList<>();
 	}
 	
 	public void callFactory() {

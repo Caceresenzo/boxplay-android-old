@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.ArraySet;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

@@ -9,6 +9,7 @@ import java.util.List;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.preference.PreferenceManager;
+import caceresenzo.apps.boxplay.activities.base.BaseBoxPlayActivty;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
 
@@ -39,7 +40,7 @@ public class XManagers {
 		baseDataDirectory = new File(baseApplicationDirectory, "data/");
 	}
 	
-	public XManagers initialize(BoxPlayApplication boxPlayApplication) {
+	public XManagers initialize(final BoxPlayApplication boxPlayApplication) {
 		this.boxPlayApplication = boxPlayApplication;
 		
 		managers = new ArrayList<>();
@@ -48,59 +49,42 @@ public class XManagers {
 		preferences = PreferenceManager.getDefaultSharedPreferences(BoxPlayApplication.getBoxPlayApplication());
 		
 		if (permissionManager == null) {
-			// Permission
 			managers.add(permissionManager = new PermissionManager());
-			// permissionManager.initialize();
 		}
 		
 		if (dataManager == null) {
-			// Data
 			managers.add(dataManager = new DataManager());
-			// dataManager.initialize();
 		}
 		
 		if (videoManager == null) {
-			// Elements
 			managers.add(videoManager = new VideoManager());
-			// videoManager.initialize();
 		}
 		
 		if (musicManager == null) {
 			managers.add(musicManager = new MusicManager());
-			// musicManager.initialize();
 		}
 		
 		if (serverManager == null) {
 			managers.add(serverManager = new ServerManager());
-			// serverManager.initialize();
 		}
 		
 		if (updateManager == null) {
-			// Update
 			managers.add(updateManager = new UpdateManager());
-			// updateManager.initialize();
-			
 		}
+		
 		if (tutorialManager == null) {
-			// Tutorials
 			managers.add(tutorialManager = new TutorialManager());
-			// tutorialManager.initialize();
 		}
 		
 		if (premiumManager == null) {
-			// Premium
 			managers.add(premiumManager = new PremiumManager());
-			// premiumManager.initialize();
 		}
 		
 		if (searchAndGoManager == null) {
-			// Search n' Go
 			managers.add(searchAndGoManager = new SearchAndGoManager());
-			// searchAndGoManager.initialize();
 		}
 		
 		if (debugManager == null) {
-			// Extraction
 			managers.add(debugManager = new DebugManager());
 		}
 		
@@ -109,6 +93,12 @@ public class XManagers {
 		}
 		
 		return this;
+	}
+	
+	public void onUiReady(BaseBoxPlayActivty attachedActivity) {
+		for (AbstractManager manager : managers) {
+			manager.initializeWhenUiReady(attachedActivity);
+		}
 	}
 	
 	public void destroy() {
@@ -191,10 +181,14 @@ public class XManagers {
 	
 	protected abstract static class AbstractManager {
 		protected BoxPlayApplication boxPlayApplication = BoxPlayApplication.getBoxPlayApplication();
-		protected Handler boxPlayHandler = BoxPlayApplication.getHandler();
+		protected Handler handler = BoxPlayApplication.getHandler();
 		protected ViewHelper viewHelper = BoxPlayApplication.getViewHelper();
 		
 		protected void initialize() {
+			;
+		}
+		
+		protected void initializeWhenUiReady(BaseBoxPlayActivty attachedActivity) {
 			;
 		}
 		

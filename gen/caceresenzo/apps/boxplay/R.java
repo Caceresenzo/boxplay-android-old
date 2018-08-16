@@ -5083,8 +5083,8 @@ These two are only used when an Icon is applied to the StyleableToast
         public static final int boxplay_culture_searchngo_extractor_status_downloading_url=0x7f090103;
         public static final int boxplay_culture_searchngo_extractor_status_downloading_video_site_url=0x7f090102;
         public static final int boxplay_culture_searchngo_extractor_status_extracting_link=0x7f090105;
+        public static final int boxplay_culture_searchngo_extractor_status_file_not_available=0x7f090104;
         public static final int boxplay_culture_searchngo_extractor_status_formatting_result=0x7f090106;
-        public static final int boxplay_culture_searchngo_extractor_status_streaming_not_available=0x7f090104;
         public static final int boxplay_culture_searchngo_info_make_a_search=0x7f0900f5;
         public static final int boxplay_culture_searchngo_info_no_provider=0x7f0900f4;
         public static final int boxplay_culture_searchngo_search_result_data_type_actors=0x7f090115;

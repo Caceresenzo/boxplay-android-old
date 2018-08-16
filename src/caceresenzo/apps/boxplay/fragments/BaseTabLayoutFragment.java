@@ -17,8 +17,7 @@ import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 /**
  * Base class for TabLayout-based fragment
  * 
- * 
- * @author cacer
+ * @author Enzo CACERES
  */
 public abstract class BaseTabLayoutFragment extends Fragment {
 	
@@ -174,7 +173,9 @@ public abstract class BaseTabLayoutFragment extends Fragment {
 	 * @param menuItemId
 	 */
 	private void updateDrawerSelection(int menuItemId) {
-		updateDrawerSelection(BoxPlayActivity.getBoxPlayActivity().getNavigationView().getMenu().findItem(menuItemId));
+		if (BoxPlayActivity.getBoxPlayActivity() != null) {
+			updateDrawerSelection(BoxPlayActivity.getBoxPlayActivity().getNavigationView().getMenu().findItem(menuItemId));
+		}
 	}
 	
 	/**
@@ -194,6 +195,15 @@ public abstract class BaseTabLayoutFragment extends Fragment {
 	 */
 	public Fragment getActualFragment() {
 		return adapter.getItem(lastOpenPosition);
+	}
+	
+	/**
+	 * Get the last open fragment id
+	 * 
+	 * @return Last open position
+	 */
+	public int getLastOpenPosition() {
+		return lastOpenPosition;
 	}
 	
 	/**

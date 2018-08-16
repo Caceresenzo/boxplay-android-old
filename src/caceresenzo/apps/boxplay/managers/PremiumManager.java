@@ -19,6 +19,7 @@ import android.webkit.WebViewClient;
 import caceresenzo.android.libs.toast.ToastUtils;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.activities.base.BaseBoxPlayActivty;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.apps.boxplay.managers.XManagers.SubManager;
@@ -52,10 +53,16 @@ public class PremiumManager extends AbstractManager {
 	
 	@Override
 	protected void initialize() {
+	}
+	
+	@Override
+	protected void initializeWhenUiReady(BaseBoxPlayActivty attachedActivity) {
 		adultSubManager = new AdultPremiumSubManager();
 		adultSubManager.initialize();
 		
-		updateLicence(LicenceKey.fromString(getManagers().getPreferences().getString(getString(R.string.boxplay_other_settings_premium_pref_premium_key_key), "")));
+		if (attachedActivity instanceof BoxPlayActivity) {
+			updateLicence(LicenceKey.fromString(getManagers().getPreferences().getString(getString(R.string.boxplay_other_settings_premium_pref_premium_key_key), "")));
+		}
 	}
 	
 	public void updateLicence(LicenceKey licenceKey) {

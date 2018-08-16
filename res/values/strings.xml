@@ -242,7 +242,7 @@
     <string name="boxplay_culture_searchngo_search_status_provider_failed" formatted="false">Search on %s failed. (error: %s)</string>
     <string name="boxplay_culture_searchngo_extractor_status_downloading_video_site_url">Downloading video site url "%s"...</string>
     <string name="boxplay_culture_searchngo_extractor_status_downloading_url">Downloading url "%s"...</string>
-    <string name="boxplay_culture_searchngo_extractor_status_streaming_not_available">Streaming not available for this file.</string>
+    <string name="boxplay_culture_searchngo_extractor_status_file_not_available">Streaming not available for this file.</string>
     <string name="boxplay_culture_searchngo_extractor_status_extracting_link">Extracting link...</string>
     <string name="boxplay_culture_searchngo_extractor_status_formatting_result">Formatting result...</string>
     <!-- ENUMS -->

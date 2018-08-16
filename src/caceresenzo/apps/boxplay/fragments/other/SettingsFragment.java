@@ -14,8 +14,10 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.Preference.OnPreferenceClickListener;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import caceresenzo.apps.boxplay.R;
+import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.helper.LocaleHelper;
+import caceresenzo.apps.boxplay.helper.ViewHelper;
 import caceresenzo.libs.boxplay.models.store.music.enums.MusicGenre;
 import caceresenzo.libs.licencekey.LicenceKey;
 
@@ -23,9 +25,19 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 	
 	public static boolean PREF_MENU_EXPAND_COLLAPSE_BACK_BUTTON_ENABLE = true;
 	
+	private BoxPlayApplication boxPlayApplication;
+	private ViewHelper viewHelper;
+	
 	private SharedPreferences sharedPreferences;
 	
 	private boolean firstCheck = true;
+	
+	private String lastPreferenceKey;
+	
+	public SettingsFragment() {
+		this.boxPlayApplication = BoxPlayApplication.getBoxPlayApplication();
+		this.viewHelper = BoxPlayApplication.getViewHelper();
+	}
 	
 	@Override
 	public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -73,7 +85,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
 				try {
-					BoxPlayApplication.getViewHelper().clearImageCache();
+					viewHelper.clearImageCache();
 					preference.setSummary(getString(R.string.boxplay_other_settings_application_pref_clear_image_cache_summary_done));
 				} catch (Exception exception) {
 					preference.setSummary(getString(R.string.boxplay_other_settings_application_pref_clear_image_cache_summary_error, exception.getLocalizedMessage()));
@@ -96,6 +108,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 		
 		if (preference == null) {
 			return;
+		}
+		
+		if (!firstCheck) {
+			lastPreferenceKey = key;
 		}
 		
 		if (preference instanceof SwitchPreference) {
@@ -156,13 +172,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 				
 				if (!firstCheck) {
 					LocaleHelper.setLocale(getActivity(), sharedPreferences.getString(getString(R.string.boxplay_other_settings_application_pref_language_key), getString(R.string.boxplay_other_settings_application_pref_language_default_value)).toLowerCase());
-					// BoxPlayApplication.getBoxPlayApplication().setLocale(true);
-					BoxPlayApplication.getViewHelper().recache();
+					viewHelper.recache();
 					
-					try {
-						
-					} catch (Exception e) {
-						// TODO: handle exception
+					if (boxPlayApplication.getAttachedActivity() instanceof BoxPlayActivity) { // Not null AND good instance
+						boxPlayApplication.getAttachedActivity().askRecreate(this);
 					}
 				}
 			}
@@ -178,7 +191,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 						MusicGenre genre = MusicGenre.fromString(iterator.next());
 						
 						if (genre != MusicGenre.UNKNOWN) {
-							string += BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(genre) + (iterator.hasNext() ? ", " : "");
+							string += viewHelper.enumToStringCacheTranslation(genre) + (iterator.hasNext() ? ", " : "");
 						}
 					}
 					
@@ -224,6 +237,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 	
 	public void reset() {
 		firstCheck = true;
+	}
+	
+	public String getLastPreferenceKey() {
+		return lastPreferenceKey;
 	}
 	
 }

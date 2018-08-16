@@ -194,7 +194,7 @@ public class SearchAndGoManager extends AbstractManager {
 			@Override
 			public void onSearchStarting() {
 				if (callback != null) {
-					boxPlayHandler.post(new Runnable() {
+					handler.post(new Runnable() {
 						@Override
 						public void run() {
 							callback.onSearchStart();
@@ -206,7 +206,7 @@ public class SearchAndGoManager extends AbstractManager {
 			@Override
 			public void onSearchSorting() {
 				if (callback != null) {
-					boxPlayHandler.post(new Runnable() {
+					handler.post(new Runnable() {
 						@Override
 						public void run() {
 							callback.onSearchSorting();
@@ -218,7 +218,7 @@ public class SearchAndGoManager extends AbstractManager {
 			@Override
 			public void onSearchFinished(final Map<String, SearchAndGoResult> workmap) {
 				if (callback != null) {
-					boxPlayHandler.post(new Runnable() {
+					handler.post(new Runnable() {
 						@Override
 						public void run() {
 							callback.onSearchFinish(workmap);
@@ -230,7 +230,7 @@ public class SearchAndGoManager extends AbstractManager {
 			@Override
 			public void onSearchFail(final Exception exception) {
 				if (callback != null) {
-					boxPlayHandler.post(new Runnable() {
+					handler.post(new Runnable() {
 						@Override
 						public void run() {
 							callback.onSearchFail(exception);
@@ -244,7 +244,7 @@ public class SearchAndGoManager extends AbstractManager {
 			@Override
 			public void onProviderSearchStarting(final SearchAndGoProvider provider) {
 				if (callback != null) {
-					boxPlayHandler.post(new Runnable() {
+					handler.post(new Runnable() {
 						@Override
 						public void run() {
 							callback.onProviderStarted(provider);
@@ -256,7 +256,7 @@ public class SearchAndGoManager extends AbstractManager {
 			@Override
 			public void onProviderSorting(final SearchAndGoProvider provider) {
 				if (callback != null) {
-					boxPlayHandler.post(new Runnable() {
+					handler.post(new Runnable() {
 						@Override
 						public void run() {
 							callback.onProviderSorting(provider);
@@ -268,7 +268,7 @@ public class SearchAndGoManager extends AbstractManager {
 			@Override
 			public void onProviderSearchFinished(final SearchAndGoProvider provider, final Map<String, SearchAndGoResult> workmap) {
 				if (callback != null) {
-					boxPlayHandler.post(new Runnable() {
+					handler.post(new Runnable() {
 						@Override
 						public void run() {
 							callback.onProviderFinished(provider, workmap);
@@ -280,7 +280,7 @@ public class SearchAndGoManager extends AbstractManager {
 			@Override
 			public void onProviderFailed(final SearchAndGoProvider provider, final Exception exception) {
 				if (callback != null) {
-					boxPlayHandler.post(new Runnable() {
+					handler.post(new Runnable() {
 						@Override
 						public void run() {
 							callback.onProviderSearchFail(provider, exception);

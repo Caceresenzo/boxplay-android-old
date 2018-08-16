@@ -36,6 +36,8 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 	public static final int OFFSET_NEXT_PAGE = 1;
 	public static final int OFFSET_PREVIOUS_PAGE = -1;
 	
+	private static MangaChapterReaderActivity INSTANCE;
+	
 	private ChapterItemResultData chapterItem;
 	
 	private SearchAndGoManager searchAndGoManager;

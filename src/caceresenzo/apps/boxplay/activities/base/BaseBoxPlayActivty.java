@@ -10,8 +10,6 @@ import caceresenzo.apps.boxplay.managers.XManagers;
 
 public abstract class BaseBoxPlayActivty extends AppCompatActivity {
 	
-	protected static BaseBoxPlayActivty INSTANCE;
-	
 	protected static Fragment fragmentToOpen = null;
 	
 	protected BoxPlayApplication boxPlayApplication;
@@ -22,11 +20,9 @@ public abstract class BaseBoxPlayActivty extends AppCompatActivity {
 	
 	private boolean ready = false;
 	
-	private CoordinatorLayout coordinatorLayout;
+	protected CoordinatorLayout coordinatorLayout;
 	
 	public BaseBoxPlayActivty() {
-		INSTANCE = this;
-		
 		this.boxPlayApplication = BoxPlayApplication.getBoxPlayApplication();
 		
 		this.handler = BoxPlayApplication.getHandler();

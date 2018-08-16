@@ -28,6 +28,7 @@ import android.widget.FrameLayout;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.base.BaseBoxPlayActivty;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
+import caceresenzo.apps.boxplay.fragments.BaseTabLayoutFragment;
 import caceresenzo.apps.boxplay.fragments.culture.CultureFragment;
 import caceresenzo.apps.boxplay.fragments.other.SettingsFragment;
 import caceresenzo.apps.boxplay.fragments.other.about.AboutFragment;
@@ -49,6 +50,12 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 	
 	public static final boolean BUILD_DEBUG = false;
 	
+	public static final String BUNDLE_KEY_LAST_FRAGMENT_CLASS = "last_fragment_class";
+	public static final String BUNDLE_KEY_LAST_FRAGMENT_TAB_ID = "last_fragment_tab_id";
+	public static final String BUNDLE_KEY_LAST_DRAWER_SELECTED_ITEM_ID = "last_drawer_selected_item_id";
+	
+	public static final int NO_VALUE = -1;
+	
 	/**
 	 * Tutorial path id
 	 */
@@ -59,35 +66,37 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 	public static final int TUTORIAL_PROGRESS_VIDEO = 4;
 	public static final int TUTORIAL_PROGRESS_MUSIC = 5;
 	
+	private static BoxPlayActivity INSTANCE;
+	
 	private Toolbar toolbar;
 	private DrawerLayout drawer;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
 	private NavigationView navigationView;
-	private CoordinatorLayout coordinatorLayout;
 	private Menu optionsMenu;
 	
 	private SlidingUpPanelLayout slidingUpPanelLayout;
 	
+	private String lastOpenFragment;
+	private int lastOpenTab, lastDrawerSelectedItemId;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(null);
 		setContentView(R.layout.activity_boxplay);
 		INSTANCE = this;
 		
 		initializeViews();
 		initializeSystems();
 		
-		// if (savedInstanceState == null) {
-		// showFragment(new PlaceholderFragment());
-		// }
+		if (savedInstanceState != null) {
+			lastOpenFragment = savedInstanceState.getString(BUNDLE_KEY_LAST_FRAGMENT_CLASS);
+			lastOpenTab = savedInstanceState.getInt(BUNDLE_KEY_LAST_FRAGMENT_TAB_ID, NO_VALUE);
+			lastDrawerSelectedItemId = savedInstanceState.getInt(BUNDLE_KEY_LAST_DRAWER_SELECTED_ITEM_ID, NO_VALUE);
+			
+			initializeRestoration();
+		}
 		
 		ready();
-	}
-
-	@Override
-	protected void initialize() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
@@ -105,7 +114,11 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 						handler.postDelayed(new Runnable() {
 							@Override
 							public void run() {
-								((SettingsFragment) fragmentToOpen).scrollToPreference(getString(R.string.boxplay_other_settings_application_pref_language_key));
+								String lastKey = ((SettingsFragment) fragmentToOpen).getLastPreferenceKey();
+								
+								if (lastKey != null) {
+									((SettingsFragment) fragmentToOpen).scrollToPreference(lastKey);
+								}
 								fragmentToOpen = null;
 							}
 						}, 200);
@@ -116,12 +129,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 			}, 200);
 		}
 		
-
-		try {
-			managers.getMusicManager().registerMusicSlidingPanel(slidingUpPanelLayout);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		managers.getMusicManager().registerMusicSlidingPanel(slidingUpPanelLayout);
 	}
 	
 	@Override
@@ -156,6 +164,22 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 			}
 		}
 		managers.getUpdateManager().saveUpdateVersion();
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
+		Fragment lastFragment = helper.getLastFragment();
+		if (lastFragment != null) {
+			outState.putString(BUNDLE_KEY_LAST_FRAGMENT_CLASS, lastFragment.getClass().getCanonicalName());
+			
+			if (lastFragment instanceof BaseTabLayoutFragment) {
+				outState.putInt(BUNDLE_KEY_LAST_FRAGMENT_TAB_ID, ((BaseTabLayoutFragment) lastFragment).getLastOpenPosition());
+			}
+			
+			outState.putInt(BUNDLE_KEY_LAST_DRAWER_SELECTED_ITEM_ID, helper.getLastFragmentMenuItemId());
+		}
 	}
 	
 	@Override
@@ -222,6 +246,29 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 		helper.prepareCache(boxPlayApplication);
 	}
 	
+	/**
+	 * Function to help restoring activity
+	 */
+	private void initializeRestoration() {
+		if (lastOpenFragment == null) {
+			return;
+		}
+		
+		try {
+			fragmentToOpen = (Fragment) Class.forName(lastOpenFragment).newInstance();
+			
+			if (fragmentToOpen instanceof BaseTabLayoutFragment && lastOpenTab != NO_VALUE) {
+				((BaseTabLayoutFragment) fragmentToOpen).withPage(lastOpenTab);
+			}
+			
+			if (lastDrawerSelectedItemId != NO_VALUE) {
+				updateDrawerSelection(getMenuItemById(lastDrawerSelectedItemId));
+			}
+		} catch (Exception exception) {
+			;
+		}
+	}
+	
 	private void initializeDebug() {
 		if (!BUILD_DEBUG) {
 			return;
@@ -278,7 +325,6 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-		// Fragment lastFrament = HELPER.getLastFragment();
 		
 		switch (id) {
 			case R.id.menu_main_action_update: {
@@ -287,9 +333,6 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 			}
 			
 			case R.id.menu_main_action_search: {
-				// if (lastFrament != null && lastFrament instanceof StoreFragment) {
-				// return ((StorePageFragment) StoreFragment.getStoreFragment().getActualFragment()).onOptionsItemSelected(item);
-				// }
 				StorePageFragment.handleSearch(item);
 				break;
 			}
@@ -300,7 +343,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 			}
 			
 			default: {
-				boxPlayApplication.toast("Unhandled onOptionsItemSelected(item.getTitle() = \"" + item.getTitle() + "\");");
+				boxPlayApplication.toast("Unhandled onOptionsItemSelected(item.getTitle() = \"" + item.getTitle() + "\");").show();
 				break;
 			}
 		}
@@ -341,11 +384,38 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 	 *            Correspond to the id of the menu, if don't exists, nothing will append
 	 */
 	public void forceFragmentPath(int id) {
-		MenuItem targetItem = navigationView.getMenu().findItem(id);
+		MenuItem targetItem = getMenuItemById(id);
 		
 		if (targetItem != null) {
-			onNavigationItemSelected(navigationView.getMenu().findItem(id));
+			onNavigationItemSelected(targetItem);
 		}
+	}
+	
+	/**
+	 * Get a MenuItem from the Drawer by its id
+	 * 
+	 * @param id
+	 *            Target id
+	 * @return Corresponding MenuItem, null if not found
+	 */
+	public MenuItem getMenuItemById(int id) {
+		return navigationView.getMenu().findItem(id);
+	}
+	
+	public void updateDrawerSelection(MenuItem item) {
+		if (item == null) {
+			return;
+		}
+		
+		int id = item.getItemId();
+		
+		if (item.isCheckable()) {
+			helper.unselectAllMenu();
+			
+			item.setChecked(true);
+		}
+		
+		helper.updateSeachMenu(id);
 	}
 	
 	/**
@@ -355,12 +425,9 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 	public boolean onNavigationItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		Fragment actualFragment = helper.getLastFragment();
+		helper.setLastFragmentMenuItemId(id);
 		
-		if (item.isCheckable()) {
-			helper.unselectAllMenu();
-		}
-		item.setChecked(true);
-		helper.updateSeachMenu(id);
+		updateDrawerSelection(item);
 		
 		switch (id) {
 			/*
@@ -485,7 +552,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 			 * Default
 			 */
 			default: {
-				boxPlayApplication.toast("Unhandled onNavigationItemSelected(item.getTitle() = \"" + item.getTitle() + "\");");
+				boxPlayApplication.toast("Unhandled onNavigationItemSelected(item.getTitle() = \"" + item.getTitle() + "\");").show();
 				return false;
 			}
 		}
@@ -504,6 +571,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 		if (fragment == null) {
 			return;
 		}
+		
 		try {
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			
@@ -651,10 +719,6 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 		return navigationView;
 	}
 	
-	public CoordinatorLayout getCoordinatorLayout() {
-		return coordinatorLayout;
-	}
-	
 	public Menu getOptionsMenu() {
 		return optionsMenu;
 	}
@@ -662,7 +726,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 	/**
 	 * Get the activity instance
 	 */
-	public static BoxPlayActivity getBoxPlayActivity() {		
+	public static BoxPlayActivity getBoxPlayActivity() {
 		return (BoxPlayActivity) INSTANCE;
 	}
 	
