@@ -799,12 +799,12 @@ public final class R {
 		public static final int icon_group = 0x7f0e0170;
 		public static final int ifRoom = 0x7f0e004c;
 		public static final int image = 0x7f0e0065;
-		public static final int imageView = 0x7f0e012b;
+		public static final int imageView = 0x7f0e012c;
 		public static final int info = 0x7f0e016c;
 		public static final int inputContainer = 0x7f0e017d;
 		public static final int italic = 0x7f0e0020;
 		public static final int item_touch_helper_previous_elevation = 0x7f0e000f;
-		public static final int iv_delete = 0x7f0e012c;
+		public static final int iv_delete = 0x7f0e012d;
 		public static final int last = 0x7f0e0181;
 		public static final int left = 0x7f0e002c;
 		public static final int line1 = 0x7f0e0000;
@@ -835,7 +835,7 @@ public final class R {
 		public static final int progress_circular = 0x7f0e000b;
 		public static final int progress_horizontal = 0x7f0e000c;
 		public static final int radio = 0x7f0e007b;
-		public static final int requestItem = 0x7f0e012a;
+		public static final int requestItem = 0x7f0e012b;
 		public static final int right = 0x7f0e002d;
 		public static final int right_icon = 0x7f0e016d;
 		public static final int right_side = 0x7f0e0169;

@@ -13,7 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 
 public class PageAboutLibrariesFragment extends Fragment {
 	
@@ -100,7 +100,7 @@ public class PageAboutLibrariesFragment extends Fragment {
 				public void onClick(View view) {
 					try {
 						if (libraries.get(indexOf++).getUrl() == null) {
-							BoxPlayActivity.getBoxPlayActivity().toast(getString(R.string.boxplay_other_about_libraries_error_no_url)).show();
+							BoxPlayApplication.getBoxPlayApplication().toast(getString(R.string.boxplay_other_about_libraries_error_no_url)).show();
 						}
 					} catch (Exception exception) {
 						;

@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.libs.boxplay.common.extractor.video.implementations.OpenloadVideoExtractor;
 import caceresenzo.libs.boxplay.culture.searchngo.providers.ProviderHelper;
 import caceresenzo.libs.network.Downloader;
@@ -22,7 +22,7 @@ public class AndroidOpenloadVideoExtractor extends OpenloadVideoExtractor {
 	private String pageContent, resolvedHtml;
 	
 	public AndroidOpenloadVideoExtractor(final Context context) {
-		this.handler = BoxPlayActivity.getHandler();
+		this.handler = BoxPlayApplication.getHandler();
 		
 		lock();
 		handler.post(new Runnable() {

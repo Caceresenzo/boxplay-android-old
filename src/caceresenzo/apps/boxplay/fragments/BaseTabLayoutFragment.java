@@ -27,7 +27,7 @@ public abstract class BaseTabLayoutFragment extends Fragment {
 	public static BaseTabLayoutFragment INSTANCE;
 	
 	protected BoxPlayApplication boxPlayApplication;
-	protected BoxPlayActivity boxPlayActivity;
+	protected BoxPlayApplication boxPlayActivity;
 	
 	protected TabLayout tabLayout;
 	protected ViewPager viewPager;
@@ -44,7 +44,7 @@ public abstract class BaseTabLayoutFragment extends Fragment {
 		INSTANCE = this;
 		
 		this.boxPlayApplication = BoxPlayApplication.getBoxPlayApplication();
-		this.boxPlayActivity = BoxPlayActivity.getBoxPlayActivity();
+		this.boxPlayActivity = BoxPlayApplication.getBoxPlayApplication();
 	}
 	
 	@Override
@@ -174,7 +174,7 @@ public abstract class BaseTabLayoutFragment extends Fragment {
 	 * @param menuItemId
 	 */
 	private void updateDrawerSelection(int menuItemId) {
-		updateDrawerSelection(boxPlayActivity.getNavigationView().getMenu().findItem(menuItemId));
+		updateDrawerSelection(BoxPlayActivity.getBoxPlayActivity().getNavigationView().getMenu().findItem(menuItemId));
 	}
 	
 	/**
@@ -183,7 +183,7 @@ public abstract class BaseTabLayoutFragment extends Fragment {
 	 * @param menuItem
 	 */
 	private void updateDrawerSelection(MenuItem menuItem) {
-		BoxPlayActivity.getViewHelper().unselectAllMenu();
+		BoxPlayApplication.getViewHelper().unselectAllMenu();
 		menuItem.setChecked(true);
 	}
 	

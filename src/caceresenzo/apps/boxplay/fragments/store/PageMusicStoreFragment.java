@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.libs.boxplay.models.element.implementations.MusicElement;
 import caceresenzo.libs.boxplay.models.store.music.MusicAlbum;
 import caceresenzo.libs.boxplay.models.store.music.MusicFile;
@@ -54,7 +55,7 @@ public class PageMusicStoreFragment extends StorePageFragment {
 	
 	@Override
 	public void onUserRefresh() {
-		BoxPlayActivity.getManagers().getDataManager().fetchData(true);
+		BoxPlayApplication.getManagers().getDataManager().fetchData(true);
 	}
 	
 	@Override
@@ -68,7 +69,7 @@ public class PageMusicStoreFragment extends StorePageFragment {
 		}
 		
 		if (newContent) {
-			BoxPlayActivity.getBoxPlayActivity().snackbar(R.string.boxplay_store_data_downloading_new_content, Snackbar.LENGTH_LONG);
+			BoxPlayApplication.getBoxPlayApplication().snackbar(R.string.boxplay_store_data_downloading_new_content, Snackbar.LENGTH_LONG);
 		}
 		
 		finishUpdate(newContent);
@@ -95,7 +96,7 @@ public class PageMusicStoreFragment extends StorePageFragment {
 				
 				final List<MusicElement> filteredGroupList = new ArrayList<>();
 				
-				for (MusicGroup group : BoxPlayActivity.getManagers().getMusicManager().getGroups()) {
+				for (MusicGroup group : BoxPlayApplication.getManagers().getMusicManager().getGroups()) {
 					if (group.getDisplay().toLowerCase().contains(query)) {
 						groupStringContains = true;
 					}
@@ -138,7 +139,7 @@ public class PageMusicStoreFragment extends StorePageFragment {
 			
 			List<String> userGenres = new ArrayList<String>();
 			
-			Set<String> userGenresStringSet = BoxPlayActivity.getManagers().getPreferences().getStringSet(getString(R.string.boxplay_other_settings_store_music_pref_my_genre_key), null);
+			Set<String> userGenresStringSet = BoxPlayApplication.getManagers().getPreferences().getStringSet(getString(R.string.boxplay_other_settings_store_music_pref_my_genre_key), null);
 			if (userGenresStringSet != null) {
 				userGenres = new ArrayList<String>(userGenresStringSet);
 			}
@@ -172,7 +173,7 @@ public class PageMusicStoreFragment extends StorePageFragment {
 			}
 			// END
 			
-			for (MusicGroup group : BoxPlayActivity.getManagers().getMusicManager().getGroups()) {
+			for (MusicGroup group : BoxPlayApplication.getManagers().getMusicManager().getGroups()) {
 				if (group == null) {
 					continue;
 				}
@@ -222,7 +223,7 @@ public class PageMusicStoreFragment extends StorePageFragment {
 				if (!population.get(category).isEmpty()) {
 					// rowListItems.add(new TitleRowItem(category));
 					
-					String headingTitle = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(category);
+					String headingTitle = BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(category);
 					
 					if (category.equals(RANDOM) || population.get(category).size() < 2) {
 						rowListItems.add(new MusicElementRowItem(population.get(category).get(0)).configurate(new RowListItemConfig().title(headingTitle)));
@@ -255,7 +256,7 @@ public class PageMusicStoreFragment extends StorePageFragment {
 			final String[] genreChoices = new String[availableGenreChoices.length];
 			List<String> userGenres = new ArrayList<String>();
 			
-			Set<String> userGenresStringSet = BoxPlayActivity.getManagers().getPreferences().getStringSet(getString(R.string.boxplay_other_settings_store_music_pref_my_genre_key), null);
+			Set<String> userGenresStringSet = BoxPlayApplication.getManagers().getPreferences().getStringSet(getString(R.string.boxplay_other_settings_store_music_pref_my_genre_key), null);
 			if (userGenresStringSet != null) {
 				userGenres = new ArrayList<String>(userGenresStringSet);
 			}
@@ -264,7 +265,7 @@ public class PageMusicStoreFragment extends StorePageFragment {
 				MusicGenre targetGenre = MusicGenre.fromString(availableGenreChoices[i]);
 				
 				if (targetGenre.isNotUnknown()) {
-					genreChoices[i] = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(targetGenre);
+					genreChoices[i] = BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(targetGenre);
 					checkedItems[i] = (userGenres.size() != 0 && userGenres.contains(availableGenreChoices[i]));
 				}
 				
@@ -291,7 +292,7 @@ public class PageMusicStoreFragment extends StorePageFragment {
 								}
 							}
 							Set<String> set = new HashSet<String>(newGenres);
-							BoxPlayActivity.getManagers().getPreferences().edit().putStringSet(getString(R.string.boxplay_other_settings_store_music_pref_my_genre_key), set).commit();
+							BoxPlayApplication.getManagers().getPreferences().edit().putStringSet(getString(R.string.boxplay_other_settings_store_music_pref_my_genre_key), set).commit();
 							
 							swipeRefreshLayout.setRefreshing(true);
 							callDataUpdater(false);
@@ -365,20 +366,20 @@ public class PageMusicStoreFragment extends StorePageFragment {
 						}
 					}
 					String sForAlbum = totalAlbum > 1 ? "s" : "", sForSong = totalSong > 1 ? "s" : "";
-					subtitleTextView.setText(BoxPlayActivity.getBoxPlayActivity().getString(R.string.boxplay_store_music_card_info, totalAlbum, sForAlbum, totalSong, sForSong));
+					subtitleTextView.setText(BoxPlayApplication.getBoxPlayApplication().getString(R.string.boxplay_store_music_card_info, totalAlbum, sForAlbum, totalSong, sForSong));
 					titleTextView.setVisibility(View.VISIBLE);
 				} else {
 					titleTextView.setVisibility(View.GONE);
 				}
 				
 				if (group.getImageUrl() != null) {
-					BoxPlayActivity.getViewHelper().downloadToImageView(thumbnailImageView, group.getImageUrl());
+					BoxPlayApplication.getViewHelper().downloadToImageView(thumbnailImageView, group.getImageUrl());
 				}
 				
 				view.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						BoxPlayActivity.getViewHelper().startMusicActivity(group);
+						BoxPlayApplication.getViewHelper().startMusicActivity(group);
 					}
 				});
 				
@@ -483,12 +484,12 @@ public class PageMusicStoreFragment extends StorePageFragment {
 				view.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						BoxPlayActivity.getViewHelper().startMusicActivity(item);
+						BoxPlayApplication.getViewHelper().startMusicActivity(item);
 					}
 				});
 			}
 			
-			BoxPlayActivity.getViewHelper().downloadToImageView(thumbnailImageView, imageUrl);
+			BoxPlayApplication.getViewHelper().downloadToImageView(thumbnailImageView, imageUrl);
 		}
 	}
 	

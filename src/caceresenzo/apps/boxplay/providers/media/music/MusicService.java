@@ -32,7 +32,7 @@ import caceresenzo.android.libs.AndroidUtils;
 import caceresenzo.android.libs.service.ServiceUtils;
 import caceresenzo.android.libs.toast.ToastUtils;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.store.MusicPlayerFragment;
 import caceresenzo.apps.boxplay.receivers.MusicNotificationBroadcast;
 import caceresenzo.libs.boxplay.models.store.music.MusicFile;
@@ -132,7 +132,7 @@ public class MusicService extends Service implements AudioManager.OnAudioFocusCh
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		try {
-			MusicFile music = BoxPlayActivity.getManagers().getMusicManager().getLastMusicFileOpen();
+			MusicFile music = BoxPlayApplication.getManagers().getMusicManager().getLastMusicFileOpen();
 			
 			try {
 				MusicPlayerFragment.getPlayerFragment().updateVisibility();
@@ -424,8 +424,8 @@ public class MusicService extends Service implements AudioManager.OnAudioFocusCh
 	}
 	
 	private void askInterfaceUpdate(MusicFile music, boolean pause) {
-		if (BoxPlayActivity.getManagers() != null && BoxPlayActivity.getManagers().getMusicManager() != null) {
-			BoxPlayActivity.getManagers().getMusicManager().updateMusicInterface(music, pause);
+		if (BoxPlayApplication.getManagers() != null && BoxPlayApplication.getManagers().getMusicManager() != null) {
+			BoxPlayApplication.getManagers().getMusicManager().updateMusicInterface(music, pause);
 		}
 	}
 	
@@ -535,7 +535,7 @@ public class MusicService extends Service implements AudioManager.OnAudioFocusCh
 			}
 		}
 		
-		// ToastUtils.makeLong(BoxPlayActivity.getBoxPlayActivity(), "Service connected: " + target);
+		// ToastUtils.makeLong(BoxPlayApplication.getBoxPlayApplication(), "Service connected: " + target);
 		musicPlayerFragment.notifyUpdate(target, paused);
 	}
 	
@@ -549,7 +549,7 @@ public class MusicService extends Service implements AudioManager.OnAudioFocusCh
 	}
 	
 	public static boolean isRunning() {
-		return ServiceUtils.isServiceRunning(BoxPlayActivity.getBoxPlayActivity(), MusicService.class);
+		return ServiceUtils.isServiceRunning(BoxPlayApplication.getBoxPlayApplication(), MusicService.class);
 	}
 	
 	public static MusicService getMusicService() {

@@ -20,9 +20,9 @@ import android.widget.TextView;
 import caceresenzo.android.libs.dialog.DialogUtils;
 import caceresenzo.android.libs.internet.AndroidDownloader;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.activities.MangaChapterReaderActivity;
 import caceresenzo.apps.boxplay.activities.SearchAndGoDetailActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.dialog.WorkingProgressDialog;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
 import caceresenzo.apps.boxplay.managers.DebugManager;
@@ -47,7 +47,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 	public static final String ACTION_STREAMING = "action.streaming";
 	public static final String ACTION_DOWNLOAD = "action.download";
 	
-	private BoxPlayActivity boxPlayActivity;
+	private BoxPlayApplication boxPlayApplication;
 	private Handler handler;
 	private ViewHelper viewHelper;
 	private SearchAndGoManager searchAndGoManager;
@@ -68,11 +68,11 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 	private VideoExtractionWorker videoExtractionWorker;
 	
 	public PageDetailContentSearchAndGoFragment() {
-		this.boxPlayActivity = BoxPlayActivity.getBoxPlayActivity();
-		this.handler = BoxPlayActivity.getHandler();
-		this.viewHelper = BoxPlayActivity.getViewHelper();
-		this.searchAndGoManager = BoxPlayActivity.getManagers().getSearchAndGoManager();
-		this.debugManager = BoxPlayActivity.getManagers().getDebugManager();
+		this.boxPlayApplication = BoxPlayApplication.getBoxPlayApplication();
+		this.handler = BoxPlayApplication.getHandler();
+		this.viewHelper = BoxPlayApplication.getViewHelper();
+		this.searchAndGoManager = BoxPlayApplication.getManagers().getSearchAndGoManager();
+		this.debugManager = BoxPlayApplication.getManagers().getDebugManager();
 		
 		this.progressDialog = WorkingProgressDialog.create(SearchAndGoDetailActivity.getSearchAndGoDetaiLActivity());
 		
@@ -207,7 +207,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 					@Override
 					public void onClick(View view) {
 						if (videoExtractionWorker.isRunning()) {
-							boxPlayActivity.toast("ExtractionWorker is busy").show();
+							boxPlayApplication.toast("ExtractionWorker is busy").show();
 							return;
 						}
 						
@@ -284,7 +284,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 						handler.post(new Runnable() {
 							@Override
 							public void run() {
-								boxPlayActivity.toast(R.string.boxplay_culture_searchngo_extractor_status_streaming_not_available).show();
+								boxPlayApplication.toast(R.string.boxplay_culture_searchngo_extractor_status_streaming_not_available).show();
 							}
 						});
 					}
@@ -314,7 +314,7 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 				
 				switch (action) {
 					case ACTION_STREAMING: {
-						BoxPlayActivity.getManagers().getVideoManager().openVLC(directUrl, result.getName() + "\n" + videoItem.getName());
+						BoxPlayApplication.getManagers().getVideoManager().openVLC(directUrl, result.getName() + "\n" + videoItem.getName());
 						break;
 					}
 					
@@ -324,9 +324,9 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 							public void run() {
 								String filename = String.format("%s %s.mp4", FileUtils.remplaceIllegalChar(result.getName()), videoItem.getName());
 								Log.e(getClass().getSimpleName(), "Downloading file: " + filename);
-								AndroidDownloader.askDownload(boxPlayActivity, Uri.parse(directUrl), filename);
+								AndroidDownloader.askDownload(boxPlayApplication, Uri.parse(directUrl), filename);
 							}
-						});						
+						});
 						break;
 					}
 					
@@ -336,11 +336,11 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 				}
 			} catch (Exception exception) {
 				extractor.notifyException(exception);
-				BoxPlayActivity.getBoxPlayActivity().toast(R.string.boxplay_culture_searchngo_extractor_error_failed_to_extract, exception.getLocalizedMessage());
+				BoxPlayApplication.getBoxPlayApplication().toast(R.string.boxplay_culture_searchngo_extractor_error_failed_to_extract, exception.getLocalizedMessage());
 			}
 			
 			if (debugManager.openLogsAtExtractorEnd()) {
-				DialogUtils.showDialog(BoxPlayActivity.getHandler(), getContext(), "Extraction logs", extractor.getLogger().getContent());
+				DialogUtils.showDialog(BoxPlayApplication.getHandler(), getContext(), "Extraction logs", extractor.getLogger().getContent());
 			}
 		}
 		

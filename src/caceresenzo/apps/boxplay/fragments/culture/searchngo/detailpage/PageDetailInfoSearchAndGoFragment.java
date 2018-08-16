@@ -18,8 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.activities.SearchAndGoDetailActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
 import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalDataType;
 import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalResultData;
@@ -158,7 +158,7 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 		public DetailRowViewHolder(View itemView) {
 			super(itemView);
 			
-			viewHelper = BoxPlayActivity.getViewHelper();
+			viewHelper = BoxPlayApplication.getViewHelper();
 			
 			typeTextView = (TextView) itemView.findViewById(R.id.container_item_culture_searchandgo_detail_info_holder_textview_type);
 			rowRecyclerView = (RecyclerView) itemView.findViewById(R.id.container_item_culture_searchandgo_detail_info_holder_recyclerview_list);
@@ -198,7 +198,7 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 				}
 				
 				default: {
-					BoxPlayActivity.getBoxPlayActivity().snackbar(getString(R.string.boxplay_error_fragment_type_unbind, item.getType()), Snackbar.LENGTH_LONG).show();
+					BoxPlayApplication.getBoxPlayApplication().snackbar(getString(R.string.boxplay_error_fragment_type_unbind, item.getType()), Snackbar.LENGTH_LONG).show();
 					break;
 				}
 			}
@@ -243,7 +243,7 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 		}
 		
 		public void bind(ImageDetailItem imageItem) {
-			BoxPlayActivity.getViewHelper().downloadToImageView(contentImageView, imageItem.getUrl());
+			BoxPlayApplication.getViewHelper().downloadToImageView(contentImageView, imageItem.getUrl());
 		}
 	}
 	

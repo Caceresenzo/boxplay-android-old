@@ -5,32 +5,28 @@ import java.util.List;
 
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
-import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 import caceresenzo.apps.boxplay.R;
+import caceresenzo.apps.boxplay.activities.base.BaseBoxPlayActivty;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.culture.CultureFragment;
 import caceresenzo.apps.boxplay.fragments.other.SettingsFragment;
@@ -40,9 +36,7 @@ import caceresenzo.apps.boxplay.fragments.social.SocialFragment;
 import caceresenzo.apps.boxplay.fragments.store.StoreFragment;
 import caceresenzo.apps.boxplay.fragments.store.StorePageFragment;
 import caceresenzo.apps.boxplay.helper.LocaleHelper;
-import caceresenzo.apps.boxplay.helper.ViewHelper;
 import caceresenzo.apps.boxplay.managers.TutorialManager.Tutorialable;
-import caceresenzo.apps.boxplay.managers.XManagers;
 import caceresenzo.libs.boxplay.culture.searchngo.providers.ProviderManager;
 import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 
@@ -51,7 +45,7 @@ import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
  * 
  * @author Enzo CACERES
  */
-public class BoxPlayActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Tutorialable {
+public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationView.OnNavigationItemSelectedListener, Tutorialable {
 	
 	public static final boolean BUILD_DEBUG = false;
 	
@@ -65,11 +59,6 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	public static final int TUTORIAL_PROGRESS_VIDEO = 4;
 	public static final int TUTORIAL_PROGRESS_MUSIC = 5;
 	
-	private static BoxPlayActivity INSTANCE;
-	private static Handler HANDLER = new Handler();
-	private static XManagers MANAGERS = new XManagers();
-	private static ViewHelper HELPER = new ViewHelper();
-	
 	private Toolbar toolbar;
 	private DrawerLayout drawer;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -78,8 +67,6 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	private Menu optionsMenu;
 	
 	private SlidingUpPanelLayout slidingUpPanelLayout;
-	
-	private static Fragment fragmentToOpen = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,13 +77,17 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		initializeViews();
 		initializeSystems();
 		
-		MANAGERS.initialize(this);
-		
-		MANAGERS.getMusicManager().registerMusicSlidingPanel(slidingUpPanelLayout);
-		
 		// if (savedInstanceState == null) {
 		// showFragment(new PlaceholderFragment());
 		// }
+		
+		ready();
+	}
+
+	@Override
+	protected void initialize() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	@Override
@@ -104,14 +95,14 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		super.onStart();
 		
 		if (fragmentToOpen != null) {
-			HANDLER.postDelayed(new Runnable() {
+			handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
 					if (fragmentToOpen instanceof SettingsFragment) {
 						((SettingsFragment) fragmentToOpen).reset();
 						forceFragmentPath(R.id.drawer_boxplay_other_settings);
 						
-						HANDLER.postDelayed(new Runnable() {
+						handler.postDelayed(new Runnable() {
 							@Override
 							public void run() {
 								((SettingsFragment) fragmentToOpen).scrollToPreference(getString(R.string.boxplay_other_settings_application_pref_language_key));
@@ -123,6 +114,13 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 					showFragment(fragmentToOpen);
 				}
 			}, 200);
+		}
+		
+
+		try {
+			managers.getMusicManager().registerMusicSlidingPanel(slidingUpPanelLayout);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -138,26 +136,26 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		navigationView.getMenu().findItem(R.id.drawer_boxplay_store_video).setChecked(true);
 		
 		// getManagers().getUpdateManager().debugForceFirstTimeInstalled();
-		if (MANAGERS.getUpdateManager().isFirstTimeInstalled()) {
-			HANDLER.postDelayed(new Runnable() {
+		if (managers.getUpdateManager().isFirstTimeInstalled()) {
+			handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					getManagers().getTutorialManager().executeActivityTutorial(BoxPlayActivity.this);
+					managers.getTutorialManager().executeActivityTutorial(BoxPlayActivity.this);
 				}
 			}, 1000);
 		} else {
-			if (MANAGERS.getUpdateManager().isFirstRunOnThisUpdate()) {
-				HANDLER.postDelayed(new Runnable() {
+			if (managers.getUpdateManager().isFirstRunOnThisUpdate()) {
+				handler.postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						HELPER.updateSeachMenu(R.id.drawer_boxplay_other_about);
+						helper.updateSeachMenu(R.id.drawer_boxplay_other_about);
 						showFragment(new AboutFragment().withChangeLog());
 					}
 					
 				}, 3000);
 			}
 		}
-		MANAGERS.getUpdateManager().saveUpdateVersion();
+		managers.getUpdateManager().saveUpdateVersion();
 	}
 	
 	@Override
@@ -169,13 +167,13 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	
 	@Override
 	protected void onDestroy() {
-		if (MANAGERS.getUpdateManager().isFirstTimeInstalled()) {
-			MANAGERS.getUpdateManager().updateFirstTimeInstalled();
+		if (managers.getUpdateManager().isFirstTimeInstalled()) {
+			managers.getUpdateManager().updateFirstTimeInstalled();
 		}
 		
-		MANAGERS.getMusicManager().saveDatabase();
+		managers.getMusicManager().saveDatabase();
 		
-		MANAGERS.destroy();
+		managers.destroy();
 		
 		super.onDestroy();
 	}
@@ -193,26 +191,6 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 				break;
 			}
 		}
-	}
-	
-	/**
-	 * Asking Activity to recreate without any specific fragment to open after recreation
-	 */
-	public void askRecreate() {
-		askRecreate(null);
-	}
-	
-	/**
-	 * Asking Activity to recreate but with a specific fragment to open after recreation
-	 * 
-	 * If oldFrangent is null, default fragment will be open
-	 * 
-	 * @param oldFrangent
-	 *            Target fragment
-	 */
-	public void askRecreate(Fragment oldFrangent) {
-		fragmentToOpen = oldFrangent;
-		recreate();
 	}
 	
 	/**
@@ -241,7 +219,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	 * Function to initialize sub-systems, like cache
 	 */
 	private void initializeSystems() {
-		HELPER.prepareCache(this);
+		helper.prepareCache(boxPlayApplication);
 	}
 	
 	private void initializeDebug() {
@@ -251,7 +229,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		
 		optionsMenu.findItem(R.id.menu_main_action_debug).setVisible(true);
 		
-		HANDLER.postDelayed(new Runnable() {
+		handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				// showFragment(new CultureFragment().withSearchAndGo());
@@ -304,7 +282,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 		
 		switch (id) {
 			case R.id.menu_main_action_update: {
-				MANAGERS.getUpdateManager().showDialog();
+				managers.getUpdateManager().showDialog();
 				return true;
 			}
 			
@@ -322,7 +300,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 			}
 			
 			default: {
-				toast("Unhandled onOptionsItemSelected(item.getTitle() = \"" + item.getTitle() + "\");");
+				boxPlayApplication.toast("Unhandled onOptionsItemSelected(item.getTitle() = \"" + item.getTitle() + "\");");
 				break;
 			}
 		}
@@ -376,13 +354,13 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item) {
 		int id = item.getItemId();
-		Fragment actualFragment = HELPER.getLastFragment();
+		Fragment actualFragment = helper.getLastFragment();
 		
 		if (item.isCheckable()) {
-			HELPER.unselectAllMenu();
+			helper.unselectAllMenu();
 		}
 		item.setChecked(true);
-		HELPER.updateSeachMenu(id);
+		helper.updateSeachMenu(id);
 		
 		switch (id) {
 			/*
@@ -477,10 +455,10 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 			 */
 			// TODO: Do PremiumFragment instead of AdultExplorerFragment
 			case R.id.drawer_boxplay_premium_adult: {
-				if (MANAGERS.getPremiumManager().isPremiumKeyValid()) {
+				if (managers.getPremiumManager().isPremiumKeyValid()) {
 					showFragment(new AdultExplorerFragment());
 				} else {
-					MANAGERS.getPremiumManager().updateLicence(null);
+					managers.getPremiumManager().updateLicence(null);
 					showFragment(actualFragment);
 				}
 				
@@ -507,7 +485,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 			 * Default
 			 */
 			default: {
-				toast("Unhandled onNavigationItemSelected(item.getTitle() = \"" + item.getTitle() + "\");");
+				boxPlayApplication.toast("Unhandled onNavigationItemSelected(item.getTitle() = \"" + item.getTitle() + "\");");
 				return false;
 			}
 		}
@@ -536,7 +514,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 					.commit() //
 			;
 			
-			HELPER.setLastFragment(fragment);
+			helper.setLastFragment(fragment);
 		} catch (Exception exception) {
 			fragmentToOpen = fragment;
 		}
@@ -573,7 +551,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 				.icon(getResources().getDrawable(R.mipmap.image_hand_swipe)) //
 		)); //
 		
-		Fragment lastFragment = HELPER.getLastFragment();
+		Fragment lastFragment = helper.getLastFragment();
 		if (lastFragment instanceof StoreFragment) {
 			sequences.add(applyTutorialObjectTheme( //
 					TapTarget.forBounds(storeRectangle, getString(R.string.boxplay_tutorial_main_video_title), getString(R.string.boxplay_tutorial_main_video_description)) //
@@ -598,12 +576,12 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 				.targets(sequences).listener(new TapTargetSequence.Listener() {
 					@Override
 					public void onSequenceFinish() {
-						Fragment lastFragment = HELPER.getLastFragment();
+						Fragment lastFragment = helper.getLastFragment();
 						if (lastFragment instanceof StoreFragment) {
 							((StoreFragment) lastFragment).withVideo();
 						}
 						
-						MANAGERS.getTutorialManager().saveTutorialFinished(BoxPlayActivity.this);
+						managers.getTutorialManager().saveTutorialFinished(BoxPlayActivity.this);
 					}
 					
 					@Override
@@ -613,7 +591,7 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 						switch (id) {
 							case TUTORIAL_PROGRESS_VIDEO:
 							case TUTORIAL_PROGRESS_MUSIC: {
-								Fragment lastFragment = HELPER.getLastFragment();
+								Fragment lastFragment = helper.getLastFragment();
 								
 								if (lastFragment instanceof StoreFragment) {
 									switch (id) {
@@ -657,22 +635,6 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 				.cancelable(false); //
 	}
 	
-	public Snackbar snackbar(String text, int duration) {
-		return Snackbar.make(coordinatorLayout, text, duration);
-	}
-	
-	public Snackbar snackbar(int ressourceId, int duration, Object... args) {
-		return Snackbar.make(coordinatorLayout, getString(ressourceId, args), duration);
-	}
-	
-	public StyleableToast toast(String string) {
-		return StyleableToast.makeText(this, string, R.style.customStylableToastStyle);
-	}
-	
-	public StyleableToast toast(int ressourceId, Object... args) {
-		return StyleableToast.makeText(this, getString(ressourceId, args), Toast.LENGTH_LONG, R.style.customStylableToastStyle);
-	}
-	
 	public Toolbar getToolbar() {
 		return toolbar;
 	}
@@ -698,31 +660,10 @@ public class BoxPlayActivity extends AppCompatActivity implements NavigationView
 	}
 	
 	/**
-	 * Get the {@link ViewHelper} instance
-	 */
-	public static ViewHelper getViewHelper() {
-		return HELPER;
-	}
-	
-	/**
-	 * Get the {@link XManagers} instance
-	 */
-	public static XManagers getManagers() {
-		return MANAGERS;
-	}
-	
-	/**
-	 * Get the main {@link Handler} instance
-	 */
-	public static Handler getHandler() {
-		return HANDLER;
-	}
-	
-	/**
 	 * Get the activity instance
 	 */
 	public static BoxPlayActivity getBoxPlayActivity() {		
-		return INSTANCE;
+		return (BoxPlayActivity) INSTANCE;
 	}
 	
 }

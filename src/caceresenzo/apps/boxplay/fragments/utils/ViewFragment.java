@@ -33,7 +33,7 @@ public class ViewFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(withScroll ? R.layout.fragment_view : R.layout.fragment_view_noscroll, container, false);
+		View view = inflater.inflate(withScroll ? R.layout.fragment_view : R.layout.fragment_view_noscroll, null, false);
 		containerFrameLayout = (FrameLayout) view.findViewById(R.id.fragment_view_framelayout_container);
 		return view;
 	}

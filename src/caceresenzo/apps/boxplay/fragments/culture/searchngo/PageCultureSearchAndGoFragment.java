@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.ArraySet;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,7 +43,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 	
 	public static final int MAX_CONTENT_ITEM_DISPLAYABLE = 70;
 	
-	private BoxPlayActivity boxPlayActivity;
+	private BoxPlayApplication boxPlayApplication;
 	
 	private SearchAndGoManager searchAndGoManager;
 	
@@ -67,9 +68,9 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 	private OnSearchActionListener onSearchActionListener;
 	
 	public PageCultureSearchAndGoFragment() {
-		this.boxPlayActivity = BoxPlayActivity.getBoxPlayActivity();
+		this.boxPlayApplication = BoxPlayApplication.getBoxPlayApplication();
 		
-		this.searchAndGoManager = BoxPlayActivity.getManagers().getSearchAndGoManager();
+		this.searchAndGoManager = BoxPlayApplication.getManagers().getSearchAndGoManager();
 		this.dialogCreator = new DialogCreator();
 		
 		this.results = new ArrayList<>();
@@ -77,7 +78,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		
 		this.searchAndGoManager.bindCallback(new SearchAndGoSearchCallback() {
 			private String getString(int ressourceId, Object... formatArgs) {
-				return boxPlayActivity.getString(ressourceId, formatArgs);
+				return boxPlayApplication.getString(ressourceId, formatArgs);
 			}
 			
 			@Override
@@ -97,7 +98,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 				results.addAll(workmap.values());
 				
 				if (results.size() > MAX_CONTENT_ITEM_DISPLAYABLE) {
-					BoxPlayActivity.getBoxPlayActivity().toast(R.string.boxplay_culture_searchngo_content_limit_reached, results.size(), MAX_CONTENT_ITEM_DISPLAYABLE).show();
+					BoxPlayApplication.getBoxPlayApplication().toast(R.string.boxplay_culture_searchngo_content_limit_reached, results.size(), MAX_CONTENT_ITEM_DISPLAYABLE).show();
 					
 					while (results.size() > MAX_CONTENT_ITEM_DISPLAYABLE) {
 						results.remove(results.size() - 1);
@@ -302,7 +303,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 			providerTextView.setText(result.getParentProvider().getSiteName().toUpperCase());
 			typeTextView.setText(result.getType().toString().toUpperCase());
 			
-			BoxPlayActivity.getViewHelper().downloadToImageView(thumbnailImageView, result.getBestImageUrl());
+			BoxPlayApplication.getViewHelper().downloadToImageView(thumbnailImageView, result.getBestImageUrl());
 		}
 	}
 	
@@ -320,8 +321,12 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		
 		private AlertDialog searchHistoryDialog, settingsDialog, providersSettingsDialog;
 		
+		private AlertDialog.Builder createBuilder() {
+			return new AlertDialog.Builder(BoxPlayActivity.getBoxPlayActivity());
+		}
+		
 		public void showHistoryDialog() {
-			AlertDialog.Builder builder = new AlertDialog.Builder(boxPlayActivity);
+			AlertDialog.Builder builder = createBuilder();
 			builder.setTitle(getString(R.string.boxplay_culture_searchngo_dialog_search_history));
 			
 			String[] queryArray = new String[searchQueryHistory.size()];
@@ -355,7 +360,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 				return;
 			}
 			
-			AlertDialog.Builder builder = new AlertDialog.Builder(boxPlayActivity);
+			AlertDialog.Builder builder = createBuilder();
 			builder.setTitle(getString(R.string.boxplay_culture_searchngo_dialog_settings));
 			
 			String[] settings = new String[] { getString(R.string.boxplay_culture_searchngo_dialog_settings_item_provider) };
@@ -386,7 +391,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 				return;
 			}
 			
-			AlertDialog.Builder builder = new AlertDialog.Builder(boxPlayActivity);
+			AlertDialog.Builder builder = createBuilder();
 			builder.setTitle(R.string.boxplay_culture_searchngo_dialog_settings_item_provider);
 			
 			final ProviderManager[] creatableProviders = ProviderManager.values();

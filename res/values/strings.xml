@@ -139,7 +139,6 @@
     <string name="boxplay_store_video_button_unwatch">UNWATCH</string>
     <string name="boxplay_store_video_button_share">SHARE</string>
     <string name="boxplay_store_video_button_share_url">URL</string>
-    <string name="boxplay_store_video_button_cast">CAST (DISABLED)</string>
 
     <!--  -->
     <!-- Store > Music -->

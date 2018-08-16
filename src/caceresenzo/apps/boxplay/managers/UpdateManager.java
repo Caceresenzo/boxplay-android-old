@@ -15,7 +15,6 @@ import android.widget.Button;
 import caceresenzo.android.libs.internet.AndroidUpdater;
 import caceresenzo.android.libs.internet.AndroidUpdater.OnUpdateStateChange;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.libs.bytes.ByteFormat;
@@ -61,7 +60,7 @@ public class UpdateManager extends AbstractManager {
 		lastVersionCode = getManagers().getPreferences().getInt(VERSION_KEY, NO_VERSION);
 		
 		try {
-			PackageInfo packageInfo = boxPlayActivity.getPackageManager().getPackageInfo(boxPlayActivity.getPackageName(), 0);
+			PackageInfo packageInfo = boxPlayApplication.getPackageManager().getPackageInfo(boxPlayApplication.getPackageName(), 0);
 			
 			currentVersionCode = packageInfo.versionCode;
 			// currentVersionName = packageInfo.versionName;
@@ -108,7 +107,7 @@ public class UpdateManager extends AbstractManager {
 					ThreadUtils.sleep(100L);
 				}
 				
-				BoxPlayActivity.getHandler().post(new Runnable() {
+				BoxPlayApplication.getHandler().post(new Runnable() {
 					@Override
 					public void run() {
 						buildDialog();
@@ -135,7 +134,7 @@ public class UpdateManager extends AbstractManager {
 				}
 				
 				if (!downloadStarted) {
-					BoxPlayActivity.getHandler().post(new Runnable() {
+					BoxPlayApplication.getHandler().post(new Runnable() {
 						@Override
 						public void run() {
 							updateDialogMessage();
@@ -150,7 +149,7 @@ public class UpdateManager extends AbstractManager {
 	private void buildDialog() {
 		parseJson();
 		
-		updateAlertDialogBuilder = new AlertDialog.Builder(boxPlayActivity);
+		updateAlertDialogBuilder = new AlertDialog.Builder(boxPlayApplication);
 		updateAlertDialogBuilder.setTitle(getString(R.string.boxplay_menu_action_update));
 		updateAlertDialogBuilder.setMessage(formatDialogMessage());
 		
@@ -179,13 +178,13 @@ public class UpdateManager extends AbstractManager {
 							return;
 						}
 						
-						boxPlayActivity.toast(R.string.boxplay_update_available_download_starting).show();
+						boxPlayApplication.toast(R.string.boxplay_update_available_download_starting).show();
 						downloadStarted = true;
-						AndroidUpdater.updateIfNeeded(boxPlayActivity, "BoxPlay", BoxPlayApplication.getVersion(), lastVersion, lastVersionUrl, new OnUpdateStateChange() {
+						AndroidUpdater.updateIfNeeded(boxPlayApplication.getAttachedActivity(), "BoxPlay", BoxPlayApplication.getVersion(), lastVersion, lastVersionUrl, new OnUpdateStateChange() {
 							@Override
 							public void onProgress(int length) {
 								downloadedPourcent = (int) (length * 100f / lastVersionLength);
-								BoxPlayActivity.getHandler().post(new Runnable() {
+								BoxPlayApplication.getHandler().post(new Runnable() {
 									@Override
 									public void run() {
 										updateDialogMessage();
@@ -195,10 +194,10 @@ public class UpdateManager extends AbstractManager {
 							
 							@Override
 							public void onInstall() {
-								BoxPlayActivity.getHandler().post(new Runnable() {
+								BoxPlayApplication.getHandler().post(new Runnable() {
 									@Override
 									public void run() {
-										boxPlayActivity.toast(R.string.boxplay_update_available_install).show();
+										boxPlayApplication.toast(R.string.boxplay_update_available_install).show();
 										updateAlertDialog.dismiss();
 									}
 								});
@@ -211,10 +210,10 @@ public class UpdateManager extends AbstractManager {
 							
 							@Override
 							public void onFailed(final Exception exception) {
-								BoxPlayActivity.getHandler().post(new Runnable() {
+								BoxPlayApplication.getHandler().post(new Runnable() {
 									@Override
 									public void run() {
-										boxPlayActivity.toast(R.string.boxplay_update_available_download_failed, exception.getLocalizedMessage()).show();
+										boxPlayApplication.toast(R.string.boxplay_update_available_download_failed, exception.getLocalizedMessage()).show();
 									}
 								});
 							}
@@ -267,14 +266,14 @@ public class UpdateManager extends AbstractManager {
 	
 	public boolean informUser() {
 		if (!updateAvailable) {
-			boxPlayActivity.snackbar(R.string.boxplay_update_uptodate, Snackbar.LENGTH_LONG).show();
+			boxPlayApplication.snackbar(R.string.boxplay_update_uptodate, Snackbar.LENGTH_LONG).show();
 			return false;
 		}
 		
 		if (!alreadyInformedUser) {
 			alreadyInformedUser = true;
 			
-			boxPlayActivity.snackbar(getString(R.string.boxplay_update_available, lastVersion.get()), 8000).setAction(getString(R.string.boxplay_update_available_download), new OnClickListener() {
+			boxPlayApplication.snackbar(getString(R.string.boxplay_update_available, lastVersion.get()), 8000).setAction(getString(R.string.boxplay_update_available_download), new OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					showDialog(true);

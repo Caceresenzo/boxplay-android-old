@@ -1,5 +1,6 @@
 package caceresenzo.apps.boxplay.activities;
 
+import java.io.Serializable;
 import java.util.List;
 
 import android.content.Intent;
@@ -7,9 +8,9 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import caceresenzo.apps.boxplay.R;
+import caceresenzo.apps.boxplay.activities.base.BaseBoxPlayActivty;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.BaseViewPagerAdapter;
 import caceresenzo.apps.boxplay.fragments.culture.searchngo.detailpage.PageDetailContentSearchAndGoFragment;
@@ -20,12 +21,11 @@ import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
 import caceresenzo.libs.thread.HelpedThread;
 import caceresenzo.libs.thread.ThreadUtils;
 
-public class SearchAndGoDetailActivity extends AppCompatActivity {
+public class SearchAndGoDetailActivity extends BaseBoxPlayActivty {
 	
-	private static SearchAndGoDetailActivity INSTANCE;
-	private static SearchAndGoResult RESULT;
+	public static final String BUNDLE_KEY_SEARCH_RESULT_ITEM = "search_result_item";
 	
-	private BoxPlayActivity boxPlayActivity;
+	private SearchAndGoResult searchAndGoResult;
 	
 	private Toolbar toolbar;
 	private ActionBar actionBar;
@@ -38,14 +38,12 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 	private PageDetailInfoSearchAndGoFragment infoFragment;
 	private PageDetailContentSearchAndGoFragment contentFragment;
 	
-	private Worker worker;
+	private FetchingWorker fetchingWorker;
 	
 	public SearchAndGoDetailActivity() {
-		INSTANCE = this;
+		super();
 		
-		boxPlayActivity = BoxPlayActivity.getBoxPlayActivity();
-		
-		worker = new Worker();
+		fetchingWorker = new FetchingWorker();
 	}
 	
 	@Override
@@ -54,9 +52,10 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_searchandgo_detail);
 		INSTANCE = this;
 		
-		if (RESULT == null) {
-			if (boxPlayActivity != null) {
-				boxPlayActivity.toast(getString(R.string.boxplay_error_activity_invalid_data)).show();
+		searchAndGoResult = (SearchAndGoResult) getIntent().getSerializableExtra(BUNDLE_KEY_SEARCH_RESULT_ITEM);
+		if (searchAndGoResult == null) {
+			if (boxPlayApplication != null) {
+				boxPlayApplication.toast(getString(R.string.boxplay_error_activity_invalid_data)).show();
 			}
 			finish();
 		}
@@ -64,6 +63,22 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 		initializeViews();
 		
 		displayResult();
+		
+		if (savedInstanceState != null) {
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					fillTabs();
+				}
+			}, 100);
+		}
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
+		outState.putSerializable(BUNDLE_KEY_SEARCH_RESULT_ITEM, (Serializable) searchAndGoResult);
 	}
 	
 	@Override
@@ -75,7 +90,7 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 		infoFragment = null;
 		contentFragment = null;
 		
-		worker.cancel();
+		fetchingWorker.cancel();
 	}
 	
 	private void initializeViews() {
@@ -89,47 +104,53 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 		tabLayout = (TabLayout) findViewById(R.id.activity_searchandgo_detail_tablayout_container);
 		viewPager = (ViewPager) findViewById(R.id.activity_searchandgo_detail_viewpager_container);
 		
+		fillTabs();
+		
+		viewPager.setOffscreenPageLimit(2);
+		
+		tabLayout.setupWithViewPager(viewPager);
+	}
+	
+	private void fillTabs() {
 		adapter = new BaseViewPagerAdapter(getSupportFragmentManager());
 		
 		adapter.addFragment(infoFragment = new PageDetailInfoSearchAndGoFragment(), getString(R.string.boxplay_culture_searchngo_detail_tab_info));
 		adapter.addFragment(contentFragment = new PageDetailContentSearchAndGoFragment(), getString(R.string.boxplay_culture_searchngo_detail_tab_content));
 		
 		viewPager.setAdapter(adapter);
-		viewPager.setOffscreenPageLimit(2);
-		
-		tabLayout.setupWithViewPager(viewPager);
 	}
 	
 	private void displayResult() {
-		if (RESULT == null) {
+		if (searchAndGoResult == null) {
 			finish();
 			return;
 		}
 		
-		actionBar.setTitle(RESULT.getName());
-		worker.applyResult(RESULT).start();
+		fetchingWorker = new FetchingWorker();
+		
+		actionBar.setTitle(searchAndGoResult.getName());
+		fetchingWorker.applyResult(searchAndGoResult).start();
 	}
 	
 	public static void start(SearchAndGoResult result) {
-		SearchAndGoDetailActivity.RESULT = result;
-		
 		BoxPlayApplication application = BoxPlayApplication.getBoxPlayApplication();
 		
 		Intent intent = new Intent(application, SearchAndGoDetailActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra(BUNDLE_KEY_SEARCH_RESULT_ITEM, (Serializable) result);
 		
 		application.startActivity(intent);
 	}
 	
-	class Worker extends HelpedThread {
+	class FetchingWorker extends HelpedThread {
 		private final SearchAndGoDetailActivity parentActivity;
 		private SearchAndGoResult result;
 		
 		private List<AdditionalResultData> additionals;
 		private List<AdditionalResultData> contents;
 		
-		public Worker() {
-			this.parentActivity = INSTANCE;
+		public FetchingWorker() {
+			this.parentActivity = (SearchAndGoDetailActivity) INSTANCE;
 		}
 		
 		@Override
@@ -146,30 +167,38 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 				return;
 			}
 			
-			if (additionals != null && infoFragment != null) {
-				while (!infoFragment.isUiReady()) {
+			if (additionals != null) {
+				while (infoFragment != null && !infoFragment.isUiReady()) {
 					ThreadUtils.sleep(20L);
+					countLoop();
 				}
+				resetLoop();
 				
-				BoxPlayActivity.getHandler().post(new Runnable() {
-					@Override
-					public void run() {
-						infoFragment.applyResult(RESULT, additionals);
-					}
-				});
+				if (infoFragment != null) {
+					BoxPlayApplication.getHandler().post(new Runnable() {
+						@Override
+						public void run() {
+							infoFragment.applyResult(searchAndGoResult, additionals);
+						}
+					});
+				}
 			}
 			
-			if (contents != null && contentFragment != null) {
-				while (!contentFragment.isUiReady()) {
+			if (contents != null) {
+				while (contentFragment != null && !contentFragment.isUiReady()) {
 					ThreadUtils.sleep(20L);
+					countLoop();
 				}
+				resetLoop();
 				
-				BoxPlayActivity.getHandler().post(new Runnable() {
-					@Override
-					public void run() {
-						contentFragment.applyResult(RESULT, contents);
-					}
-				});
+				if (contentFragment != null) {
+					BoxPlayApplication.getHandler().post(new Runnable() {
+						@Override
+						public void run() {
+							contentFragment.applyResult(searchAndGoResult, contents);
+						}
+					});
+				}
 			}
 		}
 		
@@ -178,14 +207,33 @@ public class SearchAndGoDetailActivity extends AppCompatActivity {
 			;
 		}
 		
-		public Worker applyResult(SearchAndGoResult result) {
+		boolean alreadyValidated = false;
+		int timesLooped = 0;
+		
+		private void countLoop() {
+			if (alreadyValidated) {
+				return;
+			}
+			
+			timesLooped++;
+			
+			if (timesLooped > 150) {
+				fillTabs();
+			}
+		}
+		
+		private void resetLoop() {
+			alreadyValidated = true;
+		}
+		
+		public FetchingWorker applyResult(SearchAndGoResult result) {
 			this.result = result;
 			return this;
 		}
 	}
 	
 	public static SearchAndGoDetailActivity getSearchAndGoDetaiLActivity() {
-		return INSTANCE;
+		return (SearchAndGoDetailActivity) INSTANCE;
 	}
 	
 }

@@ -25,7 +25,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.store.PageMusicStoreFragment.MusicElementRowItem;
 import caceresenzo.apps.boxplay.fragments.store.PageMusicStoreFragment.MusicElementRowViewAdapter;
 import caceresenzo.apps.boxplay.fragments.store.PageMusicStoreFragment.MusicListRowItem;
@@ -140,7 +140,7 @@ public abstract class StorePageFragment extends Fragment {
 	
 	public void finishUpdate(boolean newContent) {
 		if (newContent) {
-			BoxPlayActivity.getBoxPlayActivity().snackbar(R.string.boxplay_store_data_downloading_new_content, Snackbar.LENGTH_LONG);
+			BoxPlayApplication.getBoxPlayApplication().snackbar(R.string.boxplay_store_data_downloading_new_content, Snackbar.LENGTH_LONG);
 		}
 		
 		if (swipeRefreshLayout != null && recyclerView != null) {
@@ -365,7 +365,7 @@ public abstract class StorePageFragment extends Fragment {
 				}
 				
 				default: {
-					BoxPlayActivity.getBoxPlayActivity().snackbar(getString(R.string.boxplay_error_fragment_type_unbind, item.getType()), Snackbar.LENGTH_LONG).show();
+					BoxPlayApplication.getBoxPlayApplication().snackbar(getString(R.string.boxplay_error_fragment_type_unbind, item.getType()), Snackbar.LENGTH_LONG).show();
 					break;
 				}
 			}
@@ -415,7 +415,7 @@ public abstract class StorePageFragment extends Fragment {
 		
 		public TitleRowItem(Object title) {
 			super();
-			this.title = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(title);
+			this.title = BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(title);
 		}
 		
 		public String getTitle() {
@@ -520,10 +520,10 @@ public abstract class StorePageFragment extends Fragment {
 		
 		public ErrorRowItem(Object title, Object error, Object button1, Object button2, OnClickListener onClickListener1, OnClickListener onClickListener2) {
 			super();
-			this.title = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(title);
-			this.error = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(error);
-			this.button1 = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(button1);
-			this.button2 = BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(button2);
+			this.title = BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(title);
+			this.error = BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(error);
+			this.button1 = BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(button1);
+			this.button2 = BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(button2);
 			this.onClickListener1 = onClickListener1;
 			this.onClickListener2 = onClickListener2;
 		}

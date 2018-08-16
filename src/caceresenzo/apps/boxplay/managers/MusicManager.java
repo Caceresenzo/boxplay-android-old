@@ -49,7 +49,7 @@ public class MusicManager extends AbstractManager {
 		
 		groups = new ArrayList<MusicGroup>();
 		
-		musicDatabaseOpenHelper = new MusicDatabaseOpenHelper(boxPlayActivity);
+		musicDatabaseOpenHelper = new MusicDatabaseOpenHelper(boxPlayApplication);
 		
 		slidingUpPanelLayouts = new ArrayList<SlidingUpPanelLayout>();
 	}
@@ -60,12 +60,12 @@ public class MusicManager extends AbstractManager {
 		musicFactory.parseServerJson(new MusicFactoryListener() {
 			@Override
 			public void onJsonMissingFileType() {
-				boxPlayActivity.snackbar("Warning. (Music)Factory returned onJsonMissingFileType();", Snackbar.LENGTH_LONG).show();
+				boxPlayApplication.snackbar("Warning. (Music)Factory returned onJsonMissingFileType();", Snackbar.LENGTH_LONG).show();
 			}
 			
 			@Override
 			public void onJsonNull() {
-				boxPlayActivity.snackbar(R.string.boxplay_error_manager_json_null, Snackbar.LENGTH_LONG).show();
+				boxPlayApplication.snackbar(R.string.boxplay_error_manager_json_null, Snackbar.LENGTH_LONG).show();
 			}
 			
 			@Override
@@ -110,7 +110,7 @@ public class MusicManager extends AbstractManager {
 		if (MusicActivity.getMusicActivity() != null) {
 			context = MusicActivity.getMusicActivity();
 		} else {
-			context = boxPlayActivity;
+			context = boxPlayApplication.getAttachedActivity();
 		}
 		
 		saveDatabase();
@@ -128,7 +128,7 @@ public class MusicManager extends AbstractManager {
 			
 			MusicPlayerFragment musicPlayerFragment = MusicPlayerFragment.getPlayerFragment();
 			
-			boxPlayActivity.getSupportFragmentManager() //
+			boxPlayApplication.getSupportFragmentManager() //
 					.beginTransaction() //
 					.replace(frameLayout.getId(), musicPlayerFragment) //
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE) //

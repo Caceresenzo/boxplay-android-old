@@ -2,18 +2,28 @@ package caceresenzo.apps.boxplay.application;
 
 import java.util.Locale;
 
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import com.rohitss.uceh.UCEHandler;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.widget.Toast;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.activities.base.BaseBoxPlayActivty;
 import caceresenzo.apps.boxplay.helper.LocaleHelper;
+import caceresenzo.apps.boxplay.helper.ViewHelper;
+import caceresenzo.apps.boxplay.managers.XManagers;
 import caceresenzo.libs.comparator.Version;
 import caceresenzo.libs.comparator.VersionType;
 
@@ -36,13 +46,23 @@ public class BoxPlayApplication extends Application {
 	public static final String FILEPROVIDER_AUTHORITY = "caceresenzo.apps.boxplay.provider";
 	
 	private static BoxPlayApplication APPLICATION;
+	
+	private static Handler HANDLER = new Handler();
+	private static XManagers MANAGERS = new XManagers();
+	private static ViewHelper HELPER = new ViewHelper();
+	
 	private SharedPreferences sharedPreferences;
+	
+	private static BaseBoxPlayActivty ATTACHED_ACTIVITY;
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		APPLICATION = this;
+		
+		HELPER.prepareCache(this);
+		
 		setLocale();
 		
 		new UCEHandler.Builder(getApplicationContext()) //
@@ -55,11 +75,37 @@ public class BoxPlayApplication extends Application {
 		
 		StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
 		StrictMode.setVmPolicy(builder.build());
+		
+		MANAGERS.initialize(this);
 	}
 	
 	@Override
 	protected void attachBaseContext(Context base) {
 		super.attachBaseContext(LocaleHelper.onAttach(base));
+	}
+	
+	public static void attachActivity(BaseBoxPlayActivty baseBoxPlayActivty) {
+		BoxPlayApplication.ATTACHED_ACTIVITY = baseBoxPlayActivty;
+		
+		if (ATTACHED_ACTIVITY instanceof BoxPlayActivity) {
+			getViewHelper().setBoxPlayActivity((BoxPlayActivity) ATTACHED_ACTIVITY);
+		}
+	}
+	
+	public Snackbar snackbar(String text, int duration) {
+		return Snackbar.make(ATTACHED_ACTIVITY.getCoordinatorLayout(), text, Snackbar.LENGTH_LONG);
+	}
+	
+	public Snackbar snackbar(int ressourceId, int duration, Object... args) {
+		return snackbar(getString(ressourceId, args), duration);
+	}
+	
+	public StyleableToast toast(String string) {
+		return StyleableToast.makeText(this, string, R.style.customStylableToastStyle);
+	}
+	
+	public StyleableToast toast(int ressourceId, Object... args) {
+		return StyleableToast.makeText(this, getString(ressourceId, args), Toast.LENGTH_LONG, R.style.customStylableToastStyle);
 	}
 	
 	// @Override
@@ -89,8 +135,8 @@ public class BoxPlayApplication extends Application {
 				; // Unavailable in old API
 			}
 			
-			if (BoxPlayActivity.getBoxPlayActivity() != null && autoReCache) {
-				BoxPlayActivity.getViewHelper().recache();
+			if (autoReCache) {
+				getViewHelper().recache();
 			}
 		}
 	}
@@ -105,6 +151,44 @@ public class BoxPlayApplication extends Application {
 	
 	public SharedPreferences getPreferences() {
 		return sharedPreferences;
+	}
+	
+	public BaseBoxPlayActivty getAttachedActivity() {
+		return ATTACHED_ACTIVITY;
+	}
+
+	public FragmentManager getSupportFragmentManager() {
+		return getAttachedActivity().getSupportFragmentManager();
+	}
+
+
+	public boolean isUiReady() {
+		if (ATTACHED_ACTIVITY == null) {
+			return false;
+		}
+		
+		return ATTACHED_ACTIVITY.isReady();
+	}
+	
+	/**
+	 * Get the {@link ViewHelper} instance
+	 */
+	public static ViewHelper getViewHelper() {
+		return HELPER;
+	}
+	
+	/**
+	 * Get the {@link XManagers} instance
+	 */
+	public static XManagers getManagers() {
+		return MANAGERS;
+	}
+	
+	/**
+	 * Get the main {@link Handler} instance
+	 */
+	public static Handler getHandler() {
+		return HANDLER;
 	}
 	
 	/**

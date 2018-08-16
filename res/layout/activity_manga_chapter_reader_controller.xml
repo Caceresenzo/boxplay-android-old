@@ -27,6 +27,7 @@
         <include layout="@layout/view_line_separator" />
 
         <Button
+            android:id="@+id/activity_manga_chapter_reader_button_controller"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="@color/colorPanel"

@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.activities.VideoActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
@@ -52,24 +51,24 @@ public class VideoManager extends AbstractManager {
 		videoFactory.parseServerJson(new VideoFactoryListener() {
 			@Override
 			public void onJsonMissingFileType() {
-				boxPlayActivity.snackbar("Warning. Factory returned onJsonMissingFileType();", Snackbar.LENGTH_LONG).show();
+				boxPlayApplication.snackbar("Warning. Factory returned onJsonMissingFileType();", Snackbar.LENGTH_LONG).show();
 			}
 			
 			@Override
 			public void onVideoSeasonInvalidSeason(String element) {
-				boxPlayActivity.snackbar("Warning. Factory returned onVideoSeasonInvalidSeason(element=\"" + element + "\");", Snackbar.LENGTH_LONG).show();
+				boxPlayApplication.snackbar("Warning. Factory returned onVideoSeasonInvalidSeason(element=\"" + element + "\");", Snackbar.LENGTH_LONG).show();
 			}
 			
 			@Override
 			public void onJsonNull() {
-				boxPlayActivity.snackbar(R.string.boxplay_error_manager_json_null, Snackbar.LENGTH_LONG).show();
+				boxPlayApplication.snackbar(R.string.boxplay_error_manager_json_null, Snackbar.LENGTH_LONG).show();
 			}
 			
 			@Override
 			public void onVideoGroupCreated(VideoGroup videoGroup) {
 				groups.add(videoGroup);
 			}
-		}, BoxPlayActivity.getManagers().getDataManager().getJsonData());
+		}, BoxPlayApplication.getManagers().getDataManager().getJsonData());
 		
 		// Collections.sort(groups, VideoGroup.COMPARATOR);
 		Collections.shuffle(groups);
@@ -209,8 +208,8 @@ public class VideoManager extends AbstractManager {
 			getManagers().writeLocalFile(videoStoreDotJsonFile, object.toJsonString());
 		} catch (IOException exception) {
 			exception.printStackTrace();
-			boxPlayActivity.toast("IOException: " + exception.getLocalizedMessage()).show();
-			boxPlayActivity.snackbar(R.string.boxplay_error_config_failed, Snackbar.LENGTH_LONG).show();
+			boxPlayApplication.toast("IOException: " + exception.getLocalizedMessage()).show();
+			boxPlayApplication.snackbar(R.string.boxplay_error_config_failed, Snackbar.LENGTH_LONG).show();
 		}
 	}
 	
@@ -223,18 +222,18 @@ public class VideoManager extends AbstractManager {
 			vlcIntent.setPackage("org.videolan.vlc");
 			vlcIntent.setDataAndTypeAndNormalize(uri, "video/*");
 			vlcIntent.putExtra("position", savedTime > 1 ? savedTime : 1);
-			vlcIntent.putExtra("title", BoxPlayActivity.getViewHelper().formatVideoFile(videoFile));
+			vlcIntent.putExtra("title", BoxPlayApplication.getViewHelper().formatVideoFile(videoFile));
 			vlcIntent.setComponent(new ComponentName("org.videolan.vlc", "org.videolan.vlc.gui.video.VideoPlayerActivity"));
 			
 			Activity context;
 			if (VideoActivity.getVideoActivity() != null) {
 				context = VideoActivity.getVideoActivity();
 			} else {
-				context = boxPlayActivity;
+				context = boxPlayApplication.getAttachedActivity();
 			}
 			context.startActivityForResult(vlcIntent, BoxPlayApplication.REQUEST_ID_VLC_VIDEO);
 		} catch (Exception exception) {
-			// BoxPlayActivity.getBoxPlayActivity().appendError("Error when starting VLC. \n\nIs VLC installed? \n\nException: " + exception.getLocalizedMessage());
+			// BoxPlayApplication.getBoxPlayApplication().appendError("Error when starting VLC. \n\nIs VLC installed? \n\nException: " + exception.getLocalizedMessage());
 		}
 		
 		lastVideoFileOpen = videoFile;
@@ -254,11 +253,11 @@ public class VideoManager extends AbstractManager {
 			if (VideoActivity.getVideoActivity() != null) {
 				context = VideoActivity.getVideoActivity();
 			} else {
-				context = boxPlayActivity;
+				context = boxPlayApplication.getAttachedActivity();
 			}
 			context.startActivityForResult(vlcIntent, BoxPlayApplication.REQUEST_ID_VLC_VIDEO_URL);
 		} catch (Exception exception) {
-			// BoxPlayActivity.getBoxPlayActivity().appendError("Error when starting VLC. \n\nIs VLC installed? \n\nException: " + exception.getLocalizedMessage());
+			// BoxPlayApplication.getBoxPlayApplication().appendError("Error when starting VLC. \n\nIs VLC installed? \n\nException: " + exception.getLocalizedMessage());
 		}
 	}
 	

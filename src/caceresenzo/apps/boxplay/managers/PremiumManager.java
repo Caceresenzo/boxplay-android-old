@@ -19,6 +19,7 @@ import android.webkit.WebViewClient;
 import caceresenzo.android.libs.toast.ToastUtils;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.apps.boxplay.managers.XManagers.SubManager;
 import caceresenzo.libs.boxplay.factory.AdultFactory;
@@ -68,16 +69,30 @@ public class PremiumManager extends AbstractManager {
 	}
 	
 	private void updateDrawer() {
-		boolean keyIsValid = isPremiumKeyValid();
-		
-		for (int menuId : premiumMenusId) {
-			MenuItem menuItem = boxPlayActivity.getNavigationView().getMenu().findItem(menuId);
+		new Thread(new Runnable() {
 			
-			if (menuItem != null) {
-				menuItem.setVisible(keyIsValid);
-				menuItem.setChecked(false);
+			@Override
+			public void run() {
+				while (!BoxPlayApplication.getBoxPlayApplication().isUiReady()) {
+					ThreadUtils.sleep(100L);
+				}
+				
+				boolean keyIsValid = isPremiumKeyValid();
+				
+				try {
+					for (int menuId : premiumMenusId) {
+						MenuItem menuItem = BoxPlayActivity.getBoxPlayActivity().getNavigationView().getMenu().findItem(menuId);
+						
+						if (menuItem != null) {
+							menuItem.setVisible(keyIsValid);
+							menuItem.setChecked(false);
+						}
+					}
+				} catch (Exception exception) {
+					;
+				}
 			}
-		}
+		}).start();
 	}
 	
 	public boolean isPremiumKeyValid() {
@@ -114,7 +129,7 @@ public class PremiumManager extends AbstractManager {
 				if (!warningDialogShowed) {
 					getManagers().getPreferences().edit().putBoolean(PREF_KEY_ADULT_ANDROID_VERSION_DIALOG, true).commit();
 					
-					AlertDialog.Builder builder = new AlertDialog.Builder(boxPlayActivity); //
+					AlertDialog.Builder builder = new AlertDialog.Builder(boxPlayApplication); //
 					builder.setMessage(R.string.boxplay_premium_adult_warning_dialog_message) //
 							.setCancelable(false) //
 							.setNegativeButton(R.string.boxplay_premium_adult_warning_dialog_done, new DialogInterface.OnClickListener() { //
@@ -143,7 +158,7 @@ public class PremiumManager extends AbstractManager {
 		
 		public void fetchPage(final int targetPage) {
 			if (working) {
-				ToastUtils.makeLong(boxPlayActivity, "Manager is budy.");
+				ToastUtils.makeLong(boxPlayApplication, "Manager is budy.");
 				return;
 			}
 			working = true;
@@ -192,7 +207,7 @@ public class PremiumManager extends AbstractManager {
 					
 					working = false;
 					
-					BoxPlayActivity.getHandler().post(new Runnable() {
+					BoxPlayApplication.getHandler().post(new Runnable() {
 						@Override
 						public void run() {
 							if (callback != null) {
@@ -207,7 +222,7 @@ public class PremiumManager extends AbstractManager {
 		
 		public void fetchVideoPage(final String targetVideoUrl) {
 			if (working) {
-				ToastUtils.makeLong(boxPlayActivity, "Manager is budy.");
+				ToastUtils.makeLong(boxPlayApplication, "Manager is budy.");
 				return;
 			}
 			
@@ -283,10 +298,10 @@ public class PremiumManager extends AbstractManager {
 					
 					final String finalPassOpenloadHtml = passOpenloadHtml;
 					
-					BoxPlayActivity.getHandler().post(new Runnable() {
+					BoxPlayApplication.getHandler().post(new Runnable() {
 						@Override
 						public void run() {
-							webView = new WebView(boxPlayActivity);
+							webView = new WebView(boxPlayApplication);
 							webView.getSettings().setJavaScriptEnabled(true);
 							webView.loadDataWithBaseURL("", AdultFactory.formatOpenloadJsCodeExecutor(adultFactory.formatHtmlDomForJsKeyGenerator(finalPassOpenloadHtml), adultFactory.extractOpenloadJSKeyGeneratorFromHtml(finalPassOpenloadHtml)), "text/html", "utf-8", "");
 							webView.setWebViewClient(new WebViewClient() {
@@ -308,7 +323,7 @@ public class PremiumManager extends AbstractManager {
 					
 					nextStepReady = false;
 					
-					BoxPlayActivity.getHandler().post(new Runnable() {
+					BoxPlayApplication.getHandler().post(new Runnable() {
 						@Override
 						public void run() {
 							webView.evaluateJavascript("(function() { return (document.getElementsByTagName('html')[0].innerHTML); })();", new ValueCallback<String>() {
@@ -339,7 +354,7 @@ public class PremiumManager extends AbstractManager {
 					
 					working = false;
 					
-					BoxPlayActivity.getHandler().post(new Runnable() {
+					BoxPlayApplication.getHandler().post(new Runnable() {
 						@Override
 						public void run() {
 							if (callback != null) {
@@ -353,7 +368,7 @@ public class PremiumManager extends AbstractManager {
 		}
 		
 		private void notifyFail(final Exception exception) {
-			BoxPlayActivity.getHandler().post(new Runnable() {
+			BoxPlayApplication.getHandler().post(new Runnable() {
 				@Override
 				public void run() {
 					if (callback != null) {

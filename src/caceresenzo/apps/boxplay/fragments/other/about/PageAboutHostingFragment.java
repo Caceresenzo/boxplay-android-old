@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.libs.boxplay.models.server.ServerHosting;
 
@@ -33,8 +32,8 @@ public class PageAboutHostingFragment extends Fragment {
 	}
 	
 	public void updateServers() {
-		if (BoxPlayActivity.getManagers().getServerManager() != null) {
-			this.servers.addAll(BoxPlayActivity.getManagers().getServerManager().getServerHostings());
+		if (BoxPlayApplication.getManagers().getServerManager() != null) {
+			this.servers.addAll(BoxPlayApplication.getManagers().getServerManager().getServerHostings());
 		}
 	}
 	
@@ -109,7 +108,7 @@ public class PageAboutHostingFragment extends Fragment {
 			}
 			
 			if (imageUrl != null) {
-				BoxPlayActivity.getViewHelper().downloadToImageView(imageImageView, imageUrl);
+				BoxPlayApplication.getViewHelper().downloadToImageView(imageImageView, imageUrl);
 			}
 		}
 	}

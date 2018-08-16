@@ -9,13 +9,12 @@ import java.util.List;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.preference.PreferenceManager;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
 
 public class XManagers {
 	
-	protected BoxPlayActivity boxPlayActivity;
+	protected BoxPlayApplication boxPlayApplication;
 	
 	protected PermissionManager permissionManager;
 	protected DataManager dataManager;
@@ -40,8 +39,8 @@ public class XManagers {
 		baseDataDirectory = new File(baseApplicationDirectory, "data/");
 	}
 	
-	public XManagers initialize(BoxPlayActivity boxPlayActivity) {
-		this.boxPlayActivity = boxPlayActivity;
+	public XManagers initialize(BoxPlayApplication boxPlayApplication) {
+		this.boxPlayApplication = boxPlayApplication;
 		
 		managers = new ArrayList<>();
 		
@@ -122,8 +121,8 @@ public class XManagers {
 		if (managers == null) {
 			managers = new ArrayList<>();
 			
-			if (BoxPlayActivity.getBoxPlayActivity() != null) {
-				initialize(BoxPlayActivity.getBoxPlayActivity());
+			if (BoxPlayApplication.getBoxPlayApplication() != null) {
+				initialize(BoxPlayApplication.getBoxPlayApplication());
 			}
 		}
 	}
@@ -191,9 +190,9 @@ public class XManagers {
 	}
 	
 	protected abstract static class AbstractManager {
-		protected BoxPlayActivity boxPlayActivity = BoxPlayActivity.getBoxPlayActivity();
-		protected Handler boxPlayHandler = BoxPlayActivity.getHandler();
-		protected ViewHelper viewHelper = BoxPlayActivity.getViewHelper();
+		protected BoxPlayApplication boxPlayApplication = BoxPlayApplication.getBoxPlayApplication();
+		protected Handler boxPlayHandler = BoxPlayApplication.getHandler();
+		protected ViewHelper viewHelper = BoxPlayApplication.getViewHelper();
 		
 		protected void initialize() {
 			;
@@ -204,11 +203,11 @@ public class XManagers {
 		}
 		
 		protected XManagers getManagers() {
-			return BoxPlayActivity.getManagers();
+			return BoxPlayApplication.getManagers();
 		}
 		
 		protected String getString(int ressourceId, Object... args) {
-			return BoxPlayActivity.getBoxPlayActivity().getString(ressourceId, args);
+			return BoxPlayApplication.getBoxPlayApplication().getString(ressourceId, args);
 		}
 	}
 	
@@ -219,7 +218,7 @@ public class XManagers {
 	}
 	
 	protected String getString(int ressourceId, Object... args) {
-		return BoxPlayActivity.getBoxPlayActivity().getString(ressourceId, args);
+		return BoxPlayApplication.getBoxPlayApplication().getString(ressourceId, args);
 	}
 	
 	public void writeLocalFile(File file, String string) throws IOException {

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import android.support.design.widget.Snackbar;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.other.about.PageAboutHostingFragment;
 import caceresenzo.apps.boxplay.fragments.store.StorePageFragment;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
@@ -15,6 +15,7 @@ import caceresenzo.libs.json.parser.JsonException;
 import caceresenzo.libs.json.parser.JsonParser;
 import caceresenzo.libs.network.Downloader;
 import caceresenzo.libs.parse.ParseUtils;
+import caceresenzo.libs.thread.ThreadUtils;
 
 public class DataManager extends AbstractManager {
 	
@@ -36,15 +37,25 @@ public class DataManager extends AbstractManager {
 		if (!working) {
 			working = true;
 			
-			snackbar = BoxPlayActivity.getBoxPlayActivity().snackbar(getString(R.string.boxplay_store_video_data_downloading), Snackbar.LENGTH_INDEFINITE);
-			snackbar.show();
-			
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
+					while (!BoxPlayApplication.getBoxPlayApplication().isUiReady()) {
+						ThreadUtils.sleep(100L);
+					}
+					
+					BoxPlayApplication.getHandler().post(new Runnable() {
+						@Override
+						public void run() {
+							snackbar = BoxPlayApplication.getBoxPlayApplication().snackbar(getString(R.string.boxplay_store_video_data_downloading), Snackbar.LENGTH_INDEFINITE);
+							snackbar.show();
+						}
+					});
+					
+					
 					final int oldServerJsonRevision = serverJsonRevision;
 					try {
-						String content = Downloader.getUrlContent(BoxPlayActivity.getBoxPlayActivity().getString(R.string.boxplay_data_download_url));
+						String content = Downloader.getUrlContent(BoxPlayApplication.getBoxPlayApplication().getString(R.string.boxplay_data_download_url));
 						serverJsonData = new JsonObject((Map<?, ?>) new JsonParser().parse(new StringReader(content)));
 						
 						serverJsonRevision = ParseUtils.parseInt(serverJsonData.get("json_revision"), 0);
@@ -55,7 +66,7 @@ public class DataManager extends AbstractManager {
 					working = false;
 					workableDataReady = true;
 					
-					BoxPlayActivity.getHandler().post(new Runnable() {
+					BoxPlayApplication.getHandler().post(new Runnable() {
 						@Override
 						public void run() {
 							snackbar.dismiss();

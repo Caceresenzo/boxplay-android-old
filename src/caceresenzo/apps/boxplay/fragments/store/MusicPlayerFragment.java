@@ -32,7 +32,7 @@ import caceresenzo.android.libs.widget.itemtouchhelper.ItemTouchHelperViewHolder
 import caceresenzo.android.libs.widget.itemtouchhelper.OnStartDragListener;
 import caceresenzo.android.libs.widget.itemtouchhelper.SimpleItemTouchHelperCallback;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.providers.media.music.MusicController;
 import caceresenzo.apps.boxplay.providers.media.music.MusicControls;
 import caceresenzo.apps.boxplay.providers.media.music.MusicService;
@@ -122,7 +122,7 @@ public class MusicPlayerFragment extends Fragment {
 		playPauseButton.setImageDrawable(getResources().getDrawable(pause ? R.drawable.icon_play : R.drawable.icon_pause));
 		
 		if (music != null && (!itemJustAdded || getPlaylist().isEmpty())) {
-			BoxPlayActivity.getViewHelper().downloadToImageView(iconImage, music.getBestImageUrl());
+			BoxPlayApplication.getViewHelper().downloadToImageView(iconImage, music.getBestImageUrl());
 			titleTextView.setText(music.getTitle());
 			authorTextView.setText(formatMusicDescription(music));
 		}
@@ -169,7 +169,7 @@ public class MusicPlayerFragment extends Fragment {
 	}
 	
 	public void lockButton(boolean lock) {
-		// BoxPlayActivity.getBoxPlayActivity().getSupportActionBar().setTitle("locked: " + lock);
+		// BoxPlayApplication.getBoxPlayApplication().getSupportActionBar().setTitle("locked: " + lock);
 		previousButton.setClickable(lock);
 		playPausePanelButton.setClickable(lock);
 		playPauseButton.setClickable(lock);
@@ -186,7 +186,7 @@ public class MusicPlayerFragment extends Fragment {
 		progressSeekBar.setIndeterminate(lock);
 		// progressSeekBar.getThumb().mutate().setAlpha(!lock ? 255 : 0);
 		// progressSeekBar.setThumb(lock ? null : new SeekBar(getContext()).getThumb()); // Fuck i gave up, i cant fine default ressource for restoring old drawable
-		// BoxPlayActivity.getBoxPlayActivity().getSupportActionBar().setTitle("alpha: " + (!lock ? 255 : 0));
+		// BoxPlayApplication.getBoxPlayApplication().getSupportActionBar().setTitle("alpha: " + (!lock ? 255 : 0));
 	}
 	
 	@Override
@@ -237,7 +237,7 @@ public class MusicPlayerFragment extends Fragment {
 		ItemTouchHelper.Callback itemTouchHelperCallback = new SimpleItemTouchHelperCallback((ItemTouchHelperAdapter) recyclerView.getAdapter(), new ItemTouchHelperListener() {
 			@Override
 			public void onReallyMoved(int fromPosition, int toPosition) {
-				BoxPlayActivity.getManagers().getMusicManager().saveDatabase();
+				BoxPlayApplication.getManagers().getMusicManager().saveDatabase();
 			}
 		});
 		itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
@@ -350,7 +350,7 @@ public class MusicPlayerFragment extends Fragment {
 			getPlaylist().remove(position);
 			notifyItemRemoved(position);
 			
-			BoxPlayActivity.getManagers().getMusicManager().saveDatabase();
+			BoxPlayApplication.getManagers().getMusicManager().saveDatabase();
 			
 			if (musicController.getPlayingSongNumber() == position) {
 				MusicControls.getMusicControls().pauseControl(getContext());
@@ -388,7 +388,7 @@ public class MusicPlayerFragment extends Fragment {
 			view.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					BoxPlayActivity.getManagers().getMusicManager().playFile(music, getAdapterPosition(), false, true);
+					BoxPlayApplication.getManagers().getMusicManager().playFile(music, getAdapterPosition(), false, true);
 				}
 			});
 			
@@ -397,7 +397,7 @@ public class MusicPlayerFragment extends Fragment {
 			durationTextView.setText(music.formatDuration());
 			
 			if (music.getImageUrl() != null) {
-				BoxPlayActivity.getViewHelper().downloadToImageView(artworkImageView, music.getImageUrl());
+				BoxPlayApplication.getViewHelper().downloadToImageView(artworkImageView, music.getImageUrl());
 			}
 			
 			int colorRessource = 0;

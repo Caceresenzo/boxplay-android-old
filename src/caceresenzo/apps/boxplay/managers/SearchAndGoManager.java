@@ -74,7 +74,7 @@ public class SearchAndGoManager extends AbstractManager {
 		Class<? extends ContentExtractor> firstItem = classes[0];
 		
 		if (firstItem.equals(OpenloadVideoExtractor.class)) {
-			return new AndroidOpenloadVideoExtractor(boxPlayActivity);
+			return new AndroidOpenloadVideoExtractor(boxPlayApplication);
 		}
 		
 		return null;
@@ -100,7 +100,7 @@ public class SearchAndGoManager extends AbstractManager {
 	
 	public void search(String query) {
 		if (worker.isRunning()) {
-			boxPlayActivity.toast("Worker not available").show();
+			boxPlayApplication.toast("Worker not available").show();
 			return;
 		}
 		

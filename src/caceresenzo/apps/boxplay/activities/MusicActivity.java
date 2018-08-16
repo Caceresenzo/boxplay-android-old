@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import caceresenzo.android.libs.internet.AndroidDownloader;
 import caceresenzo.apps.boxplay.R;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.store.PageMusicStoreFragment;
 import caceresenzo.apps.boxplay.helper.LocaleHelper;
 import caceresenzo.apps.boxplay.providers.media.music.MusicController;
@@ -74,10 +75,10 @@ public class MusicActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_music);
 		INSTANCE = this;
 		
-		musicElement = BoxPlayActivity.getViewHelper().getPassingMusicElement();
+		musicElement = BoxPlayApplication.getViewHelper().getPassingMusicElement();
 		if (musicElement == null) {
-			if (BoxPlayActivity.getBoxPlayActivity() != null) {
-				BoxPlayActivity.getBoxPlayActivity().toast(getString(R.string.boxplay_error_activity_invalid_data)).show();
+			if (BoxPlayApplication.getBoxPlayApplication() != null) {
+				BoxPlayApplication.getBoxPlayApplication().toast(getString(R.string.boxplay_error_activity_invalid_data)).show();
 			}
 			finish();
 		}
@@ -164,13 +165,13 @@ public class MusicActivity extends AppCompatActivity {
 		if (musicElement instanceof MusicGroup) {
 			MusicGroup group = groupForOtherAlbums = (MusicGroup) musicElement;
 			
-			actionBar.setTitle(getString(R.string.boxplay_store_music_activity_group_title, group.getDisplay(), BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(group.getMusicAuthorType())));
+			actionBar.setTitle(getString(R.string.boxplay_store_music_activity_group_title, group.getDisplay(), BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(group.getMusicAuthorType())));
 			
 			textViewArray[INDEX_TITLE_1].setText(getString(R.string.boxplay_store_music_activity_head_group_title_name));
 			textViewArray[INDEX_CONTENT_1].setText(group.getDisplay());
 			
 			textViewArray[INDEX_TITLE_2].setText(getString(R.string.boxplay_store_music_activity_head_group_title_type));
-			textViewArray[INDEX_CONTENT_2].setText(BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(group.getMusicAuthorType()));
+			textViewArray[INDEX_CONTENT_2].setText(BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(group.getMusicAuthorType()));
 			
 			textViewArray[INDEX_TITLE_3].setText(getString(R.string.boxplay_store_music_activity_head_group_title_downloadable));
 			if (group.isDownloadable()) {
@@ -195,7 +196,7 @@ public class MusicActivity extends AppCompatActivity {
 				@Override
 				public void onClick(View view) {
 					if (group != null) {
-						BoxPlayActivity.getViewHelper().startMusicActivity(group);
+						BoxPlayApplication.getViewHelper().startMusicActivity(group);
 					}
 				}
 			});
@@ -235,7 +236,7 @@ public class MusicActivity extends AppCompatActivity {
 		}
 		
 		if (imageUrlForIcon != null) {
-			BoxPlayActivity.getViewHelper().downloadToImageView(iconImageView, imageUrlForIcon);
+			BoxPlayApplication.getViewHelper().downloadToImageView(iconImageView, imageUrlForIcon);
 		}
 	}
 	
@@ -277,7 +278,7 @@ public class MusicActivity extends AppCompatActivity {
 		}
 		
 		public void bind(MusicGenre genre) {
-			genreTextView.setText(BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(genre));
+			genreTextView.setText(BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(genre));
 		}
 	}
 	
@@ -338,13 +339,13 @@ public class MusicActivity extends AppCompatActivity {
 				view.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(final View view) {
-						BoxPlayActivity.getHandler().post(new Runnable() {
+						BoxPlayApplication.getHandler().post(new Runnable() {
 							@Override
 							public void run() {
 								PopupMenu popupMenu = new PopupMenu(MusicActivity.this, view);
 								popupMenu.getMenuInflater().inflate(R.menu.music_song_popup, popupMenu.getMenu());
 								
-								popupMenu.getMenu().findItem(R.id.music_song_popup_action_play).setEnabled(BoxPlayActivity.getViewHelper().isVlcInstalled());
+								popupMenu.getMenu().findItem(R.id.music_song_popup_action_play).setEnabled(BoxPlayApplication.getViewHelper().isVlcInstalled());
 								
 								try {
 									popupMenu.getMenu().findItem(R.id.music_song_popup_action_download).setEnabled(music.getParentGroup().isDownloadable());
@@ -359,7 +360,7 @@ public class MusicActivity extends AppCompatActivity {
 										
 										switch (id) {
 											case R.id.music_song_popup_action_play: {
-												BoxPlayActivity.getManagers().getMusicManager().playFile(music, getAdapterPosition(), true, true);
+												BoxPlayApplication.getManagers().getMusicManager().playFile(music, getAdapterPosition(), true, true);
 												break;
 											}
 											case R.id.music_song_popup_action_play_after: {
@@ -375,7 +376,7 @@ public class MusicActivity extends AppCompatActivity {
 												break;
 											}
 											case R.id.music_song_popup_action_download: {
-												AndroidDownloader.askDownload(BoxPlayActivity.getBoxPlayActivity(), Uri.parse(music.getUrl()));
+												AndroidDownloader.askDownload(BoxPlayApplication.getBoxPlayApplication(), Uri.parse(music.getUrl()));
 												break;
 											}
 										}
@@ -383,9 +384,9 @@ public class MusicActivity extends AppCompatActivity {
 										switch (id) {
 											case R.id.music_song_popup_action_play_after:
 											case R.id.music_song_popup_action_add_to_queue:
-												BoxPlayActivity.getManagers().getMusicManager().updateMusicInterface(music, MusicController.getMusicController().isSongPaused(), true);
+												BoxPlayApplication.getManagers().getMusicManager().updateMusicInterface(music, MusicController.getMusicController().isSongPaused(), true);
 											case R.id.music_song_popup_action_play:
-												BoxPlayActivity.getManagers().getMusicManager().saveDatabase();
+												BoxPlayApplication.getManagers().getMusicManager().saveDatabase();
 												break;
 											
 										}

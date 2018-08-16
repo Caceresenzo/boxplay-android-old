@@ -17,7 +17,7 @@ import android.widget.TextView;
 import caceresenzo.android.libs.list.EndlessRecyclerViewScrollListener;
 import caceresenzo.android.libs.toast.ToastUtils;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.dialog.WorkingProgressDialog;
 import caceresenzo.apps.boxplay.managers.PremiumManager.AdultPremiumSubManager;
 import caceresenzo.apps.boxplay.managers.PremiumManager.AdultSubModuleCallback;
@@ -25,7 +25,7 @@ import caceresenzo.libs.boxplay.models.premium.adult.AdultVideo;
 
 public class AdultExplorerFragment extends Fragment {
 	
-	private AdultPremiumSubManager adultSubManager = BoxPlayActivity.getManagers().getPremiumManager().getAdultSubManager();
+	private AdultPremiumSubManager adultSubManager = BoxPlayApplication.getManagers().getPremiumManager().getAdultSubManager();
 	
 	private SwipeRefreshLayout swipeRefreshLayout;
 	private RecyclerView recyclerView;
@@ -45,8 +45,8 @@ public class AdultExplorerFragment extends Fragment {
 			
 			@Override
 			public void onUrlReady(String url) {
-				if (BoxPlayActivity.getViewHelper().isVlcInstalled()) {
-					BoxPlayActivity.getManagers().getVideoManager().openVLC(url, null);
+				if (BoxPlayApplication.getViewHelper().isVlcInstalled()) {
+					BoxPlayApplication.getManagers().getVideoManager().openVLC(url, null);
 				} else {
 					
 				}
@@ -73,7 +73,7 @@ public class AdultExplorerFragment extends Fragment {
 			
 			@Override
 			public void onStatusUpdate(final int ressourceId) {
-				BoxPlayActivity.getHandler().post(new Runnable() {
+				BoxPlayApplication.getHandler().post(new Runnable() {
 					@Override
 					public void run() {
 						workingProgressDialog.update(ressourceId);
@@ -84,7 +84,7 @@ public class AdultExplorerFragment extends Fragment {
 		
 		adultSubManager.fetchNextPage();
 		
-		workingProgressDialog = WorkingProgressDialog.create(BoxPlayActivity.getBoxPlayActivity());
+		workingProgressDialog = WorkingProgressDialog.create(BoxPlayApplication.getBoxPlayApplication());
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -176,7 +176,7 @@ public class AdultExplorerFragment extends Fragment {
 				}
 			});
 			
-			BoxPlayActivity.getViewHelper().downloadToImageView(thumbnailImageView, adultVideo.getImageUrl());
+			BoxPlayApplication.getViewHelper().downloadToImageView(thumbnailImageView, adultVideo.getImageUrl());
 			// thumbnailImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_boxplay_easter_egg));
 			
 			titleTextView.setText(adultVideo.getTitle());

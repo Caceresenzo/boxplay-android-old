@@ -14,7 +14,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.Preference.OnPreferenceClickListener;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import caceresenzo.apps.boxplay.R;
-import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.helper.LocaleHelper;
 import caceresenzo.libs.boxplay.models.store.music.enums.MusicGenre;
 import caceresenzo.libs.licencekey.LicenceKey;
@@ -31,7 +31,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 	public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
 		setPreferencesFromResource(R.xml.preferences, rootKey);
 		
-		sharedPreferences = BoxPlayActivity.getManagers().getPreferences();
+		sharedPreferences = BoxPlayApplication.getManagers().getPreferences();
 		
 		// Store > Music
 		onSharedPreferenceChanged(sharedPreferences, getString(R.string.boxplay_other_settings_store_music_pref_my_genre_key));
@@ -59,7 +59,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
 				try {
-					BoxPlayActivity.getManagers().getTutorialManager().resetTutorials();
+					BoxPlayApplication.getManagers().getTutorialManager().resetTutorials();
 					preference.setSummary(getString(R.string.boxplay_other_settings_boxplay_pref_reset_tutorials_summary_done));
 				} catch (Exception exception) {
 					preference.setSummary(getString(R.string.boxplay_other_settings_boxplay_pref_reset_tutorials_summary_error, exception.getLocalizedMessage()));
@@ -73,7 +73,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
 				try {
-					BoxPlayActivity.getViewHelper().clearImageCache();
+					BoxPlayApplication.getViewHelper().clearImageCache();
 					preference.setSummary(getString(R.string.boxplay_other_settings_application_pref_clear_image_cache_summary_done));
 				} catch (Exception exception) {
 					preference.setSummary(getString(R.string.boxplay_other_settings_application_pref_clear_image_cache_summary_error, exception.getLocalizedMessage()));
@@ -125,7 +125,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 					preference.setSummary(R.string.boxplay_other_settings_debug_pref_extractor_show_logs_summary_disabled);
 				}
 				
-				BoxPlayActivity.getManagers().getDebugManager().updatePreferences();
+				BoxPlayApplication.getManagers().getDebugManager().updatePreferences();
 			}
 		} else if (preference instanceof CheckBoxPreference) {
 			CheckBoxPreference checkBoxPreference = (CheckBoxPreference) preference;
@@ -157,8 +157,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 				if (!firstCheck) {
 					LocaleHelper.setLocale(getActivity(), sharedPreferences.getString(getString(R.string.boxplay_other_settings_application_pref_language_key), getString(R.string.boxplay_other_settings_application_pref_language_default_value)).toLowerCase());
 					// BoxPlayApplication.getBoxPlayApplication().setLocale(true);
-					BoxPlayActivity.getBoxPlayActivity().askRecreate(this);
-					BoxPlayActivity.getViewHelper().recache();
+					BoxPlayApplication.getViewHelper().recache();
+					
+					try {
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 				}
 			}
 		} else if (preference instanceof MultiSelectListPreference) {
@@ -173,7 +178,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 						MusicGenre genre = MusicGenre.fromString(iterator.next());
 						
 						if (genre != MusicGenre.UNKNOWN) {
-							string += BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(genre) + (iterator.hasNext() ? ", " : "");
+							string += BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(genre) + (iterator.hasNext() ? ", " : "");
 						}
 					}
 					
@@ -198,7 +203,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 					}
 				}
 				
-				BoxPlayActivity.getManagers().getPremiumManager().updateLicence(licenceKey);
+				BoxPlayApplication.getManagers().getPremiumManager().updateLicence(licenceKey);
 				
 				editTextPreference.setText(licenceKey.getKey());
 			}

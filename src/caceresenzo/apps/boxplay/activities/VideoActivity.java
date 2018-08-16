@@ -1,5 +1,6 @@
 package caceresenzo.apps.boxplay.activities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +24,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -48,6 +48,7 @@ import android.widget.TextView;
 import caceresenzo.android.libs.intent.IntentUtils;
 import caceresenzo.android.libs.internet.AndroidDownloader;
 import caceresenzo.apps.boxplay.R;
+import caceresenzo.apps.boxplay.activities.base.BaseBoxPlayActivty;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.helper.LocaleHelper;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
@@ -58,12 +59,12 @@ import caceresenzo.libs.boxplay.models.store.video.VideoFile;
 import caceresenzo.libs.boxplay.models.store.video.VideoGroup;
 import caceresenzo.libs.boxplay.models.store.video.VideoSeason;
 
-/**
- * Help from: http://tutorialsbuzz.com/2015/11/android-collapsingtoolbarlayout-example_7.html
- */
-public class VideoActivity extends AppCompatActivity implements Tutorialable {
+public class VideoActivity extends BaseBoxPlayActivty implements Tutorialable {
 	
-	private static VideoActivity INSTANCE;
+	public static final String BUNDLE_KEY_VIDEO_GROUP_ITEM = "video_group_item";
+	
+	public static final String BUNDLE_KEY_VLC_EXTRA_POSITION = "extra_position";
+	public static final String BUNDLE_KEY_VLC_EXTRA_DURATION = "extra_duration";
 	
 	private VideoGroup videoGroup;
 	private VideoSeason videoSeason;
@@ -91,7 +92,7 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 	public VideoActivity() {
 		super();
 		
-		videoItems = new ArrayList<VideoItem>();
+		videoItems = new ArrayList<>();
 	}
 	
 	@Override
@@ -100,9 +101,9 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 		setContentView(R.layout.activity_video);
 		INSTANCE = this;
 		
-		videoGroup = BoxPlayActivity.getViewHelper().getPassingVideoGroup();
+		videoGroup = (VideoGroup) getIntent().getSerializableExtra(BUNDLE_KEY_VIDEO_GROUP_ITEM);
 		if (videoGroup == null) {
-			BoxPlayActivity.getBoxPlayActivity().toast(getString(R.string.boxplay_error_activity_invalid_data)).show();
+			BoxPlayApplication.getBoxPlayApplication().toast(getString(R.string.boxplay_error_activity_invalid_data)).show();
 			finish();
 		}
 		
@@ -110,12 +111,20 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 		
 		changeSeason(videoSeason = videoGroup.getSeasons().get(0));
 		
-		BoxPlayActivity.getManagers().getTutorialManager().executeActivityTutorial(this);
+		BoxPlayApplication.getManagers().getTutorialManager().executeActivityTutorial(this);
 	}
 	
 	@Override
 	protected void attachBaseContext(Context base) {
 		super.attachBaseContext(LocaleHelper.onAttach(base));
+	}
+
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
+		outState.putSerializable(BUNDLE_KEY_VIDEO_GROUP_ITEM, (Serializable) videoGroup);
 	}
 	
 	@Override
@@ -129,18 +138,18 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 					return;
 				}
 				
-				long position = data.getExtras().getLong("extra_position");
-				long duration = data.getExtras().getLong("extra_duration");
+				long position = data.getExtras().getLong(BUNDLE_KEY_VLC_EXTRA_POSITION);
+				long duration = data.getExtras().getLong(BUNDLE_KEY_VLC_EXTRA_DURATION);
 				
-				boolean extraPositionValid = !ViewHelper.DATEFORMAT_VIDEO_DURATION.format(new Date(position)).toString().equals("23:59:59");
-				boolean extraDurationValid = !ViewHelper.DATEFORMAT_VIDEO_DURATION.format(new Date(duration)).toString().equals("00:00:00");
+				boolean extraPositionValid = !ViewHelper.DATEFORMAT_VIDEO_DURATION.format(new Date(position)).equals("23:59:59");
+				boolean extraDurationValid = !ViewHelper.DATEFORMAT_VIDEO_DURATION.format(new Date(duration)).equals("00:00:00");
 				
 				if (!extraPositionValid || !extraDurationValid) {
 					Snackbar.make(coordinatorLayout, R.string.boxplay_error_video_activity_invalid_time, Snackbar.LENGTH_LONG).show();
 					return;
 				}
 				
-				VideoManager videoManager = BoxPlayActivity.getManagers().getVideoManager();
+				VideoManager videoManager = BoxPlayApplication.getManagers().getVideoManager();
 				VideoFile video = videoManager.getLastVideoFileOpen();
 				
 				if (video == null) {
@@ -208,12 +217,12 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 				
 				videoGroup.setAsWatching(!videoGroup.isWatching());
 				
-				BoxPlayActivity.getManagers().getVideoManager().callConfigurator(videoGroup);
+				BoxPlayApplication.getManagers().getVideoManager().callConfigurator(videoGroup);
 			}
 		});
 		floatingActionButton.setImageResource(videoGroup.isWatching() ? R.drawable.icon_eye_close_96px : R.drawable.icon_eye_open_96px);
 		
-		BoxPlayActivity.getViewHelper().downloadToImageView(videoImageView, videoGroup.getGroupImageUrl());
+		BoxPlayApplication.getViewHelper().downloadToImageView(videoImageView, videoGroup.getGroupImageUrl());
 		
 		seasonCheckBox.setOnClickListener(new OnClickListener() {
 			@Override
@@ -222,7 +231,7 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 				
 				videoSeason.asWatched(checked);
 				
-				BoxPlayActivity.getManagers().getVideoManager().callConfigurator(videoSeason);
+				BoxPlayApplication.getManagers().getVideoManager().callConfigurator(videoSeason);
 			}
 		});
 		
@@ -274,7 +283,7 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 		}
 		
 		if (imageUrl != null) {
-			BoxPlayActivity.getViewHelper().downloadToImageView(videoImageView, imageUrl);
+			BoxPlayApplication.getViewHelper().downloadToImageView(videoImageView, imageUrl);
 		}
 		
 		appBarLayout.setExpanded(true, true);
@@ -423,7 +432,7 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 		public TextView episodeTextView, timeTextView, languageTextView;
 		public ImageView hostIconImageView;
 		public SeekBar progressSeekBar;
-		public Button playButton, downloadButton, watchButton, shareButton, shareUrlButton, castButton;
+		public Button playButton, downloadButton, watchButton, shareButton, shareUrlButton;
 		public VideoItem bindVideoItem;
 		
 		public VideoItemViewHolder(View itemView) {
@@ -445,7 +454,6 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 			watchButton = (Button) itemView.findViewById(R.id.item_video_layout_item_button_watch);
 			shareButton = (Button) itemView.findViewById(R.id.item_video_layout_item_button_share);
 			shareUrlButton = (Button) itemView.findViewById(R.id.item_video_layout_item_button_share_url);
-			castButton = (Button) itemView.findViewById(R.id.item_video_layout_item_button_cast);
 		}
 		
 		@SuppressWarnings("deprecation")
@@ -477,16 +485,16 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 			languageTextView.setTag(this);
 			
 			expandableLayout.setExpanded(item.expanded, false);
-			episodeTextView.setText(getString(R.string.boxplay_store_video_activity_episode_title, BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(item.videoFile.getVideoType()), item.videoFile.getRawEpisodeValue()));
-			languageTextView.setText(getString(R.string.boxplay_store_video_activity_episode_language, BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(item.videoFile.getLanguage())));
+			episodeTextView.setText(getString(R.string.boxplay_store_video_activity_episode_title, BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(item.videoFile.getVideoType()), item.videoFile.getRawEpisodeValue()));
+			languageTextView.setText(getString(R.string.boxplay_store_video_activity_episode_language, BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(item.videoFile.getLanguage())));
 			progressSeekBar.getProgressDrawable().setColorFilter(VideoActivity.this.getResources().getColor(R.color.colorCard), PorterDuff.Mode.MULTIPLY);
 			
 			boolean iconImageViewAvailable = false;
-			if (BoxPlayActivity.getManagers().getServerManager() != null && BoxPlayActivity.getManagers().getServerManager().getServerHostings().size() > 0) {
-				for (ServerHosting hosting : BoxPlayActivity.getManagers().getServerManager().getServerHostings()) {
+			if (BoxPlayApplication.getManagers().getServerManager() != null && BoxPlayApplication.getManagers().getServerManager().getServerHostings().size() > 0) {
+				for (ServerHosting hosting : BoxPlayApplication.getManagers().getServerManager().getServerHostings()) {
 					if (video.getUrl() != null && video.getUrl().startsWith(hosting.getStartingStringUrl()) && hosting.getIconUrl() != null && video.isAvailable()) {
 						iconImageViewAvailable = true;
-						BoxPlayActivity.getViewHelper().downloadToImageView(hostIconImageView, hosting.getIconUrl());
+						BoxPlayApplication.getViewHelper().downloadToImageView(hostIconImageView, hosting.getIconUrl());
 						break;
 					}
 				}
@@ -505,14 +513,14 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 			playButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					BoxPlayActivity.getManagers().getVideoManager().openVLC(video);
+					BoxPlayApplication.getManagers().getVideoManager().openVLC(video);
 				}
 			});
 			
 			downloadButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					AndroidDownloader.askDownload(BoxPlayActivity.getBoxPlayActivity(), Uri.parse(video.getUrl()));
+					AndroidDownloader.askDownload(BoxPlayApplication.getBoxPlayApplication(), Uri.parse(video.getUrl()));
 				}
 			});
 			
@@ -525,22 +533,22 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 					
 					updateVideoFileItemInformations(video);
 					
-					BoxPlayActivity.getManagers().getVideoManager().callConfigurator(video);
+					BoxPlayApplication.getManagers().getVideoManager().callConfigurator(video);
 				}
 			});
 			
 			shareButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					// IntentUtils.shareText(BoxPlayActivity.getBoxPlayActivity(), parsedTitle + "\n\nLink: " + parsedUrl, parsedTitle); TODO
-					BoxPlayActivity.getBoxPlayActivity().toast(getString(R.string.boxplay_error_not_implemented_yet)).show();
+					// IntentUtils.shareText(BoxPlayApplication.getBoxPlayApplication(), parsedTitle + "\n\nLink: " + parsedUrl, parsedTitle); TODO
+					BoxPlayApplication.getBoxPlayApplication().toast(getString(R.string.boxplay_error_not_implemented_yet)).show();
 				}
 			});
 			
 			shareUrlButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					IntentUtils.shareText(BoxPlayActivity.getBoxPlayActivity(), video.getUrl(), video.getUrl());
+					IntentUtils.shareText(BoxPlayApplication.getBoxPlayApplication(), video.getUrl(), video.getUrl());
 				}
 			});
 			
@@ -548,9 +556,9 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 			 * @Movie
 			 */
 			if (!videoGroup.hasSeason()) {
-				// episodeTextView.setText(getString(R.string.boxplay_store_video_activity_movie_title, BoxPlayActivity.getViewHelper().videoEnumTypeToStringTranslation(item.videoFile.getFileType()), BoxPlayActivity.getViewHelper().videoEnumTypeToStringTranslation(item.videoFile.getLanguage())));
+				// episodeTextView.setText(getString(R.string.boxplay_store_video_activity_movie_title, BoxPlayApplication.getViewHelper().videoEnumTypeToStringTranslation(item.videoFile.getFileType()), BoxPlayApplication.getViewHelper().videoEnumTypeToStringTranslation(item.videoFile.getLanguage())));
 				episodeTextView.setVisibility(View.GONE);
-				languageTextView.setText(getString(R.string.boxplay_store_video_activity_episode_language, BoxPlayActivity.getViewHelper().enumToStringCacheTranslation(item.videoFile.getLanguage())));
+				languageTextView.setText(getString(R.string.boxplay_store_video_activity_episode_language, BoxPlayApplication.getViewHelper().enumToStringCacheTranslation(item.videoFile.getLanguage())));
 				
 				bindVideoItem.expanded = true;
 				expandableLayout.setExpanded(true, false);
@@ -625,7 +633,7 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 		}
 		
 		private void setGlobalButtonEnabled(boolean enabled) {
-			playButton.setEnabled(BoxPlayActivity.getViewHelper().isVlcInstalled() ? enabled : false);
+			playButton.setEnabled(BoxPlayApplication.getViewHelper().isVlcInstalled() ? enabled : false);
 			downloadButton.setEnabled(enabled);
 			watchButton.setEnabled(enabled);
 			shareButton.setEnabled(enabled);
@@ -717,7 +725,7 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 				.targets(sequences).listener(new TapTargetSequence.Listener() {
 					@Override
 					public void onSequenceFinish() {
-						BoxPlayActivity.getManagers().getTutorialManager().saveTutorialFinished(VideoActivity.this);
+						BoxPlayApplication.getManagers().getTutorialManager().saveTutorialFinished(VideoActivity.this);
 					}
 					
 					@Override
@@ -733,7 +741,18 @@ public class VideoActivity extends AppCompatActivity implements Tutorialable {
 				});
 	}
 	
-	public static VideoActivity getVideoActivity() {
-		return INSTANCE;
+	public static void start(VideoGroup videoGroup) {
+		BoxPlayApplication application = BoxPlayApplication.getBoxPlayApplication();
+		
+		Intent intent = new Intent(application, VideoActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra(BUNDLE_KEY_VIDEO_GROUP_ITEM, (Serializable) videoGroup);
+		
+		application.startActivity(intent);
 	}
+	
+	public static VideoActivity getVideoActivity() {
+		return (VideoActivity) INSTANCE;
+	}
+	
 }
