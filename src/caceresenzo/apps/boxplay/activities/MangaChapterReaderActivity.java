@@ -29,19 +29,33 @@ import caceresenzo.libs.boxplay.culture.searchngo.data.models.content.ChapterIte
 import caceresenzo.libs.string.StringUtils;
 import caceresenzo.libs.thread.HelpedThread;
 
+/**
+ * Activity to read Manga
+ * 
+ * The bundle need {@link #BUNDLE_KEY_CHAPTER_ITEM} ({@value #BUNDLE_KEY_CHAPTER_ITEM}) as a {@link ChapterItemResultData} to be started
+ * 
+ * @author Enzo CACERES
+ */
 public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 	
+	/* Bundle Keys */
 	public static final String BUNDLE_KEY_CHAPTER_ITEM = "chapter_item";
+	public static final String BUNDLE_KEY_ACTUAL_PAGE = "actual_page";
 	
+	/* Offset values */
 	public static final int OFFSET_NEXT_PAGE = 1;
 	public static final int OFFSET_PREVIOUS_PAGE = -1;
 	
+	/* Instance */
 	private static MangaChapterReaderActivity INSTANCE;
 	
+	/* Actual chapter item */
 	private ChapterItemResultData chapterItem;
 	
+	/* Manager(s) */
 	private SearchAndGoManager searchAndGoManager;
 	
+	/* Views */
 	private SlidingUpPanelLayout slidingUpPanelLayout;
 	
 	private ViewPager mangaViewPager;
@@ -52,12 +66,15 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 	private TextView errorTextView;
 	private ProgressBar loadingProgressBar;
 	
+	/* Worker */
 	private ExtractionWorker extractionWorker;
 	
+	/* Local data */
 	private String chapterName;
 	private List<String> imageUrls;
-	private int chapterSize;
+	private int chapterSize, actualPage = NO_VALUE;
 	
+	/* Constructor */
 	public MangaChapterReaderActivity() {
 		super();
 		
@@ -73,21 +90,17 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_manga_chapter_reader);
 		
-		boolean validData = false;
 		chapterItem = (ChapterItemResultData) getIntent().getSerializableExtra(BUNDLE_KEY_CHAPTER_ITEM);
+		boolean validData = false;
 		if (chapterItem == null || !(chapterItem.getImageContentProvider() instanceof IMangaContentProvider)) {
-			if (savedInstanceState != null) {
-				chapterItem = (ChapterItemResultData) savedInstanceState.getSerializable(BUNDLE_KEY_CHAPTER_ITEM);
-				
-				if (chapterItem == null) {
-					finish();
-				}
-			} else {
-				if (boxPlayApplication != null) {
-					boxPlayApplication.toast(getString(R.string.boxplay_error_activity_invalid_data)).show();
-				}
-				finish();
+			if (boxPlayApplication != null) {
+				boxPlayApplication.toast(getString(R.string.boxplay_error_activity_invalid_data)).show();
 			}
+			finish();
+		}
+		
+		if (savedInstanceState != null) {
+			actualPage = savedInstanceState.getInt(BUNDLE_KEY_ACTUAL_PAGE, NO_VALUE);
 		}
 		
 		initializeViews();
@@ -102,6 +115,7 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 		super.onSaveInstanceState(outState);
 		
 		outState.putSerializable(BUNDLE_KEY_CHAPTER_ITEM, (Serializable) chapterItem);
+		outState.putInt(BUNDLE_KEY_ACTUAL_PAGE, actualPage);
 	}
 	
 	@Override
@@ -113,6 +127,7 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 		extractionWorker.cancel();
 	}
 	
+	/* Initialization -> Views */
 	private void initializeViews() {
 		slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.activity_manga_chapter_reader_slidinglayout_container);
 		
@@ -142,6 +157,7 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 		loadingProgressBar = (ProgressBar) findViewById(R.id.activity_manga_chapter_reader_progressbar_loading);
 	}
 	
+	/* Initialization -> Manga */
 	private void initializeManga(boolean validRestoredData) {
 		if (validRestoredData) {
 			reloadImages();
@@ -159,6 +175,9 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 		}
 	}
 	
+	/**
+	 * Call this function when image need to be reloaded, like when the activity is being restored
+	 */
 	public void reloadImages() {
 		handler.postDelayed(new Runnable() {
 			@Override
@@ -168,6 +187,11 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 		}, 100L);
 	}
 	
+	/**
+	 * Fill the {@link ViewPager} with some imageUrls
+	 * 
+	 * @param imageUrls
+	 */
 	private void showPages(List<String> imageUrls) {
 		this.imageUrls = imageUrls;
 		this.chapterSize = imageUrls.size();
@@ -194,11 +218,23 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 		mangaViewPager.setOffscreenPageLimit(chapterSize);
 		pagerAdapter.notifyDataSetChanged(); // Just to be sure
 		
-		updateSelectedPage(1);
+		if (actualPage != NO_VALUE) {
+			mangaViewPager.setCurrentItem(actualPage - 1);
+		} else {
+			updateSelectedPage(1);
+		}
 		
 		setViewerHidden(false);
 	}
 	
+	/**
+	 * Hide or show the main viewer
+	 * 
+	 * If hidden, the loading bar will be visible, if show, loading bar will disapear
+	 * 
+	 * @param hidden
+	 *            True or false
+	 */
 	private void setViewerHidden(boolean hidden) {
 		slidingUpPanelLayout.setVisibility(hidden ? View.GONE : View.VISIBLE);
 		
@@ -206,6 +242,12 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 		errorTextView.setVisibility(View.GONE);
 	}
 	
+	/**
+	 * Diaplay an error in the center of the viewer
+	 * 
+	 * @param exception
+	 *            Occured exception
+	 */
 	private void displayError(final Exception exception) {
 		handler.post(new Runnable() {
 			@Override
@@ -220,6 +262,12 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 		});
 	}
 	
+	/**
+	 * Go to a page by current offset (actual page + offset)
+	 * 
+	 * @param offset
+	 *            Target offset
+	 */
 	private void setPageByOffset(int offset) {
 		if (offset < 0) {
 			return;
@@ -241,12 +289,17 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 	 *            Actual position + 1 to remove the offset
 	 */
 	private void updateSelectedPage(int selectedPage) {
-		infoTextView.setText(getString(R.string.boxplay_manga_chapter_reader_format_info, chapterName, selectedPage, chapterSize));
+		actualPage = selectedPage;
+		infoTextView.setText(getString(R.string.boxplay_manga_chapter_reader_format_info, chapterName, actualPage, chapterSize));
 	}
 	
+	/**
+	 * Start a new MangaChapterReaderActivity
+	 * 
+	 * @param result
+	 *            {@link ChapterItemResultData} item that you want to start with
+	 */
 	public static void start(ChapterItemResultData result) {
-		// MangaChapterReaderActivity.RESULT = result;
-		
 		BoxPlayApplication application = BoxPlayApplication.getBoxPlayApplication();
 		
 		Intent intent = new Intent(application, MangaChapterReaderActivity.class);
@@ -256,17 +309,27 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 		application.startActivity(intent);
 	}
 	
+	/**
+	 * Extraction thread linked to the UI to fetch data like image urls
+	 * 
+	 * @author Enzo CACERES
+	 */
 	class ExtractionWorker extends HelpedThread {
+		/* Parent Activity set when creating new Instance */
 		private final MangaChapterReaderActivity parentActivity;
+		/* Actual result to fetch */
 		private ChapterItemResultData result;
 		
+		/* Result's parent class */
 		private IMangaContentProvider mangaContentProvider;
 		private MangaChapterContentExtractor chapterContentExtractor;
 		
+		/* Local list of imageUrls, not initialized */
 		private List<String> imageUrls;
 		
+		/* Constructor */
 		public ExtractionWorker() {
-			this.parentActivity = (MangaChapterReaderActivity) INSTANCE;
+			this.parentActivity = INSTANCE;
 		}
 		
 		@Override
@@ -302,6 +365,13 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 			;
 		}
 		
+		/**
+		 * Apply data to the thread, and call {@link #start()} after this function
+		 * 
+		 * @param result
+		 *            Target result
+		 * @return Itself
+		 */
 		public ExtractionWorker applyData(ChapterItemResultData result) {
 			if (result == null) {
 				return this;
