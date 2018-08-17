@@ -433,7 +433,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 				}
 			});
 			
-			builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			builder.setPositiveButton(getString(R.string.boxplay_culture_searchngo_dialog_settings_item_provider_button_validate), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					Set<String> newEnabledProviders = new ArraySet<>();
@@ -455,7 +455,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 				}
 			});
 			
-			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			builder.setNegativeButton(getString(R.string.boxplay_culture_searchngo_dialog_settings_item_provider_button_cancel), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					providersSettingsDialog = null; // Nullify it so everything will be recreated with before values

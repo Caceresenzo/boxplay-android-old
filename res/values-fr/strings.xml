@@ -225,6 +225,8 @@
     <string name="boxplay_culture_searchngo_dialog_search_history">Historique de recherche (10 derniers)</string>
     <string name="boxplay_culture_searchngo_dialog_settings">Paramètres</string>
     <string name="boxplay_culture_searchngo_dialog_settings_item_provider">Fournisseurs</string>
+    <string name="boxplay_culture_searchngo_dialog_settings_item_provider_button_validate">Valider</string>
+    <string name="boxplay_culture_searchngo_dialog_settings_item_provider_button_cancel">Annuler</string>
     <!-- CALLBACKS -->
     <string name="boxplay_culture_searchngo_search_status_global_started">Démarrage de la recherche globale...</string>
     <string name="boxplay_culture_searchngo_search_status_global_sorting">Triage des résultats...</string>

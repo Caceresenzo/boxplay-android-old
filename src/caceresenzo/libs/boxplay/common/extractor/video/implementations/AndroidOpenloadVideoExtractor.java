@@ -1,4 +1,4 @@
-package caceresenzo.libs.boxplay.common.extractor.openload.implementations;
+package caceresenzo.libs.boxplay.common.extractor.video.implementations;
 
 import android.content.Context;
 import android.os.Handler;

@@ -231,6 +231,8 @@
     <string name="boxplay_culture_searchngo_dialog_search_history">Search history (10 last)</string>
     <string name="boxplay_culture_searchngo_dialog_settings">Settings</string>
     <string name="boxplay_culture_searchngo_dialog_settings_item_provider">Providers</string>
+    <string name="boxplay_culture_searchngo_dialog_settings_item_provider_button_validate">Validate</string>
+    <string name="boxplay_culture_searchngo_dialog_settings_item_provider_button_cancel">Cancel</string>
     <!-- CALLBACKS -->
     <string name="boxplay_culture_searchngo_search_status_global_started">Starting global search...</string>
     <string name="boxplay_culture_searchngo_search_status_global_sorting">Sorting results...</string>
