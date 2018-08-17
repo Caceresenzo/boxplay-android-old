@@ -10,7 +10,10 @@ import caceresenzo.apps.boxplay.managers.XManagers;
 
 public abstract class BaseBoxPlayActivty extends AppCompatActivity {
 	
-	protected static Fragment fragmentToOpen = null;
+	public static final int NO_VALUE = -1;
+
+	protected static Fragment FRAGMENT_TO_OPEN = null;
+	protected static int MENUITEM_ID_TO_SELECT = NO_VALUE;
 	
 	protected BoxPlayApplication boxPlayApplication;
 	
@@ -50,7 +53,7 @@ public abstract class BaseBoxPlayActivty extends AppCompatActivity {
 	 *            Target fragment
 	 */
 	public void askRecreate(Fragment oldFrangent) {
-		fragmentToOpen = oldFrangent;
+		FRAGMENT_TO_OPEN = oldFrangent;
 		recreate();
 	}
 	

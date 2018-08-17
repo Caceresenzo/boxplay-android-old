@@ -1,9 +1,11 @@
 package caceresenzo.apps.boxplay.activities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -34,9 +36,17 @@ import caceresenzo.libs.boxplay.models.store.music.MusicAlbum;
 import caceresenzo.libs.boxplay.models.store.music.MusicFile;
 import caceresenzo.libs.boxplay.models.store.music.MusicGroup;
 import caceresenzo.libs.boxplay.models.store.music.enums.MusicGenre;
+import caceresenzo.libs.boxplay.models.store.video.VideoGroup;
 
+/**
+ * TODO: NEED TO BE COMPLETLY REDONE
+ * 
+ * @author Enzo CACERES
+ */
 @SuppressWarnings("unused")
 public class MusicActivity extends AppCompatActivity {
+	
+	public static final String BUNDLE_KEY_MUSIC_ELEMENT_ITEM = "music_element_item";
 	
 	private static final int INDEX_TITLE_1 = 0, INDEX_TITLE_2 = 1, INDEX_TITLE_3 = 2;
 	private static final int INDEX_CONTENT_1 = 3, INDEX_CONTENT_2 = 4, INDEX_CONTENT_3 = 5;
@@ -75,7 +85,7 @@ public class MusicActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_music);
 		INSTANCE = this;
 		
-		musicElement = BoxPlayApplication.getViewHelper().getPassingMusicElement();
+		musicElement = (MusicElement) getIntent().getSerializableExtra(BUNDLE_KEY_MUSIC_ELEMENT_ITEM);
 		if (musicElement == null) {
 			if (BoxPlayApplication.getBoxPlayApplication() != null) {
 				BoxPlayApplication.getBoxPlayApplication().toast(getString(R.string.boxplay_error_activity_invalid_data)).show();
@@ -91,6 +101,13 @@ public class MusicActivity extends AppCompatActivity {
 	@Override
 	protected void attachBaseContext(Context base) {
 		super.attachBaseContext(LocaleHelper.onAttach(base));
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
+		outState.putSerializable(BUNDLE_KEY_MUSIC_ELEMENT_ITEM, (Serializable) musicElement);
 	}
 	
 	@Override
@@ -196,7 +213,7 @@ public class MusicActivity extends AppCompatActivity {
 				@Override
 				public void onClick(View view) {
 					if (group != null) {
-						BoxPlayApplication.getViewHelper().startMusicActivity(group);
+						start(group);
 					}
 				}
 			});
@@ -423,6 +440,16 @@ public class MusicActivity extends AppCompatActivity {
 		public MusicAlbumViewHolder(View itemView) {
 			super(itemView);
 		}
+	}
+	
+	public static void start(MusicElement musicElement) {
+		BoxPlayApplication application = BoxPlayApplication.getBoxPlayApplication();
+		
+		Intent intent = new Intent(application, MusicActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra(BUNDLE_KEY_MUSIC_ELEMENT_ITEM, (Serializable) musicElement);
+		
+		application.startActivity(intent);
 	}
 	
 	public static MusicActivity getMusicActivity() {

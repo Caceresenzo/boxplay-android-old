@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
 
+	<changelogversion versionName="3.1.2 BETA" changeDate="15/08/2018">
+		<changelogtext>[b]BoxPlay Core Big Work 1[/b]</changelogtext>
+		<changelogtext>[b]Added![/b] Support for weak and older smartphone</changelogtext>
+		<changelogtext>[b]Changed![/b] Serialization added for everything in BoxPlay</changelogtext>
+		<changelogtext>[b]Fixed![/b] BoxPlay Core is now more stable</changelogtext>
+		<changelogtext>[b]Fixed![/b] Bug causing item to be forgot and application was crashing</changelogtext>
+		<changelogtext>[b]Fixed![/b] Managers was using wrong context, they now use the application main context</changelogtext>
+		<changelogtext>[b]Fixed![/b] Video Activity was crashing due to forgot configuration section</changelogtext>
+		<changelogtext>[b]Fixed![/b] Lot of managers was using a wrong UI context, and were causing NullPointerException because of this</changelogtext>
+		<changelogtext>[b]Fixed![/b] WorkingProgressDialog is now a full usable dialog (used in Premium and now in Search n' Go)</changelogtext>
+		<changelogtext>[b]Fixed![/b] Almost full BoxPlay Activity restoration if she was killed</changelogtext>
+		<changelogtext>[b]Fixed![/b] ... a lot of little one fixed too ...</changelogtext>
+	</changelogversion>
+
 	<changelogversion versionName="3.1.1 BETA" changeDate="15/08/2018">
 		<changelogtext>[b]Search n' Go PREVIEW 4[/b]</changelogtext>
 		<changelogtext>[b]New![/b] Primtive video download button</changelogtext>

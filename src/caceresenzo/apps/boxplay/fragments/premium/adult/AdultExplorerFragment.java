@@ -84,7 +84,7 @@ public class AdultExplorerFragment extends Fragment {
 		
 		adultSubManager.fetchNextPage();
 		
-		workingProgressDialog = WorkingProgressDialog.create(BoxPlayApplication.getBoxPlayApplication());
+		workingProgressDialog = WorkingProgressDialog.create(BoxPlayApplication.getBoxPlayApplication().getAttachedActivity());
 	}
 	
 	@SuppressWarnings("deprecation")

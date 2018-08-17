@@ -30,6 +30,7 @@ import caceresenzo.apps.boxplay.activities.base.BaseBoxPlayActivty;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.BaseTabLayoutFragment;
 import caceresenzo.apps.boxplay.fragments.culture.CultureFragment;
+import caceresenzo.apps.boxplay.fragments.culture.searchngo.PageCultureSearchAndGoFragment;
 import caceresenzo.apps.boxplay.fragments.other.SettingsFragment;
 import caceresenzo.apps.boxplay.fragments.other.about.AboutFragment;
 import caceresenzo.apps.boxplay.fragments.premium.adult.AdultExplorerFragment;
@@ -48,17 +49,16 @@ import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
  */
 public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationView.OnNavigationItemSelectedListener, Tutorialable {
 	
+	/* Set Build as Debug */
 	public static final boolean BUILD_DEBUG = false;
 	
+	/* Bundle Keys */
 	public static final String BUNDLE_KEY_LAST_FRAGMENT_CLASS = "last_fragment_class";
 	public static final String BUNDLE_KEY_LAST_FRAGMENT_TAB_ID = "last_fragment_tab_id";
 	public static final String BUNDLE_KEY_LAST_DRAWER_SELECTED_ITEM_ID = "last_drawer_selected_item_id";
+	public static final String BUNDLE_KEY_EXTRA_FRAGMENT_CULTURE_SEARCHANDGO_LAST_QUERY = "extra_fragment_culture_searchandgo_last_query";
 	
-	public static final int NO_VALUE = -1;
-	
-	/**
-	 * Tutorial path id
-	 */
+	/* Tutorial Path Ids */
 	public static final int TUTORIAL_PROGRESS_DRAWER = 0;
 	public static final int TUTORIAL_PROGRESS_SEARCH = 1;
 	public static final int TUTORIAL_PROGRESS_MENU = 2;
@@ -76,12 +76,12 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 	
 	private SlidingUpPanelLayout slidingUpPanelLayout;
 	
-	private String lastOpenFragment;
+	private String lastOpenFragment, extraFragmentCultureSearchAndGoLastQuery;
 	private int lastOpenTab, lastDrawerSelectedItemId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(null);
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_boxplay);
 		INSTANCE = this;
 		
@@ -92,6 +92,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 			lastOpenFragment = savedInstanceState.getString(BUNDLE_KEY_LAST_FRAGMENT_CLASS);
 			lastOpenTab = savedInstanceState.getInt(BUNDLE_KEY_LAST_FRAGMENT_TAB_ID, NO_VALUE);
 			lastDrawerSelectedItemId = savedInstanceState.getInt(BUNDLE_KEY_LAST_DRAWER_SELECTED_ITEM_ID, NO_VALUE);
+			extraFragmentCultureSearchAndGoLastQuery = savedInstanceState.getString(BUNDLE_KEY_EXTRA_FRAGMENT_CULTURE_SEARCHANDGO_LAST_QUERY);
 			
 			initializeRestoration();
 		}
@@ -103,31 +104,56 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 	protected void onStart() {
 		super.onStart();
 		
-		if (fragmentToOpen != null) {
-			handler.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					if (fragmentToOpen instanceof SettingsFragment) {
-						((SettingsFragment) fragmentToOpen).reset();
-						forceFragmentPath(R.id.drawer_boxplay_other_settings);
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				if (FRAGMENT_TO_OPEN != null) {
+					if (FRAGMENT_TO_OPEN instanceof SettingsFragment) {
+						final SettingsFragment settingsFragment = (SettingsFragment) FRAGMENT_TO_OPEN;
+						
+						settingsFragment.reset();
 						
 						handler.postDelayed(new Runnable() {
 							@Override
 							public void run() {
-								String lastKey = ((SettingsFragment) fragmentToOpen).getLastPreferenceKey();
+								String lastKey = settingsFragment.getLastPreferenceKey();
 								
 								if (lastKey != null) {
-									((SettingsFragment) fragmentToOpen).scrollToPreference(lastKey);
+									settingsFragment.scrollToPreference(lastKey);
 								}
-								fragmentToOpen = null;
 							}
 						}, 200);
 					}
+					//
+					else if (FRAGMENT_TO_OPEN instanceof CultureFragment) {
+						final CultureFragment cultureFragment = (CultureFragment) FRAGMENT_TO_OPEN;
+						
+						if (CultureFragment.PAGE_SEARCHANDGO == lastOpenTab && extraFragmentCultureSearchAndGoLastQuery != null) {
+							handler.postDelayed(new Runnable() {
+								@Override
+								public void run() {
+									if (cultureFragment.getActualFragment() instanceof PageCultureSearchAndGoFragment) {
+										PageCultureSearchAndGoFragment searchAndGoFragment = (PageCultureSearchAndGoFragment) cultureFragment.getActualFragment();
+										
+										searchAndGoFragment.applyQuery(extraFragmentCultureSearchAndGoLastQuery);
+									}
+								}
+							}, 200);
+						}
+					}
 					
-					showFragment(fragmentToOpen);
+					showFragment(FRAGMENT_TO_OPEN);
+					
+					FRAGMENT_TO_OPEN = null;
 				}
-			}, 200);
-		}
+				
+				if (MENUITEM_ID_TO_SELECT != NO_VALUE) {
+					updateDrawerSelection(getMenuItemById(MENUITEM_ID_TO_SELECT));
+					
+					MENUITEM_ID_TO_SELECT = NO_VALUE;
+				}
+			}
+		}, 200);
 		
 		managers.getMusicManager().registerMusicSlidingPanel(slidingUpPanelLayout);
 	}
@@ -179,6 +205,14 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 			}
 			
 			outState.putInt(BUNDLE_KEY_LAST_DRAWER_SELECTED_ITEM_ID, helper.getLastFragmentMenuItemId());
+			
+			if (lastFragment instanceof CultureFragment) {
+				CultureFragment cultureFragment = (CultureFragment) lastFragment;
+				
+				if (cultureFragment.getActualFragment() instanceof PageCultureSearchAndGoFragment) {
+					outState.putString(BUNDLE_KEY_EXTRA_FRAGMENT_CULTURE_SEARCHANDGO_LAST_QUERY, ((PageCultureSearchAndGoFragment) cultureFragment.getActualFragment()).getActualQuery());
+				}
+			}
 		}
 	}
 	
@@ -255,17 +289,17 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 		}
 		
 		try {
-			fragmentToOpen = (Fragment) Class.forName(lastOpenFragment).newInstance();
+			FRAGMENT_TO_OPEN = (Fragment) Class.forName(lastOpenFragment).newInstance();
 			
-			if (fragmentToOpen instanceof BaseTabLayoutFragment && lastOpenTab != NO_VALUE) {
-				((BaseTabLayoutFragment) fragmentToOpen).withPage(lastOpenTab);
-			}
-			
-			if (lastDrawerSelectedItemId != NO_VALUE) {
-				updateDrawerSelection(getMenuItemById(lastDrawerSelectedItemId));
+			if (FRAGMENT_TO_OPEN instanceof BaseTabLayoutFragment && lastOpenTab != NO_VALUE) {
+				((BaseTabLayoutFragment) FRAGMENT_TO_OPEN).withPage(lastOpenTab);
 			}
 		} catch (Exception exception) {
 			;
+		}
+		
+		if (lastDrawerSelectedItemId != NO_VALUE) {
+			MENUITEM_ID_TO_SELECT = lastDrawerSelectedItemId;
 		}
 	}
 	
@@ -584,7 +618,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 			
 			helper.setLastFragment(fragment);
 		} catch (Exception exception) {
-			fragmentToOpen = fragment;
+			FRAGMENT_TO_OPEN = fragment;
 		}
 	}
 	

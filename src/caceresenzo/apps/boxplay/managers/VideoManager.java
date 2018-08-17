@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import android.app.Activity;
@@ -14,6 +15,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.VideoActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
@@ -30,6 +32,8 @@ import caceresenzo.libs.parse.ParseUtils;
 
 public class VideoManager extends AbstractManager {
 	
+	public static final String TAG = VideoManager.class.getSimpleName();
+	
 	private static final String JSON_KEY_WATCHING_GROUP = "watching_group";
 	private static final String JSON_KEY_WATCHED_SEASON = "watched_season";
 	private static final String JSON_KEY_DATA_VIDEO = "data_video";
@@ -44,6 +48,8 @@ public class VideoManager extends AbstractManager {
 	@Override
 	public void initialize() {
 		groups = new ArrayList<>();
+		
+		prepareConfigurator();
 	}
 	
 	public void callFactory() {
@@ -81,9 +87,9 @@ public class VideoManager extends AbstractManager {
 	private void prepareConfigurator() {
 		mapJsonUserData.clear();
 		
-		List<String> watchingGroups = new ArrayList<String>();
-		List<String> watchedSeasons = new ArrayList<String>();
-		HashMap<String, HashMap<String, Object>> dataVideos = new HashMap<String, HashMap<String, Object>>();
+		List<String> watchingGroups = new ArrayList<>();
+		List<String> watchedSeasons = new ArrayList<>();
+		Map<String, Map<String, Object>> dataVideos = new HashMap<>();
 		
 		mapJsonUserData.put(JSON_KEY_WATCHING_GROUP, watchingGroups);
 		mapJsonUserData.put(JSON_KEY_WATCHED_SEASON, watchedSeasons);
@@ -97,7 +103,7 @@ public class VideoManager extends AbstractManager {
 		try {
 			json = (JsonObject) new JsonParser().parse(new FileReader(videoStoreDotJsonFile));
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			Log.e(TAG, "Failed to read json configutation.", exception);
 			return;
 		}
 		
@@ -118,9 +124,9 @@ public class VideoManager extends AbstractManager {
 		}
 		
 		try {
-			for (Entry<String, HashMap<String, Object>> entry : ((HashMap<String, HashMap<String, Object>>) json.get(JSON_KEY_DATA_VIDEO)).entrySet()) {
+			for (Entry<String, Map<String, Object>> entry : ((Map<String, Map<String, Object>>) json.get(JSON_KEY_DATA_VIDEO)).entrySet()) {
 				String videoName = entry.getKey();
-				HashMap<String, Object> data = entry.getValue();
+				Map<String, Object> data = entry.getValue();
 				
 				dataVideos.put(videoName, data);
 			}
@@ -140,7 +146,7 @@ public class VideoManager extends AbstractManager {
 				
 				for (VideoFile video : season.getVideos()) {
 					if (dataVideos.containsKey(video.toString())) {
-						HashMap<String, Object> data = dataVideos.get(video.toString());
+						Map<String, Object> data = dataVideos.get(video.toString());
 						
 						video.asWatched(ParseUtils.parseBoolean(data.get("watched"), false));
 						video.newSavedTime(ParseUtils.parseLong(data.get("savedTime"), -1));
@@ -184,8 +190,8 @@ public class VideoManager extends AbstractManager {
 			}
 		} else if (element instanceof VideoFile) { // Video has been marked as saw or time data update
 			VideoFile video = (VideoFile) element;
-			HashMap<String, HashMap<String, Object>> videoDataMap = (HashMap<String, HashMap<String, Object>>) mapJsonUserData.get(JSON_KEY_DATA_VIDEO);
-			HashMap<String, Object> data = new HashMap<String, Object>();
+			Map<String, Map<String, Object>> videoDataMap = (Map<String, Map<String, Object>>) mapJsonUserData.get(JSON_KEY_DATA_VIDEO);
+			Map<String, Object> data = new HashMap<>();
 			
 			if (video.isWatched()) {
 				data.put("watched", true);

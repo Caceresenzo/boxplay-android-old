@@ -147,7 +147,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		materialSearchBar.setOnSearchActionListener(onSearchActionListener = new OnSearchActionListener() {
 			@Override
 			public void onSearchConfirmed(CharSequence text) {
-				searchAndGoManager.search(text.toString());
+				searchAndGoManager.search(actualQuery = text.toString());
 			}
 			
 			@Override
@@ -158,6 +158,8 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 					
 					informationContainerFrameLayout.setVisibility(View.VISIBLE);
 					informationTextView.setText(R.string.boxplay_culture_searchngo_info_make_a_search);
+					
+					actualQuery = null;
 				}
 			}
 			
@@ -235,6 +237,21 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		if (!hidden) { // Sometimes, text is not applied
 			materialSearchBar.setText(materialSearchBar.getText());
 		}
+	}
+	
+	public void applyQuery(String query) {
+		if (materialSearchBar != null && onSearchActionListener != null) {
+			materialSearchBar.setText(query);
+			onSearchActionListener.onSearchConfirmed(query);
+			
+			actualQuery = query;
+		}
+	}
+	
+	private String actualQuery = "";
+	
+	public String getActualQuery() {
+		return actualQuery;
 	}
 	
 	private String lastProgress = "-";
@@ -341,8 +358,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 						SearchHistoryItem historyItem = searchQueryHistory.get(which);
 						
 						historyItem.updateDate();
-						materialSearchBar.setText(historyItem.getQuery());
-						onSearchActionListener.onSearchConfirmed(historyItem.getQuery());
+						applyQuery(historyItem.getQuery());
 					} catch (Exception exception) {
 						Log.wtf("Error when applying query history", exception);
 					}

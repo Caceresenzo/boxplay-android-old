@@ -5459,7 +5459,6 @@ These two are only used when an Icon is applied to the StyleableToast
         public static final int boxplay_store_video_activity_movie_title=0x7f0900a3;
         public static final int boxplay_store_video_activity_vlc_title=0x7f0900a9;
         public static final int boxplay_store_video_activity_vlc_title_movie=0x7f0900aa;
-        public static final int boxplay_store_video_button_cast=0x7f090180;
         public static final int boxplay_store_video_button_download=0x7f0900ae;
         /**  Button 
  <string name="boxplay_store_video_action_mark_as_watched" formatted="true">You completed more than 80\% of the video</string> 

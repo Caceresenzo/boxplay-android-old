@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
 
+	<changelogversion versionName="3.1.2 BETA" changeDate="17/08/2018">
+		<changelogtext>[b]Chantier du Coeur de BoxPlay 1[/b]</changelogtext>
+		<changelogtext>[b]Ajouté![/b] Meilleur support pour les vieux téléphones de faibles capacités</changelogtext>
+		<changelogtext>[b]Changé![/b] Sérialisation ajoutée pour tout dans BoxPlay</changelogtext>
+		<changelogtext>[b]Fixé![/b] Le Coeur de BoxPlay est désormais plus stable</changelogtext>
+		<changelogtext>[b]Fixé![/b] Un bug avait pour concéquence d'oublier des objects et entrainait le dysfonctionnement de l'application</changelogtext>
+		<changelogtext>[b]Fixé![/b] Les gestionnaires utilisaient un mauvais contexte, ils utilisent maintenant le contexte principal de l'application</changelogtext>
+		<changelogtext>[b]Fixé![/b] L'activité des Video plantait à cause d'un oublie des sections de configuration</changelogtext>
+		<changelogtext>[b]Fixé![/b] Beaucoup de gestionnaires utilisaient le mauvais contexte graphique, et de ce fait causait une erreure nulle</changelogtext>
+		<changelogtext>[b]Fixé![/b] Le dialogue de travail en progression est maintanant un dialogue complètement utilisable</changelogtext>
+		<changelogtext>[b]Fixé![/b] Une restauration presque complète de l'activité BoxPlay est maintenant mise en place si elle est tuée</changelogtext>
+		<changelogtext>[b]Fixé![/b] ... et beaucoup de petits bugs fixés aussi ...</changelogtext>
+	</changelogversion>
+
 	<changelogversion versionName="3.1.1 BETA" changeDate="15/08/2018">
 		<changelogtext>[b]Search n' Go PREVIEW 4[/b]</changelogtext>
 		<changelogtext>[b]Nouveau![/b] Bouton de téléchargement des vidéos primitif</changelogtext>

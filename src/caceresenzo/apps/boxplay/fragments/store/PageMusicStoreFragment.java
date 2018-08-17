@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.BoxPlayActivity;
+import caceresenzo.apps.boxplay.activities.MusicActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.libs.boxplay.models.element.implementations.MusicElement;
 import caceresenzo.libs.boxplay.models.store.music.MusicAlbum;
@@ -379,7 +380,7 @@ public class PageMusicStoreFragment extends StorePageFragment {
 				view.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						BoxPlayApplication.getViewHelper().startMusicActivity(group);
+						MusicActivity.start(group);
 					}
 				});
 				
@@ -484,7 +485,7 @@ public class PageMusicStoreFragment extends StorePageFragment {
 				view.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						BoxPlayApplication.getViewHelper().startMusicActivity(item);
+						MusicActivity.start(item);
 					}
 				});
 			}

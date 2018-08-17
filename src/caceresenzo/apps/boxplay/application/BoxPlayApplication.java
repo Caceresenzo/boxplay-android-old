@@ -27,20 +27,17 @@ import caceresenzo.libs.comparator.VersionType;
 
 public class BoxPlayApplication extends Application {
 	
-	private static final Version VERSION = new Version("3.1.1", VersionType.BETA);
+	/* Constants */
+	private static final Version VERSION = new Version("3.1.2", VersionType.BETA);
 	
-	/**
-	 * Android request id
-	 */
+	/* Android request id */
 	public static final int REQUEST_ID_UPDATE = 20;
 	public static final int REQUEST_ID_VLC_VIDEO = 40;
 	public static final int REQUEST_ID_VLC_VIDEO_URL = 41;
 	public static final int REQUEST_ID_VLC_AUDIO = 42;
 	public static final int REQUEST_ID_PERMISSION = 100;
 	
-	/**
-	 * File provider
-	 */
+	/* File provider */
 	public static final String FILEPROVIDER_AUTHORITY = "caceresenzo.apps.boxplay.provider";
 	
 	private static BoxPlayApplication APPLICATION;

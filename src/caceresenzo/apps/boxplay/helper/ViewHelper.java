@@ -316,7 +316,7 @@ public class ViewHelper {
 	 */
 	private static MusicElement passingMusicElement;
 	
-	public void startMusicActivity(MusicElement element) {
+	public void startMusiecActivity(MusicElement element) {
 		if (element == null) {
 			return;
 		}
