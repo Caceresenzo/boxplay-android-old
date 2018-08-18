@@ -26,8 +26,6 @@
     <string name="boxplay_navigation_version">BoxPlay 3</string>
     <string name="boxplay_navigation_author">par Enzo CACERES</string>
     <!--  -->
-    <string name="boxplay_home">Acceuil</string>
-    <!--  -->
     <string name="boxplay_store">Magasin</string>
     <string name="boxplay_store_video">Video</string>
     <string name="boxplay_store_music">Musique</string>
@@ -43,6 +41,9 @@
     <!--  -->
     <string name="boxplay_premium">Plus</string>
     <string name="boxplay_premium_adult">Adulte</string>
+    <!--  -->
+    <string name="boxplay_mylist">Mes Listes</string>
+    <string name="boxplay_mylist_watchlater">À regarder plus tard</string>
     <!--  -->
     <string name="boxplay_other">Autre</string>
     <string name="boxplay_other_settings">Paramètres</string>
@@ -282,8 +283,14 @@
     <string name="boxplay_premium_adult_status_downloading_data">Téléchargement des données...</string>
     <string name="boxplay_premium_adult_status_parsing">Analyse...</string>
     <string name="boxplay_premium_adult_status_computing_url">Calcule du lien...</string>
+
+    <!--  -->
+    <!-- My Lists > Watch Later -->
     <!--  -->
 
+    <string name="boxplay_mylist_watchlater_title">À regarder plus tard</string>
+    <string name="boxplay_mylist_watchlater_source_store_video">Magasin - Vidéo</string>
+    <string name="boxplay_mylist_watchlater_source_culture_searchngo">Culture - Search n\' Go</string>
 
     <!--  -->
     <!-- Settings -->

@@ -51,8 +51,8 @@
                     android:layout_margin="@dimen/searchngo_button_margin"
                     android:layout_weight="0.3"
                     android:padding="@dimen/searchngo_button_padding"
-                    android:visibility="gone"
-                    android:src="@drawable/icon_bookmark_border_light" />
+                    android:src="@drawable/icon_bookmark_border_light"
+                    android:visibility="gone" />
 
                 <ImageButton
                     android:id="@+id/fragment_culture_searchngo_imagebutton_history"
@@ -102,20 +102,13 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" >
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/fragment_culture_searchngo_textview_info_text"
+            style="@style/textViewTitleStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <TextView
-                android:id="@+id/fragment_culture_searchngo_textview_info_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_culture_searchngo_imageview_info_icon"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="16dp"
-                android:gravity="center"
-                android:text="@string/boxplay_culture_searchngo_info_make_a_search" />
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/boxplay_culture_searchngo_info_make_a_search" />
     </FrameLayout>
 
 </RelativeLayout>

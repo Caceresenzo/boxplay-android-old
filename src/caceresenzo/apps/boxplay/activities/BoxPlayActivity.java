@@ -31,6 +31,7 @@ import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.fragments.BaseTabLayoutFragment;
 import caceresenzo.apps.boxplay.fragments.culture.CultureFragment;
 import caceresenzo.apps.boxplay.fragments.culture.searchngo.PageCultureSearchAndGoFragment;
+import caceresenzo.apps.boxplay.fragments.mylist.MyListFragment;
 import caceresenzo.apps.boxplay.fragments.other.SettingsFragment;
 import caceresenzo.apps.boxplay.fragments.other.about.AboutFragment;
 import caceresenzo.apps.boxplay.fragments.premium.adult.AdultExplorerFragment;
@@ -464,9 +465,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 		updateDrawerSelection(item);
 		
 		switch (id) {
-			/*
-			 * Store
-			 */
+			/* Store */
 			case R.id.drawer_boxplay_store_video:
 			case R.id.drawer_boxplay_store_music: {
 				StoreFragment storeFragment;
@@ -493,9 +492,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 				break;
 			}
 			
-			/*
-			 * Social
-			 */
+			/* Social */
 			case R.id.drawer_boxplay_connect_feed:
 			case R.id.drawer_boxplay_connect_friends:
 			case R.id.drawer_boxplay_connect_chat: {
@@ -527,9 +524,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 				break;
 			}
 			
-			/*
-			 * Culture
-			 */
+			/* Culture */
 			case R.id.drawer_boxplay_culture_searchngo: {
 				CultureFragment cultureFragment;
 				
@@ -551,9 +546,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 				break;
 			}
 			
-			/*
-			 * Premium
-			 */
+			/* Premium */
 			// TODO: Do PremiumFragment instead of AdultExplorerFragment
 			case R.id.drawer_boxplay_premium_adult: {
 				if (managers.getPremiumManager().isPremiumKeyValid()) {
@@ -566,25 +559,41 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 				break;
 			}
 			
-			/*
-			 * Settings
-			 */
+			/* My List */
+			case R.id.drawer_boxplay_mylist_watchlater: {
+				MyListFragment myListFragment;
+				
+				if (actualFragment instanceof MyListFragment) {
+					myListFragment = ((MyListFragment) actualFragment);
+				} else {
+					myListFragment = new MyListFragment();
+				}
+				
+				switch (id) {
+					default:
+					case R.id.drawer_boxplay_mylist_watchlater: {
+						myListFragment.withWatchLater();
+						break;
+					}
+				}
+				
+				showFragment(myListFragment);
+				break;
+			}
+			
+			/* Settings */
 			case R.id.drawer_boxplay_other_settings: {
 				showFragment(new SettingsFragment());
 				break;
 			}
 			
-			/*
-			 * About
-			 */
+			/* About */
 			case R.id.drawer_boxplay_other_about: {
 				showFragment(new AboutFragment());
 				break;
 			}
 			
-			/*
-			 * Default
-			 */
+			/* Default */
 			default: {
 				boxPlayApplication.toast("Unhandled onNavigationItemSelected(item.getTitle() = \"" + item.getTitle() + "\");").show();
 				return false;

@@ -446,7 +446,7 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 		}
 	}
 	
-	public abstract static class DetailListItem {
+	abstract static class DetailListItem {
 		private AdditionalDataType dataType;
 		
 		public static final int TYPE_IMAGE = 0;

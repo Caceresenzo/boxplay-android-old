@@ -72,6 +72,7 @@ public class ViewHelper {
 		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_connect_chat), null);
 		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_culture_searchngo), null);
 		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_premium_adult), null);
+		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_mylist_watchlater), null);
 		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_other_settings), null);
 		drawerMenuIds.put(new MenuIdItem(R.id.drawer_boxplay_other_about), null);
 		
@@ -160,7 +161,6 @@ public class ViewHelper {
 		enumCacheTranslation.put(AdditionalDataType.ITEM_CHAPTER, boxPlayApplication.getString(R.string.boxplay_culture_searchngo_search_result_data_type_item_chapter));
 		
 		enumCacheTranslation.put(AdditionalDataType.NULL, boxPlayApplication.getString(R.string.boxplay_culture_searchngo_search_result_data_type_null));
-		
 	}
 	
 	public void recache() {

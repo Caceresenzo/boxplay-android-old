@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- <group android:checkableBehavior="single" > -->
-    <!-- <item -->
-    <!-- android:id="@+id/drawer_boxplay_home" -->
-    <!-- android:icon="@drawable/icon_home_96px" -->
-    <!-- android:title="@string/boxplay_home"/> -->
-    <!-- </group> -->
-
     <item android:title="@string/boxplay_store">
         <menu>
             <group android:checkableBehavior="single" >
@@ -73,6 +66,16 @@
                     android:icon="@drawable/icon_eggplant_dark"
                     android:title="@string/boxplay_premium_adult"
                     android:visible="false"/>
+            </group>
+        </menu>
+    </item>
+    <item android:title="@string/boxplay_mylist">
+        <menu>
+            <group android:checkableBehavior="single" >
+                <item
+                    android:id="@+id/drawer_boxplay_mylist_watchlater"
+                    android:icon="@drawable/icon_watch_later_light"
+                    android:title="@string/boxplay_mylist_watchlater"/>
             </group>
         </menu>
     </item>

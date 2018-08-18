@@ -26,6 +26,7 @@ public class XManagers {
 	protected TutorialManager tutorialManager;
 	protected PremiumManager premiumManager;
 	protected SearchAndGoManager searchAndGoManager;
+	protected MyListManager myListManager;
 	protected DebugManager debugManager;
 	
 	protected final File baseApplicationDirectory;
@@ -82,6 +83,10 @@ public class XManagers {
 		
 		if (searchAndGoManager == null) {
 			managers.add(searchAndGoManager = new SearchAndGoManager());
+		}
+		
+		if (myListManager == null) {
+			managers.add(myListManager = new MyListManager());
 		}
 		
 		if (debugManager == null) {
@@ -172,6 +177,11 @@ public class XManagers {
 	public SearchAndGoManager getSearchAndGoManager() {
 		checkAndRecreate();
 		return searchAndGoManager;
+	}
+	
+	public MyListManager getMyListManager() {
+		checkAndRecreate();
+		return myListManager;
 	}
 	
 	public DebugManager getDebugManager() {
