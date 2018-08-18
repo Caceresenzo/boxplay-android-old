@@ -218,6 +218,8 @@
     <string name="boxplay_culture_searchngo_searchbar_hint">Rechercher...</string>
     <string name="boxplay_culture_searchngo_detail_tab_info">INFO</string>
     <string name="boxplay_culture_searchngo_detail_tab_content">CONTENU</string>
+    <string name="boxplay_culture_searchngo_detail_info_button_add_to_watchlist">Ajouter à votre liste</string>
+    <string name="boxplay_culture_searchngo_detail_info_button_remove_to_watchlist">Supprimer de votre liste</string>
     <string name="boxplay_culture_searchngo_content_limit_reached" formatted="false">Limite d\'affichage dépassé, reduction de %s à %s resultats.</string>
     <string name="boxplay_culture_searchngo_info_no_provider">Aucun fournisseur sélectionné.\nAllez dans les Paramètres, cliquez sur \"Fournisseurs\", et selectionnez en au moins un.</string>
     <string name="boxplay_culture_searchngo_info_make_a_search">Faite une recherche!</string>

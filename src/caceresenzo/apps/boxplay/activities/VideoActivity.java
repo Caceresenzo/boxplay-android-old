@@ -45,7 +45,6 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import caceresenzo.android.libs.dialog.DialogUtils;
 import caceresenzo.android.libs.intent.IntentUtils;
 import caceresenzo.android.libs.internet.AndroidDownloader;
 import caceresenzo.apps.boxplay.R;

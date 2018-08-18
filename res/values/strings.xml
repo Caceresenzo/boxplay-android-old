@@ -224,6 +224,8 @@
     <string name="boxplay_culture_searchngo_searchbar_hint">Search...</string>
     <string name="boxplay_culture_searchngo_detail_tab_info">INFO</string>
     <string name="boxplay_culture_searchngo_detail_tab_content">CONTENT</string>
+    <string name="boxplay_culture_searchngo_detail_info_button_add_to_watchlist">Add to Watch List</string>
+    <string name="boxplay_culture_searchngo_detail_info_button_remove_to_watchlist">Remove from your Watch List</string>
     <string name="boxplay_culture_searchngo_content_limit_reached" formatted="false">Display limit reached, reducing from %s to %s results.</string>
     <string name="boxplay_culture_searchngo_info_no_provider">Error: No provider selected.\nGo into Settings, click \"Providers\", and select at least one.</string>
     <string name="boxplay_culture_searchngo_info_make_a_search">Make a search!</string>

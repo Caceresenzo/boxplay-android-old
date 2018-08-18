@@ -50,18 +50,18 @@
 
             <Button
                 android:id="@+id/item_store_page_all_error_button_1"
+                style="@style/buttonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:backgroundTint="@color/colorButton"
                 android:text="@string/boxplay_error_row_default_button" />
 
             <Button
                 android:id="@+id/item_store_page_all_error_button_2"
+                style="@style/buttonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:backgroundTint="@color/colorButton"
                 android:text="@string/boxplay_error_row_default_button" />
         </LinearLayout>
     </LinearLayout>

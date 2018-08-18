@@ -81,6 +81,8 @@ public class VideoManager extends AbstractManager {
 		Collections.shuffle(groups);
 		
 		prepareConfigurator();
+		
+		getManagers().getMyListManager().videoManagerFinished(true);
 	}
 	
 	@SuppressWarnings("unchecked")

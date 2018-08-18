@@ -37,6 +37,11 @@
         <item name="android:background">@color/colorImage</item>
     </style>
 
+    <!-- Button Theme -->
+    <style name="buttonStyle">
+        <item name="android:backgroundTint">@color/colorButton</item>
+    </style>
+
     <!-- Text View Theme -->
     <style name="textViewTitleStyle" parent="@style/TextAppearance.AppCompat.Large">
         <item name="android:textColor">@color/white</item>

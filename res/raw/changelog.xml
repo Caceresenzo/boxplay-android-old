@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
 
-	<changelogversion versionName="3.1.3 BETA" changeDate="15/08/2018">
-		<changelogtext>[b]Search n' Go PREVIEW 5[/b]</changelogtext>
+	<changelogversion versionName="3.1.3 BETA" changeDate="18/08/2018">
+		<changelogtext>[b]Search n' Go PREVIEW 5 + Watch Later List[/b]</changelogtext>
+		<changelogtext>[b]Added![/b] Cache version for offline checking</changelogtext>
 		<changelogtext>[b]Fixed![/b] Manga Reader, if activity killed, now restore actual page</changelogtext>
 		<changelogtext>[b]Fixed![/b] Search n' Go Provider Settings validate and cancel button was not translated</changelogtext>
+		<changelogtext>[b]Fixed![/b] Update value was not updating when refresh</changelogtext>
+		<changelogtext>[b]Fixed![/b] Serialized-Elements were not linked to the original</changelogtext>
+		<changelogtext>[b]Fixed![/b] (Maybe) Bug were the snackbar was displaying "downloading..." indefinetly if you network were too quick</changelogtext>
+		<changelogtext>[b]Fixed![/b] (Maybe) Bug were the application was crashing due to a bad Dynamic-NavigationView restoration</changelogtext>
 	</changelogversion>
 
 	<changelogversion versionName="3.1.2 BETA" changeDate="17/08/2018">

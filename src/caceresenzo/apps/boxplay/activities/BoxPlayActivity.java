@@ -82,7 +82,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(null); // Dynamic NavigationView
 		setContentView(R.layout.activity_boxplay);
 		INSTANCE = this;
 		

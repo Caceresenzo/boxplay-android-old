@@ -13,11 +13,17 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.util.Log;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
-import caceresenzo.libs.boxplay.mylist.MyListItem;
+import caceresenzo.libs.boxplay.models.element.BoxPlayElement;
+import caceresenzo.libs.boxplay.models.store.video.VideoGroup;
+import caceresenzo.libs.boxplay.mylist.MyListable;
+import caceresenzo.libs.thread.HelpedThread;
+import caceresenzo.libs.thread.ThreadUtils;
 
 public class MyListManager extends AbstractManager {
 	
@@ -25,14 +31,20 @@ public class MyListManager extends AbstractManager {
 	
 	private File listFolder, rawListDataFile;
 	
-	private List<MyListItem<?>> watchLaterList;
+	private Map<String, MyListable> watchLaterList;
+	
+	private FetchWorker fetchWorker;
+	
+	private boolean videoManagerFinished;
 	
 	@Override
 	public void initialize() {
-		this.listFolder = new File(getManagers().getBaseApplicationDirectory() + "list/");
-		this.rawListDataFile = new File(listFolder, "watchinglist.raw");
+		this.listFolder = new File(getManagers().getBaseApplicationDirectory() + "/list/");
+		this.rawListDataFile = new File(listFolder, "watchinglist.javaraw");
 		
-		this.watchLaterList = new ArrayList<>();
+		this.watchLaterList = new LinkedHashMap<>();
+		
+		this.fetchWorker = new FetchWorker();
 		
 		load();
 	}
@@ -40,6 +52,39 @@ public class MyListManager extends AbstractManager {
 	@Override
 	protected void destroy() {
 		save();
+	}
+	
+	public void addToWatchList(MyListable myListable) {
+		if (!containsInWatchList(myListable)) {
+			watchLaterList.put(myListable.toUniqueString(), myListable);
+			
+			save();
+		}
+	}
+	
+	public boolean containsInWatchList(MyListable myListable) {
+		Log.d(TAG, "---------------: " + watchLaterList.containsKey(myListable.toUniqueString()));
+		return watchLaterList.containsKey(myListable.toUniqueString());
+	}
+	
+	public void removeFromWatchList(MyListable myListable) {
+		watchLaterList.remove(myListable.toUniqueString());
+		
+		save();
+	}
+	
+	public void fetchWatchLaterItems(FetchCallback callback) {
+		if (fetchWorker.isRunning()) {
+			boxPlayApplication.toast("Worker is budy").show();
+			return;
+		}
+		
+		fetchWorker = new FetchWorker();
+		fetchWorker.applyData(callback).start();
+	}
+	
+	public void videoManagerFinished(boolean hasFinished) {
+		this.videoManagerFinished = hasFinished;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -54,10 +99,10 @@ public class MyListManager extends AbstractManager {
 			ObjectInput input = new ObjectInputStream(buffer);
 			
 			try {
-				List<MyListItem<?>> recoveredItems = (List<MyListItem<?>>) input.readObject();
+				Map<String, MyListable> recoveredItems = (Map<String, MyListable>) input.readObject();
 				
 				if (recoveredItems != null) {
-					watchLaterList.addAll(recoveredItems);
+					watchLaterList.putAll(recoveredItems);
 				}
 			} finally {
 				input.close();
@@ -95,13 +140,82 @@ public class MyListManager extends AbstractManager {
 				rawListDataFile.mkdirs();
 				rawListDataFile.delete();
 				rawListDataFile.createNewFile();
+				Log.i(TAG, "Base directory created!");
 				return true;
 			} catch (IOException exception) {
+				Log.e(TAG, "Failed to create base directory.", exception);
 				return false;
 			}
 		}
 		
 		return true;
+	}
+	
+	class FetchWorker extends HelpedThread {
+		private FetchCallback callback;
+		private List<MyListable> outputListable;
+		
+		public FetchWorker() {
+			super();
+			
+			this.outputListable = new ArrayList<>();
+		}
+		
+		@Override
+		protected void onRun() {
+			save();
+			
+			while (!videoManagerFinished) {
+				ThreadUtils.sleep(100L);
+			}
+			
+			watchLaterList.clear();
+			
+			load();
+			
+			outputListable.addAll(watchLaterList.values());
+			
+			for (Object object : BoxPlayElement.getInstances().values()) {
+				if (object instanceof VideoGroup) {
+					VideoGroup videoGroup = (VideoGroup) object;
+					
+					if (videoGroup.isWatching()) {
+						outputListable.add(videoGroup);
+					}
+				}
+			}
+			
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					if (callback != null) {
+						callback.onFetchFinished(outputListable);
+					}
+				}
+			});
+		}
+		
+		@Override
+		protected void onFinished() {
+			;
+		}
+		
+		@Override
+		protected void onCancelled() {
+			;
+		}
+		
+		public FetchWorker applyData(FetchCallback callback) {
+			this.callback = callback;
+			
+			return this;
+		}
+	}
+	
+	public static interface FetchCallback {
+		
+		void onFetchFinished(List<MyListable> myListables);
+		
 	}
 	
 }

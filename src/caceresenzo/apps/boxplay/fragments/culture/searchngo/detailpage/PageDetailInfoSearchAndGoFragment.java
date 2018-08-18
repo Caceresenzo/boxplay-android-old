@@ -12,7 +12,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -21,11 +23,13 @@ import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.activities.SearchAndGoDetailActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
+import caceresenzo.apps.boxplay.managers.MyListManager;
 import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalDataType;
 import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.data.models.additional.CategoryResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.data.models.additional.RatingResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
+import caceresenzo.libs.boxplay.mylist.MyListable;
 
 /**
  * Info page for {@link SearchAndGoDetailActivity}
@@ -76,8 +80,10 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 	 */
 	public void applyResult(SearchAndGoResult result, List<AdditionalResultData> additionals) {
 		this.items.clear();
-		
+
 		this.items.add(new ImageDetailItem(result.getBestImageUrl()).dataType(AdditionalDataType.THUMBNAIL));
+
+		this.items.add(new AddToWatchListDetailItem(result));
 		
 		for (AdditionalResultData additionalResultData : additionals) {
 			Object data = additionalResultData.getData();
@@ -166,7 +172,11 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 		}
 		
 		public void bind(DetailListItem item) {
-			typeTextView.setText(viewHelper.enumToStringCacheTranslation(item.getDataType()));
+			if (item.getDataType() == null) {
+				typeTextView.setVisibility(View.GONE);
+			} else {
+				typeTextView.setText(viewHelper.enumToStringCacheTranslation(item.getDataType()));
+			}
 			
 			switch (item.getType()) {
 				case DetailListItem.TYPE_IMAGE: { // 0
@@ -174,12 +184,17 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 					break;
 				}
 				
-				case DetailListItem.TYPE_STRING: { // 1
+				case DetailListItem.TYPE_BUTTON_ADD_TO_WATCHLIST: { // 1
+					rowRecyclerView.setAdapter(new AddToWatchListItemViewAdapter((AddToWatchListDetailItem) item));
+					break;
+				}
+				
+				case DetailListItem.TYPE_STRING: { // 2
 					rowRecyclerView.setAdapter(new StringItemViewAdapter(((StringDetailItem) item)));
 					break;
 				}
 				
-				case DetailListItem.TYPE_CATEGORY: { // 2
+				case DetailListItem.TYPE_CATEGORY: { // 3
 					FlowLayoutManager flowLayoutManager = new FlowLayoutManager();
 					flowLayoutManager.setAutoMeasureEnabled(true);
 					rowRecyclerView.setLayoutManager(flowLayoutManager);
@@ -188,7 +203,7 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 					break;
 				}
 				
-				case DetailListItem.TYPE_RATING: { // 3
+				case DetailListItem.TYPE_RATING: { // 4
 					// LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
 					// linearLayoutManager.setAutoMeasureEnabled(true);
 					// rowRecyclerView.setLayoutManager(linearLayoutManager);
@@ -261,6 +276,99 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 		@Override
 		public int getType() {
 			return TYPE_IMAGE;
+		}
+	}
+	
+	/*
+	 * ************************************** ADD TO WATCH LIST
+	 */
+	class AddToWatchListItemViewAdapter extends RecyclerView.Adapter<AddToWatchListItemViewHolder> {
+		private AddToWatchListDetailItem addToWatchListItem;
+		
+		public AddToWatchListItemViewAdapter(AddToWatchListDetailItem addToWatchListItem) {
+			this.addToWatchListItem = addToWatchListItem;
+		}
+		
+		@Override
+		public AddToWatchListItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int itemType) {
+			View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_culture_searchandgo_activitypage_detail_info_add_to_wachlist, viewGroup, false);
+			return new AddToWatchListItemViewHolder(view);
+		}
+		
+		@Override
+		public void onBindViewHolder(AddToWatchListItemViewHolder viewHolder, int position) {
+			viewHolder.bind(addToWatchListItem);
+		}
+		
+		@Override
+		public int getItemCount() {
+			return 1;
+		}
+	}
+	
+	class AddToWatchListItemViewHolder extends RecyclerView.ViewHolder {
+		private String addString, removeString;
+		private Button addToListButton;
+		
+		public AddToWatchListItemViewHolder(View itemView) {
+			super(itemView);
+			
+			addString = getString(R.string.boxplay_culture_searchngo_detail_info_button_add_to_watchlist);
+			removeString = getString(R.string.boxplay_culture_searchngo_detail_info_button_remove_to_watchlist);
+			
+			addToListButton = (Button) itemView.findViewById(R.id.item_culture_searchandgo_activitypage_detail_info_add_to_watchlist_button_add_to_list);
+		}
+		
+		public void bind(final AddToWatchListDetailItem item) {
+			updateButtonText(item);
+			
+			addToListButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					item.updateState();
+					updateButtonText(item);
+				}
+			});
+		}
+		
+		public void updateButtonText(AddToWatchListDetailItem item) {
+			String text = addString;
+			
+			if (item.isInList()) {
+				text = removeString;
+			}
+			
+			addToListButton.setText(text);
+		}
+	}
+	
+	class AddToWatchListDetailItem extends DetailListItem {
+		private MyListManager myListManager = BoxPlayApplication.getManagers().getMyListManager();
+		private MyListable myListable;
+		
+		public AddToWatchListDetailItem(MyListable myListable) {
+			this.myListable = myListable;
+		}
+		
+		public MyListable getMyListable() {
+			return myListable;
+		}
+		
+		public boolean isInList() {
+			return myListManager.containsInWatchList(myListable);
+		}
+		
+		public void updateState() {
+			if (myListManager.containsInWatchList(myListable)) {
+				myListManager.removeFromWatchList(myListable);
+			} else {
+				myListManager.addToWatchList(myListable);
+			}
+		}
+		
+		@Override
+		public int getType() {
+			return TYPE_BUTTON_ADD_TO_WATCHLIST;
 		}
 	}
 	
@@ -450,9 +558,10 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 		private AdditionalDataType dataType;
 		
 		public static final int TYPE_IMAGE = 0;
-		public static final int TYPE_STRING = 1;
-		public static final int TYPE_CATEGORY = 2;
-		public static final int TYPE_RATING = 3;
+		public static final int TYPE_BUTTON_ADD_TO_WATCHLIST = 1;
+		public static final int TYPE_STRING = 2;
+		public static final int TYPE_CATEGORY = 3;
+		public static final int TYPE_RATING = 4;
 		
 		public abstract int getType();
 		

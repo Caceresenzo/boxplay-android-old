@@ -74,8 +74,6 @@ public class UpdateManager extends AbstractManager {
 		} catch (Exception exception) {
 			;
 		}
-		
-		waitDialogBuild();
 	}
 	
 	public boolean isFirstRunOnThisUpdate() {
@@ -98,7 +96,7 @@ public class UpdateManager extends AbstractManager {
 		getManagers().getPreferences().edit().putInt(VERSION_KEY, currentVersionCode).commit();
 	}
 	
-	private void waitDialogBuild() {
+	public void prepareDialogBuild() {
 		Thread buildingThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -149,7 +147,7 @@ public class UpdateManager extends AbstractManager {
 	private void buildDialog() {
 		parseJson();
 		
-		updateAlertDialogBuilder = new AlertDialog.Builder(boxPlayApplication);
+		updateAlertDialogBuilder = new AlertDialog.Builder(boxPlayApplication.getAttachedActivity());
 		updateAlertDialogBuilder.setTitle(getString(R.string.boxplay_menu_action_update));
 		updateAlertDialogBuilder.setMessage(formatDialogMessage());
 		

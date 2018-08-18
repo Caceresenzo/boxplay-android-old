@@ -19,16 +19,18 @@ import caceresenzo.apps.boxplay.activities.SearchAndGoDetailActivity;
 import caceresenzo.apps.boxplay.activities.VideoActivity;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
-import caceresenzo.libs.boxplay.culture.searchngo.providers.ProviderManager;
+import caceresenzo.apps.boxplay.managers.MyListManager;
 import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
-import caceresenzo.libs.boxplay.models.element.BoxPlayElement;
 import caceresenzo.libs.boxplay.models.store.video.VideoGroup;
+import caceresenzo.libs.boxplay.mylist.MyListable;
 
-public class PageWatchLaterListFragment extends Fragment {
+public class PageWatchLaterListFragment extends Fragment implements MyListManager.FetchCallback {
 	
 	/* Managers */
 	private BoxPlayApplication boxPlayApplication;
 	private ViewHelper viewHelper;
+	
+	private MyListManager myListManager;
 	
 	/* Content */
 	private List<WatchLaterRecyclerViewItem> watchLaterItems;
@@ -45,24 +47,9 @@ public class PageWatchLaterListFragment extends Fragment {
 		this.boxPlayApplication = BoxPlayApplication.getBoxPlayApplication();
 		this.viewHelper = BoxPlayApplication.getViewHelper();
 		
+		this.myListManager = BoxPlayApplication.getManagers().getMyListManager();
+		
 		this.watchLaterItems = new ArrayList<>();
-		
-		SearchAndGoResult dummyResult = new SearchAndGoResult(ProviderManager.MANGALEL.create(), //
-				"Arifureta Shokugyou de Sekai Saikyou", //
-				"https://www.manga-lel.com/manga/arifureta-shokugyou-de-sekai-saikyou/", //
-				"https://www.manga-lel.com//uploads/manga/arifureta-shokugyou-de-sekai-saikyou/cover/cover_250x350.jpg");
-		
-		watchLaterItems.add(new CultureSearchAndGoResultItem(dummyResult));
-		
-		for (Object object : BoxPlayElement.getInstances().values()) {
-			if (object instanceof VideoGroup) {
-				VideoGroup videoGroup = (VideoGroup) object;
-				
-				if (videoGroup.isWatching()) {
-					watchLaterItems.add(new StoreVideoGroupItem(videoGroup));
-				}
-			}
-		}
 	}
 	
 	@Override
@@ -70,17 +57,41 @@ public class PageWatchLaterListFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_mylist_watchlater, container, false);
 		
 		this.recyclerView = view.findViewById(R.id.fragment_mylist_watchlater_recyclerview_content);
-		this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		this.recyclerView.setAdapter(new WatchListAdapter());
 		
 		this.loadingProgressBar = (ProgressBar) view.findViewById(R.id.fragment_mylist_watchlater_progressbar_loading);
 		
 		this.infoTextView = (TextView) view.findViewById(R.id.fragment_mylist_watchlater_textview_info_text);
 		
-		// setListHidden(true);
+		return view;
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		setListHidden(true);
+		
+		myListManager.fetchWatchLaterItems(this);
+	}
+	
+	@Override
+	public void onFetchFinished(List<MyListable> myListables) {
 		setListHidden(false);
 		
-		return view;
+		watchLaterItems.clear();
+		
+		for (MyListable myListable : myListables) {
+			if (myListable instanceof VideoGroup) {
+				watchLaterItems.add(new StoreVideoGroupItem((VideoGroup) myListable));
+			}
+			//
+			else if (myListable instanceof SearchAndGoResult) {
+				watchLaterItems.add(new CultureSearchAndGoResultItem((SearchAndGoResult) myListable));
+			}
+		}
+		
+		this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+		this.recyclerView.setAdapter(new WatchListAdapter());
 	}
 	
 	private void setListHidden(boolean hidden) {

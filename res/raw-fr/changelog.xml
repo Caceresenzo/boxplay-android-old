@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
+    
+    <changelogversion versionName="3.1.3 BETA" changeDate="18/08/2018">
+		<changelogtext>[b]Search n' Go PREVIEW 5 + Liste à regarder plus tard[/b]</changelogtext>
+		<changelogtext>[b]Ajouté![/b] Version cache pour une consultation hors-ligne</changelogtext>
+		<changelogtext>[b]Fixé![/b] Lecteur de Manga: Si l'application est tué, elle restaurera maintenant la page dans laquel vous l'avez laissé</changelogtext>
+		<changelogtext>[b]Fixé![/b] Les boutons des Paramètre Search n' Go valider et annuler n'était pas traduit</changelogtext>
+		<changelogtext>[b]Fixé![/b] Les valeurs de mise à jour ne s'actualisez pas</changelogtext>
+		<changelogtext>[b]Fixé![/b] Les éléments-sérialisé n'était plus relié à leurs originaux</changelogtext>
+		<changelogtext>[b]Fixé![/b] (Peut-être) Un bug qui faisait que la Snackbar affichait "téléchargement..." à l'infini si votre réseau était trop rapide</changelogtext>
+		<changelogtext>[b]Fixé![/b] (Peut-être) Un bug qui faisait que l'application plantait a cause d'une mauvaise restauration de la Vue de Navigation-Dynamique</changelogtext>
+	</changelogversion>
 
 	<changelogversion versionName="3.1.2 BETA" changeDate="17/08/2018">
 		<changelogtext>[b]Chantier du Coeur de BoxPlay 1[/b]</changelogtext>
