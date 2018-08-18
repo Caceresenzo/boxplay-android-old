@@ -45,6 +45,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import caceresenzo.android.libs.dialog.DialogUtils;
 import caceresenzo.android.libs.intent.IntentUtils;
 import caceresenzo.android.libs.internet.AndroidDownloader;
 import caceresenzo.apps.boxplay.R;
@@ -54,6 +55,7 @@ import caceresenzo.apps.boxplay.helper.LocaleHelper;
 import caceresenzo.apps.boxplay.helper.ViewHelper;
 import caceresenzo.apps.boxplay.managers.TutorialManager.Tutorialable;
 import caceresenzo.apps.boxplay.managers.VideoManager;
+import caceresenzo.libs.boxplay.models.element.BoxPlayElement;
 import caceresenzo.libs.boxplay.models.server.ServerHosting;
 import caceresenzo.libs.boxplay.models.store.video.VideoFile;
 import caceresenzo.libs.boxplay.models.store.video.VideoGroup;
@@ -108,6 +110,14 @@ public class VideoActivity extends BaseBoxPlayActivty implements Tutorialable {
 			finish();
 		}
 		
+		/* Finding back original */
+		for (Object object : BoxPlayElement.getInstances().values()) {
+			if (object.toString().equals(videoGroup.toString())) {
+				videoGroup = (VideoGroup) object; // Un-serialization, finding original one
+				break;
+			}
+		}
+		
 		initializeViews();
 		
 		changeSeason(videoSeason = videoGroup.getSeasons().get(0));
@@ -119,7 +129,6 @@ public class VideoActivity extends BaseBoxPlayActivty implements Tutorialable {
 	protected void attachBaseContext(Context base) {
 		super.attachBaseContext(LocaleHelper.onAttach(base));
 	}
-
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
