@@ -3,10 +3,13 @@ package caceresenzo.apps.boxplay.fragments.culture.searchngo.detailpage;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,7 +37,10 @@ import caceresenzo.libs.boxplay.culture.searchngo.data.AdditionalResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.data.models.content.ChapterItemResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.data.models.content.VideoItemResultData;
 import caceresenzo.libs.boxplay.culture.searchngo.result.SearchAndGoResult;
+import caceresenzo.libs.bytes.ByteFormat;
+import caceresenzo.libs.databridge.ObjectWrapper;
 import caceresenzo.libs.filesystem.FileUtils;
+import caceresenzo.libs.network.Downloader;
 import caceresenzo.libs.thread.HelpedThread;
 
 /**
@@ -44,9 +50,12 @@ import caceresenzo.libs.thread.HelpedThread;
  */
 public class PageDetailContentSearchAndGoFragment extends Fragment {
 	
+	private static final String TAG = PageDetailContentSearchAndGoFragment.class.getSimpleName();
+	
 	public static final String ACTION_STREAMING = "action.streaming";
 	public static final String ACTION_DOWNLOAD = "action.download";
 	
+	/* Managers */
 	private BoxPlayApplication boxPlayApplication;
 	private Handler handler;
 	private ViewHelper viewHelper;
@@ -55,16 +64,21 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 	
 	private boolean uiReady = false;
 	
+	/* Actual result */
 	private SearchAndGoResult result;
 	private List<AdditionalResultData> contents = new ArrayList<>();
 	
+	/* Views */
 	private RecyclerView recyclerView;
 	private ProgressBar progressBar;
 	
 	private ContentViewAdapter adapter;
 	
+	/* Dialog */
 	private WorkingProgressDialog progressDialog;
+	private DialogCreator dialogCreator;
 	
+	/* Worker */
 	private VideoExtractionWorker videoExtractionWorker;
 	
 	public PageDetailContentSearchAndGoFragment() {
@@ -73,6 +87,8 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 		this.viewHelper = BoxPlayApplication.getViewHelper();
 		this.searchAndGoManager = BoxPlayApplication.getManagers().getSearchAndGoManager();
 		this.debugManager = BoxPlayApplication.getManagers().getDebugManager();
+		
+		this.dialogCreator = new DialogCreator();
 		
 		this.videoExtractionWorker = new VideoExtractionWorker();
 	}
@@ -267,8 +283,64 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 				}
 			});
 			
+			final List<String> compatibleVideoPageUrls = new ArrayList<>();
+			
+			for (String videoPageUrl : videoContentProvider.extractVideoPageUrl(videoItem)) {
+				if (searchAndGoManager.hasCompatibleExtractor(videoPageUrl)) {
+					compatibleVideoPageUrls.add(videoPageUrl);
+				}
+			}
+			
+			final ObjectWrapper<String> urlObjectWrapper = new ObjectWrapper<>(null);
+			
+			if (videoContentProvider.hasMoreThanOnePlayer() && compatibleVideoPageUrls.size() > 1) {
+				lock();
+				
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						dialogCreator.showPossiblePlayersDialog(compatibleVideoPageUrls, new PossiblePlayerDialogCallback() {
+							@Override
+							public void onClick(final int which) {
+								urlObjectWrapper.setValue(compatibleVideoPageUrls.get(which));
+								unlock();
+							}
+						}, new OnCancelListener() {
+							@Override
+							public void onCancel(DialogInterface dialog) {
+								closeDialog();
+								cancel();
+							}
+						});
+					}
+				});
+				
+				waitUntilUnlock();
+				
+				if (!isCancelled() && urlObjectWrapper.getValue() != null) {
+					processUrl(urlObjectWrapper.getValue());
+				}
+			} else if (compatibleVideoPageUrls.size() == 1) {
+				processUrl(compatibleVideoPageUrls.get(0));
+			} else {
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						progressDialog.update(R.string.boxplay_culture_searchngo_extractor_status_no_extractor_compatible);
+					}
+				});
+			}
+		}
+		
+		public void processUrl(String videoPageUrl) {
 			try {
-				directUrl = extractor.extractDirectVideoUrl(videoContentProvider.extractVideoPageUrl(videoItem), new VideoContentExtractorProgressCallback() {
+				extractor = (VideoContentExtractor) searchAndGoManager.getExtractorFromBaseUrl(videoPageUrl);
+				
+				if (extractor == null) {
+					throw new NullPointerException(String.format("ContentExtractor is null, site not supported? (page url: %s)", videoPageUrl));
+				}
+				
+				directUrl = extractor.extractDirectVideoUrl(videoPageUrl, new VideoContentExtractorProgressCallback() {
 					@Override
 					public void onDownloadingUrl(final String targetUrl) {
 						handler.post(new Runnable() {
@@ -310,6 +382,10 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 					}
 				});
 				
+				closeDialog();
+				
+				final String filename = String.format("%s %s.mp4", FileUtils.remplaceIllegalChar(result.getName()), videoItem.getName());
+				
 				switch (action) {
 					case ACTION_STREAMING: {
 						BoxPlayApplication.getManagers().getVideoManager().openVLC(directUrl, result.getName() + "\n" + videoItem.getName());
@@ -317,14 +393,25 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 					}
 					
 					case ACTION_DOWNLOAD: {
+						final String fileSize = ByteFormat.toHumanBytes(Downloader.getFileSize(directUrl));
+						
+						lock();
 						handler.post(new Runnable() {
 							@Override
 							public void run() {
-								String filename = String.format("%s %s.mp4", FileUtils.remplaceIllegalChar(result.getName()), videoItem.getName());
-								Log.e(getClass().getSimpleName(), "Downloading file: " + filename);
-								AndroidDownloader.askDownload(boxPlayApplication, Uri.parse(directUrl), filename);
+								unlock();
+								
+								dialogCreator.showFileSizeDialog(filename, fileSize, new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										Log.e(getClass().getSimpleName(), "Downloading file: " + filename);
+										AndroidDownloader.askDownload(boxPlayApplication, Uri.parse(directUrl), filename);
+									}
+								});
 							}
 						});
+						
+						waitUntilUnlock();
 						break;
 					}
 					
@@ -333,11 +420,16 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 					}
 				}
 			} catch (Exception exception) {
-				extractor.notifyException(exception);
+				if (extractor != null) {
+					extractor.notifyException(exception);
+				} else {
+					Log.e(TAG, "Can't print in the extractor's logger (null)", exception);
+				}
+				
 				BoxPlayApplication.getBoxPlayApplication().toast(R.string.boxplay_culture_searchngo_extractor_error_failed_to_extract, exception.getLocalizedMessage());
 			}
 			
-			if (debugManager.openLogsAtExtractorEnd()) {
+			if (debugManager.openLogsAtExtractorEnd() && extractor != null) {
 				DialogUtils.showDialog(BoxPlayApplication.getHandler(), getContext(), "Extraction logs", extractor.getLogger().getContent());
 			}
 		}
@@ -375,10 +467,53 @@ public class PageDetailContentSearchAndGoFragment extends Fragment {
 			this.action = action;
 			
 			videoContentProvider = videoItem.getVideoContentProvider();
-			extractor = searchAndGoManager.createVideoExtractorFromCompatible(videoContentProvider.getCompatibleExtractorClass());
 			
 			return this;
 		}
+	}
+	
+	class DialogCreator {
+		private AlertDialog.Builder createBuilder() {
+			return new AlertDialog.Builder(getActivity());
+		}
+		
+		public void showPossiblePlayersDialog(List<String> players, final PossiblePlayerDialogCallback callback, OnCancelListener onCancelListener) {
+			AlertDialog.Builder builder = createBuilder();
+			builder.setTitle(getString(R.string.boxplay_culture_searchngo_extractor_dialog_possible_player));
+			
+			String[] queryArray = new String[players.size()];
+			
+			for (int i = 0; i < players.size(); i++) {
+				queryArray[i] = players.get(i);
+			}
+			
+			builder.setItems(queryArray, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					callback.onClick(which);
+				}
+			});
+			
+			builder.setOnCancelListener(onCancelListener);
+			
+			builder.create().show();
+		}
+		
+		public void showFileSizeDialog(String file, String size, DialogInterface.OnClickListener onContinueListener) {
+			AlertDialog.Builder builder = createBuilder();
+			
+			builder.setTitle(getString(R.string.boxplay_culture_searchngo_download_dialog_file_size_title));
+			builder.setMessage(getString(R.string.boxplay_culture_searchngo_download_dialog_file_size_message, file, size));
+			
+			builder.setPositiveButton(getString(R.string.boxplay_culture_searchngo_download_dialog_file_size_button_continue), onContinueListener);
+			builder.setNegativeButton(getString(R.string.boxplay_culture_searchngo_download_dialog_file_size_button_cancel), null);
+			
+			builder.create().show();
+		}
+	}
+	
+	interface PossiblePlayerDialogCallback {
+		void onClick(int which);
 	}
 	
 }

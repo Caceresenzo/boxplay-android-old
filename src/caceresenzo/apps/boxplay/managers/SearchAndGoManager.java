@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import android.support.v4.util.ArraySet;
@@ -16,10 +18,10 @@ import caceresenzo.apps.boxplay.R;
 import caceresenzo.apps.boxplay.managers.XManagers.AbstractManager;
 import caceresenzo.apps.boxplay.managers.XManagers.SubManager;
 import caceresenzo.libs.boxplay.common.extractor.ContentExtractor;
-import caceresenzo.libs.boxplay.common.extractor.image.manga.MangaContentExtractor;
+import caceresenzo.libs.boxplay.common.extractor.InternetSource;
 import caceresenzo.libs.boxplay.common.extractor.image.manga.implementations.GenericMangaLelChapterExtractor;
-import caceresenzo.libs.boxplay.common.extractor.video.VideoContentExtractor;
 import caceresenzo.libs.boxplay.common.extractor.video.implementations.AndroidOpenloadVideoExtractor;
+import caceresenzo.libs.boxplay.common.extractor.video.implementations.GenericVidozaVideoExtractor;
 import caceresenzo.libs.boxplay.common.extractor.video.implementations.OpenloadVideoExtractor;
 import caceresenzo.libs.boxplay.culture.searchngo.callback.ProviderSearchCallback;
 import caceresenzo.libs.boxplay.culture.searchngo.callback.SearchCallback;
@@ -37,7 +39,20 @@ import caceresenzo.libs.thread.HelpedThread;
 
 public class SearchAndGoManager extends AbstractManager {
 	
+	private static final String TAG = SearchAndGoManager.class.getSimpleName();
+	
 	public static final int MAX_SEARCH_QUERY_COUNT = 10;
+	
+	private static final Map<Class<? extends ContentExtractor>, ContentExtractor> EXTRACTORS = new HashMap<>();
+	
+	static {
+		/* Video */
+		EXTRACTORS.put(OpenloadVideoExtractor.class, new AndroidOpenloadVideoExtractor());
+		EXTRACTORS.put(GenericVidozaVideoExtractor.class, new GenericVidozaVideoExtractor());
+		
+		/* Manga */
+		EXTRACTORS.put(GenericMangaLelChapterExtractor.class, new GenericMangaLelChapterExtractor());
+	}
 	
 	private SearchHistorySubManager searchHistorySubManager;
 	
@@ -66,32 +81,34 @@ public class SearchAndGoManager extends AbstractManager {
 		this.searchHistorySubManager.save();
 	}
 	
-	public VideoContentExtractor createVideoExtractorFromCompatible(Class<? extends ContentExtractor>[] classes) {
-		if (classes == null || classes.length == 0) {
+	public ContentExtractor getExtractorFromBaseUrl(String baseUrl) {
+		if (baseUrl == null) {
 			return null;
 		}
 		
-		Class<? extends ContentExtractor> firstItem = classes[0];
-		
-		if (firstItem.equals(OpenloadVideoExtractor.class)) {
-			return new AndroidOpenloadVideoExtractor(boxPlayApplication);
+		for (Entry<Class<? extends ContentExtractor>, ContentExtractor> entry : EXTRACTORS.entrySet()) {
+			InternetSource internetSource = entry.getValue();
+			
+			if (internetSource.matchUrl(baseUrl)) {
+				Log.i(TAG, String.format("An instance of ContentExtractor has been asked (base url: %s, returned class: %s)", baseUrl, entry.getKey()));
+				
+				try {
+					return entry.getValue().getClass().newInstance();
+				} catch (Exception exception) {
+					Log.e(TAG, "Failed to instanciate new instance of content explorer, returning saved one", exception);
+				}
+				
+				entry.getValue().getLogger().clear();
+				return entry.getValue();
+			}
 		}
 		
+		Log.e(TAG, String.format("No compatible ContentExtract instance found for base url %s", baseUrl));
 		return null;
 	}
 	
-	public MangaContentExtractor createMangaExtractorFromCompatible(Class<? extends ContentExtractor>[] classes) {
-		if (classes == null || classes.length == 0) {
-			return null;
-		}
-		
-		Class<? extends ContentExtractor> firstItem = classes[0];
-		
-		if (firstItem.equals(GenericMangaLelChapterExtractor.class)) {
-			return new GenericMangaLelChapterExtractor();
-		}
-		
-		return null;
+	public boolean hasCompatibleExtractor(String baseUrl) {
+		return getExtractorFromBaseUrl(baseUrl) != null;
 	}
 	
 	public void bindCallback(SearchAndGoSearchCallback callback) {

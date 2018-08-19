@@ -240,10 +240,16 @@
     <string name="boxplay_culture_searchngo_search_status_provider_finished">La recherche sur %s est terminée!</string>
     <string name="boxplay_culture_searchngo_search_status_provider_failed" formatted="false">La recherche sur %s a échoué. (erreur: %s)</string>
     <string name="boxplay_culture_searchngo_extractor_status_downloading_video_site_url">Téléchargement de l\'url du site video "%s"...</string>
+    <string name="boxplay_culture_searchngo_extractor_status_no_extractor_compatible">Aucun extracteur compatible.</string>
     <string name="boxplay_culture_searchngo_extractor_status_downloading_url">Téléchargement de l\'url "%s"...</string>
     <string name="boxplay_culture_searchngo_extractor_status_file_not_available">Le fichier n\'est pas disponible.</string>
     <string name="boxplay_culture_searchngo_extractor_status_extracting_link">Extraction du lien...</string>
     <string name="boxplay_culture_searchngo_extractor_status_formatting_result">Formattage du résultat...</string>
+    <string name="boxplay_culture_searchngo_extractor_dialog_possible_player">Lecteurs Possible</string>
+    <string name="boxplay_culture_searchngo_download_dialog_file_size_title">Taille du Fichier</string>
+    <string name="boxplay_culture_searchngo_download_dialog_file_size_message" formatted="false">Le fichier %s pèse %s, continuer ?</string>
+    <string name="boxplay_culture_searchngo_download_dialog_file_size_button_continue">CONTINUER</string>
+    <string name="boxplay_culture_searchngo_download_dialog_file_size_button_cancel">ANNULER</string>
     <!-- ENUMS -->
     <string name="boxplay_culture_searchngo_search_result_data_type_thumbnail">Vignette</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_name">Nom</string>

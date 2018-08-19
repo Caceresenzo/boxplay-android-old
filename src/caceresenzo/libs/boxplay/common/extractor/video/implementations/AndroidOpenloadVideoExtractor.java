@@ -1,12 +1,10 @@
 package caceresenzo.libs.boxplay.common.extractor.video.implementations;
 
-import android.content.Context;
 import android.os.Handler;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import caceresenzo.apps.boxplay.application.BoxPlayApplication;
-import caceresenzo.libs.boxplay.common.extractor.video.implementations.OpenloadVideoExtractor;
 import caceresenzo.libs.boxplay.culture.searchngo.providers.ProviderHelper;
 import caceresenzo.libs.network.Downloader;
 import caceresenzo.libs.string.StringUtils;
@@ -21,14 +19,14 @@ public class AndroidOpenloadVideoExtractor extends OpenloadVideoExtractor {
 	
 	private String pageContent, resolvedHtml;
 	
-	public AndroidOpenloadVideoExtractor(final Context context) {
+	public AndroidOpenloadVideoExtractor() {
 		this.handler = BoxPlayApplication.getHandler();
 		
 		lock();
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
-				webView = new WebView(context);
+				webView = new WebView(BoxPlayApplication.getBoxPlayApplication());
 				unlock();
 			}
 		});

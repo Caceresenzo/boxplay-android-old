@@ -246,10 +246,16 @@
     <string name="boxplay_culture_searchngo_search_status_provider_finished">Search on %s finished!</string>
     <string name="boxplay_culture_searchngo_search_status_provider_failed" formatted="false">Search on %s failed. (error: %s)</string>
     <string name="boxplay_culture_searchngo_extractor_status_downloading_video_site_url">Downloading video site url "%s"...</string>
+    <string name="boxplay_culture_searchngo_extractor_status_no_extractor_compatible">No compatible extractor.</string>
     <string name="boxplay_culture_searchngo_extractor_status_downloading_url">Downloading url "%s"...</string>
-    <string name="boxplay_culture_searchngo_extractor_status_file_not_available">Streaming not available for this file.</string>
+    <string name="boxplay_culture_searchngo_extractor_status_file_not_available">File not available.</string>
     <string name="boxplay_culture_searchngo_extractor_status_extracting_link">Extracting link...</string>
     <string name="boxplay_culture_searchngo_extractor_status_formatting_result">Formatting result...</string>
+    <string name="boxplay_culture_searchngo_extractor_dialog_possible_player">Possible Players</string>
+    <string name="boxplay_culture_searchngo_download_dialog_file_size_title">File Size</string>
+    <string name="boxplay_culture_searchngo_download_dialog_file_size_message" formatted="false">The file %s weight %s, continue ?</string>
+    <string name="boxplay_culture_searchngo_download_dialog_file_size_button_continue">CONTINUE</string>
+    <string name="boxplay_culture_searchngo_download_dialog_file_size_button_cancel">CANCEL</string>
     <!-- ENUMS -->
     <string name="boxplay_culture_searchngo_search_result_data_type_thumbnail">Thumbnail</string>
     <string name="boxplay_culture_searchngo_search_result_data_type_name">Name</string>

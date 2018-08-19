@@ -288,7 +288,7 @@ public class PageCultureSearchAndGoFragment extends Fragment {
 		}
 	}
 	
-	public static class SearchAndGoResultViewHolder extends RecyclerView.ViewHolder {
+	class SearchAndGoResultViewHolder extends RecyclerView.ViewHolder {
 		private View view;
 		private TextView titleTextView, contentTextView, providerTextView, typeTextView;
 		private ImageView thumbnailImageView;

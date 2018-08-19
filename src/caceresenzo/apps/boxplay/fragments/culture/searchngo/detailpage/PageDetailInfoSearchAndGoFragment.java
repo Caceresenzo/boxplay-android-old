@@ -528,10 +528,11 @@ public class PageDetailInfoSearchAndGoFragment extends Fragment {
 		
 		public void bind(RatingDetailItem ratingItem) {
 			RatingResultData ratingData = ratingItem.getRatingResultData();
+
+			starRatingBar.setNumStars(5);
+			starRatingBar.setMax(5);
 			
-			starRatingBar.setRating(ratingData.getAverage());
-			starRatingBar.setNumStars(ratingData.getBest());
-			starRatingBar.setMax(ratingData.getBest());
+			starRatingBar.setRating(((ratingData.getAverage()) / ratingData.getBest()) * 5);
 			
 			stringTextView.setText(ratingData.convertToDisplayableString());
 		}

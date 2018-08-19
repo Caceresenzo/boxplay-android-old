@@ -380,7 +380,7 @@ public class MangaChapterReaderActivity extends BaseBoxPlayActivty {
 			this.result = result;
 			
 			this.mangaContentProvider = (IMangaContentProvider) result.getImageContentProvider();
-			this.chapterContentExtractor = (MangaChapterContentExtractor) searchAndGoManager.createMangaExtractorFromCompatible(mangaContentProvider.getCompatibleExtractorClass());
+			this.chapterContentExtractor = (MangaChapterContentExtractor) searchAndGoManager.getExtractorFromBaseUrl(result.getUrl());
 			
 			return this;
 		}

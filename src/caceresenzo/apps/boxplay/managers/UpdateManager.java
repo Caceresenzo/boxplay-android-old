@@ -43,7 +43,7 @@ public class UpdateManager extends AbstractManager {
 	private Version lastVersion;
 	private VersionType lastVersionType;
 	private String lastVersionName, lastVersionUrl, lastVersionSize;
-	private int lastVersionLength;
+	private long lastVersionLength;
 	private boolean dialogReady = false, updateAvailable = false, downloadStarted = false;
 	private int downloadedPourcent = 0;
 	
