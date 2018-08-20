@@ -67,8 +67,10 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 	public static final int TUTORIAL_PROGRESS_VIDEO = 4;
 	public static final int TUTORIAL_PROGRESS_MUSIC = 5;
 	
+	/* Instance */
 	private static BoxPlayActivity INSTANCE;
 	
+	/* Views */
 	private Toolbar toolbar;
 	private DrawerLayout drawer;
 	private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -77,6 +79,7 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 	
 	private SlidingUpPanelLayout slidingUpPanelLayout;
 	
+	/* Variables */
 	private String lastOpenFragment, extraFragmentCultureSearchAndGoLastQuery;
 	private int lastOpenTab, lastDrawerSelectedItemId;
 	
@@ -301,6 +304,12 @@ public class BoxPlayActivity extends BaseBoxPlayActivty implements NavigationVie
 		
 		if (lastDrawerSelectedItemId != NO_VALUE) {
 			MENUITEM_ID_TO_SELECT = lastDrawerSelectedItemId;
+		}
+		
+		if (extraFragmentCultureSearchAndGoLastQuery != null) {
+			if (extraFragmentCultureSearchAndGoLastQuery == " " || extraFragmentCultureSearchAndGoLastQuery.isEmpty()) {
+				extraFragmentCultureSearchAndGoLastQuery = null;
+			}
 		}
 	}
 	

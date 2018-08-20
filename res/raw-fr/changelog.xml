@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="false">
     
+	<changelogversion versionName="3.1.4.1 BETA" changeDate="20/08/2018">
+		<changelogtext>[b]Search n' Go PREVIEW 6.1[/b]</changelogtext>
+		<changelogtext>[b]Fix Rapide![/b] Code changé pour les anciennes versions d'Android</changelogtext>
+	</changelogversion>
+    
+	<changelogversion versionName="3.1.4 BETA" changeDate="20/08/2018">
+		<changelogtext>[b]Search n' Go PREVIEW 6[/b]</changelogtext>
+		<changelogtext>[b]Ajouté![/b] Adkami en tant que fournisseur de video</changelogtext>
+		<changelogtext>[b]Ajouté![/b] Possibilité de choisir la source du player si la page en continent plusieur</changelogtext>
+		<changelogtext>[b]Ajouté![/b] Dialogue de confirmation de téléchargement qui affiche la taille du fichier</changelogtext>
+		<changelogtext>[b]Fixé![/b] Un bug qui causait le d'éclanchement d'une recherche avec une chaine de charactère vide pour Search n' Go</changelogtext>
+		<changelogtext>[b]Bug non-résolvable![/b] La liste à regarder plus tard supprime tout les elements de Search n' Go lors d'une mise à jour</changelogtext>
+	</changelogversion>
+    
     <changelogversion versionName="3.1.3 BETA" changeDate="18/08/2018">
 		<changelogtext>[b]Search n' Go PREVIEW 5 + Liste à regarder plus tard[/b]</changelogtext>
 		<changelogtext>[b]Ajouté![/b] Version cache pour une consultation hors-ligne</changelogtext>

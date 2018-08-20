@@ -23,25 +23,33 @@ import caceresenzo.libs.thread.ThreadUtils;
 
 public class SearchAndGoDetailActivity extends BaseBoxPlayActivty {
 	
+	/* Bundle Keys */
 	public static final String BUNDLE_KEY_SEARCH_RESULT_ITEM = "search_result_item";
 	
+	/* Instance */
 	private static SearchAndGoDetailActivity INSTANCE;
 	
+	/* Result */
 	private SearchAndGoResult searchAndGoResult;
 	
+	/* Views */
 	private Toolbar toolbar;
 	private ActionBar actionBar;
 	
 	private TabLayout tabLayout;
 	private ViewPager viewPager;
 	
+	/* Adaper */
 	private BaseViewPagerAdapter adapter;
 	
+	/* Fragments */
 	private PageDetailInfoSearchAndGoFragment infoFragment;
 	private PageDetailContentSearchAndGoFragment contentFragment;
 	
+	/* Worker */
 	private FetchingWorker fetchingWorker;
 	
+	/* Constructor */
 	public SearchAndGoDetailActivity() {
 		super();
 		

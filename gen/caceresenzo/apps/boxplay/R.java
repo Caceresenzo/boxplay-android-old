@@ -3950,45 +3950,45 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_horizontal_margin=0x7f0b0079;
         /**   
          */
-        public static final int activity_horizontal_margin_big_activity=0x7f0b00e9;
+        public static final int activity_horizontal_margin_big_activity=0x7f0b00ea;
         /**  Defaults 
  <dimen name="activity_horizontal_margin">6dp</dimen> 
  <dimen name="activity_detail_horizontal_margin">18dp</dimen> 
          */
         public static final int activity_vertical_margin=0x7f0b007a;
-        public static final int adult_video_height=0x7f0b00df;
+        public static final int adult_video_height=0x7f0b00e0;
         /**  ADULT (element) 
          */
-        public static final int adult_video_width=0x7f0b00de;
-        public static final int app_bar_height=0x7f0b00ea;
-        public static final int app_bar_height_image_view=0x7f0b00eb;
-        public static final int big_activity_fab_margin=0x7f0b0100;
-        public static final int big_activity_margin_horizontal=0x7f0b00ff;
-        public static final int big_activity_margin_vertical=0x7f0b00fe;
-        public static final int big_activity_text_margin=0x7f0b0101;
-        public static final int btn_margin=0x7f0b00f0;
-        public static final int btn_padding=0x7f0b00ef;
-        public static final int card_button_margin=0x7f0b00f9;
+        public static final int adult_video_width=0x7f0b00df;
+        public static final int app_bar_height=0x7f0b00eb;
+        public static final int app_bar_height_image_view=0x7f0b00ec;
+        public static final int big_activity_fab_margin=0x7f0b0101;
+        public static final int big_activity_margin_horizontal=0x7f0b0100;
+        public static final int big_activity_margin_vertical=0x7f0b00ff;
+        public static final int big_activity_text_margin=0x7f0b0102;
+        public static final int btn_margin=0x7f0b00f1;
+        public static final int btn_padding=0x7f0b00f0;
+        public static final int card_button_margin=0x7f0b00fa;
         /**  (Overview) Card 
          */
-        public static final int card_image_height=0x7f0b0122;
-        public static final int card_margin_horizontal=0x7f0b00f1;
-        public static final int card_margin_horizontal_big_activity=0x7f0b00f3;
-        public static final int card_margin_vertical=0x7f0b00f2;
-        public static final int card_margin_vertical_big_activity=0x7f0b00f4;
-        public static final int card_recycler_corner_radius=0x7f0b00c0;
-        public static final int card_recycler_elevation=0x7f0b00c1;
-        public static final int card_subtitle_margin=0x7f0b00f8;
-        public static final int card_text_height=0x7f0b0123;
-        public static final int card_title_margin=0x7f0b00f7;
-        public static final int card_title_margin_top=0x7f0b00f6;
-        public static final int card_width_overview=0x7f0b0124;
+        public static final int card_image_height=0x7f0b0123;
+        public static final int card_margin_horizontal=0x7f0b00f2;
+        public static final int card_margin_horizontal_big_activity=0x7f0b00f4;
+        public static final int card_margin_vertical=0x7f0b00f3;
+        public static final int card_margin_vertical_big_activity=0x7f0b00f5;
+        public static final int card_recycler_corner_radius=0x7f0b00c1;
+        public static final int card_recycler_elevation=0x7f0b00c2;
+        public static final int card_subtitle_margin=0x7f0b00f9;
+        public static final int card_text_height=0x7f0b0124;
+        public static final int card_title_margin=0x7f0b00f8;
+        public static final int card_title_margin_top=0x7f0b00f7;
+        public static final int card_width_overview=0x7f0b0125;
         public static final int cardview_compat_inset_shadow=0x7f0b0076;
         public static final int cardview_default_elevation=0x7f0b0077;
         public static final int cardview_default_radius=0x7f0b0078;
         /**  CARDVIEW 
          */
-        public static final int cardview_padding=0x7f0b00bf;
+        public static final int cardview_padding=0x7f0b00c0;
         public static final int chglib_material_keyline1=0x7f0b00ab;
         public static final int chglib_material_list_fontsize=0x7f0b00ac;
         public static final int chglib_material_list_suheader_fontsize=0x7f0b00ad;
@@ -3996,6 +3996,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
  Material 
          */
         public static final int chglib_material_minHeight=0x7f0b00aa;
+        /**  COMMON 
+         */
+        public static final int common_title_margin=0x7f0b00bd;
         public static final int compat_button_inset_horizontal_material=0x7f0b0004;
         public static final int compat_button_inset_vertical_material=0x7f0b0005;
         public static final int compat_button_padding_horizontal_material=0x7f0b0006;
@@ -4004,7 +4007,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int corner_radius_default=0x7f0b007e;
         public static final int corner_radius_rounded=0x7f0b007d;
         public static final int default_corner_radius=0x7f0b00af;
-        public static final int default_padding=0x7f0b011d;
+        public static final int default_padding=0x7f0b011e;
         public static final int default_text_size=0x7f0b00ae;
         public static final int design_appbar_elevation=0x7f0b0087;
         public static final int design_bottom_navigation_active_item_max_width=0x7f0b0088;
@@ -4046,69 +4049,69 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int design_tab_text_size_2line=0x7f0b00a4;
         /**  DetailLayouts 
          */
-        public static final int detail_margin=0x7f0b0114;
+        public static final int detail_margin=0x7f0b0115;
         public static final int disabled_alpha_material_dark=0x7f0b005f;
         public static final int disabled_alpha_material_light=0x7f0b0060;
         public static final int drawable_padding=0x7f0b00b4;
         /**  Drawer 
          */
-        public static final int drawer_width=0x7f0b0117;
+        public static final int drawer_width=0x7f0b0118;
         /**  FLOATING BUTTON ACTION 
          */
         public static final int fab_margin=0x7f0b007b;
         public static final int fastscroll_default_thickness=0x7f0b0070;
         public static final int fastscroll_margin=0x7f0b0071;
         public static final int fastscroll_minimum_range=0x7f0b0072;
-        public static final int heading_title_padding=0x7f0b00d3;
+        public static final int heading_title_padding=0x7f0b00d4;
         public static final int highlight_alpha_material_colored=0x7f0b0061;
         public static final int highlight_alpha_material_dark=0x7f0b0062;
         public static final int highlight_alpha_material_light=0x7f0b0063;
-        public static final int highlight_height=0x7f0b0105;
+        public static final int highlight_height=0x7f0b0106;
         public static final int hint_alpha_material_dark=0x7f0b0064;
         public static final int hint_alpha_material_light=0x7f0b0065;
         public static final int hint_pressed_alpha_material_dark=0x7f0b0066;
         public static final int hint_pressed_alpha_material_light=0x7f0b0067;
         public static final int icon_size=0x7f0b007c;
-        public static final int image_height_wordpress=0x7f0b0115;
-        public static final int image_height_youtube=0x7f0b0116;
-        public static final int item_error_text_padding=0x7f0b00d4;
-        public static final int item_error_text_separation_padding=0x7f0b00d5;
+        public static final int image_height_wordpress=0x7f0b0116;
+        public static final int image_height_youtube=0x7f0b0117;
+        public static final int item_error_text_padding=0x7f0b00d5;
+        public static final int item_error_text_separation_padding=0x7f0b00d6;
         public static final int item_touch_helper_max_drag_scroll_per_frame=0x7f0b0073;
         public static final int item_touch_helper_swipe_escape_max_velocity=0x7f0b0074;
         public static final int item_touch_helper_swipe_escape_velocity=0x7f0b0075;
         public static final int listPreferredItemHeightSmall=0x7f0b00a9;
-        public static final int main_card_margin=0x7f0b00e3;
-        public static final int main_card_margin_big=0x7f0b00e6;
-        public static final int main_card_margin_horizontal=0x7f0b00e4;
-        public static final int main_card_margin_horizontal_big=0x7f0b00e7;
-        public static final int main_card_margin_horizontal_big_activity=0x7f0b00f5;
-        public static final int main_card_margin_horizontal_small=0x7f0b00e1;
+        public static final int main_card_margin=0x7f0b00e4;
+        public static final int main_card_margin_big=0x7f0b00e7;
+        public static final int main_card_margin_horizontal=0x7f0b00e5;
+        public static final int main_card_margin_horizontal_big=0x7f0b00e8;
+        public static final int main_card_margin_horizontal_big_activity=0x7f0b00f6;
+        public static final int main_card_margin_horizontal_small=0x7f0b00e2;
         /**  CARD VIEWS 
          */
-        public static final int main_card_margin_small=0x7f0b00e0;
-        public static final int main_card_margin_vertical=0x7f0b00e5;
-        public static final int main_card_margin_vertical_big=0x7f0b00e8;
-        public static final int main_card_margin_vertical_small=0x7f0b00e2;
-        public static final int manga_chapter_reader_panel_height=0x7f0b00dc;
-        public static final int manga_chapter_reader_panel_max_height=0x7f0b00dd;
-        public static final int music_data_margin=0x7f0b00c9;
-        public static final int music_data_section_margin=0x7f0b00c8;
-        public static final int music_data_separation=0x7f0b00c7;
-        public static final int music_genre_card_recycler_corner_radius=0x7f0b00cb;
-        public static final int music_genre_margin=0x7f0b00ca;
-        public static final int music_player_icon_size=0x7f0b00d1;
-        public static final int music_player_panel_content_image_margin=0x7f0b00d0;
-        public static final int music_player_panel_content_margin=0x7f0b00cf;
-        public static final int music_player_panel_height=0x7f0b00ce;
-        public static final int music_song_element_margin=0x7f0b00cd;
-        public static final int music_title_margin=0x7f0b00cc;
+        public static final int main_card_margin_small=0x7f0b00e1;
+        public static final int main_card_margin_vertical=0x7f0b00e6;
+        public static final int main_card_margin_vertical_big=0x7f0b00e9;
+        public static final int main_card_margin_vertical_small=0x7f0b00e3;
+        public static final int manga_chapter_reader_panel_height=0x7f0b00dd;
+        public static final int manga_chapter_reader_panel_max_height=0x7f0b00de;
+        public static final int music_data_margin=0x7f0b00ca;
+        public static final int music_data_section_margin=0x7f0b00c9;
+        public static final int music_data_separation=0x7f0b00c8;
+        public static final int music_genre_card_recycler_corner_radius=0x7f0b00cc;
+        public static final int music_genre_margin=0x7f0b00cb;
+        public static final int music_player_icon_size=0x7f0b00d2;
+        public static final int music_player_panel_content_image_margin=0x7f0b00d1;
+        public static final int music_player_panel_content_margin=0x7f0b00d0;
+        public static final int music_player_panel_height=0x7f0b00cf;
+        public static final int music_song_element_margin=0x7f0b00ce;
+        public static final int music_title_margin=0x7f0b00cd;
         /**  MUSIC (element / activity / player) 
          */
-        public static final int music_width=0x7f0b00c6;
-        public static final int nav_header_height=0x7f0b00be;
+        public static final int music_width=0x7f0b00c7;
+        public static final int nav_header_height=0x7f0b00bf;
         /**  NAV BAR 
          */
-        public static final int nav_header_vertical_spacing=0x7f0b00bd;
+        public static final int nav_header_vertical_spacing=0x7f0b00be;
         public static final int notification_action_icon_size=0x7f0b0009;
         public static final int notification_action_text_size=0x7f0b000a;
         public static final int notification_big_circle_margin=0x7f0b000b;
@@ -4126,54 +4129,54 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int notification_top_pad_large_text=0x7f0b0013;
         /**  SoundCloud ! 
          */
-        public static final int playback_view_height=0x7f0b011c;
+        public static final int playback_view_height=0x7f0b011d;
         /**  preferenceFragment 
          */
-        public static final int preference_fragment_padding_bottom=0x7f0b0103;
-        public static final int preference_fragment_padding_side=0x7f0b0104;
+        public static final int preference_fragment_padding_bottom=0x7f0b0104;
+        public static final int preference_fragment_padding_side=0x7f0b0105;
         public static final int preference_icon_minWidth=0x7f0b00a5;
         public static final int preference_seekbar_padding_end=0x7f0b00a6;
         public static final int preference_seekbar_padding_start=0x7f0b00a7;
         public static final int preference_seekbar_value_width=0x7f0b00a8;
         /**  SEARCH N' GO (element) 
          */
-        public static final int searchngo_button_margin=0x7f0b00d6;
-        public static final int searchngo_button_padding=0x7f0b00d7;
-        public static final int searchngo_element_card_height=0x7f0b00db;
-        public static final int searchngo_element_seperator_margin=0x7f0b00da;
-        public static final int searchngo_element_text_margin=0x7f0b00d8;
-        public static final int searchngo_element_text_margin_next_to_separator=0x7f0b00d9;
-        public static final int share_view_round_margin=0x7f0b00fd;
-        public static final int simple_sound_cloud_notification_icon=0x7f0b0120;
-        public static final int simple_sound_cloud_notification_padding=0x7f0b0121;
-        public static final int simple_sound_cloud_notification_subtitle=0x7f0b011f;
-        public static final int simple_sound_cloud_notification_title=0x7f0b011e;
-        public static final int spacing_l=0x7f0b010a;
-        public static final int spacing_m=0x7f0b0109;
-        public static final int spacing_s=0x7f0b0108;
-        public static final int spacing_xl=0x7f0b010b;
-        public static final int spacing_xs=0x7f0b0107;
-        public static final int spacing_xxl=0x7f0b010c;
+        public static final int searchngo_button_margin=0x7f0b00d7;
+        public static final int searchngo_button_padding=0x7f0b00d8;
+        public static final int searchngo_element_card_height=0x7f0b00dc;
+        public static final int searchngo_element_seperator_margin=0x7f0b00db;
+        public static final int searchngo_element_text_margin=0x7f0b00d9;
+        public static final int searchngo_element_text_margin_next_to_separator=0x7f0b00da;
+        public static final int share_view_round_margin=0x7f0b00fe;
+        public static final int simple_sound_cloud_notification_icon=0x7f0b0121;
+        public static final int simple_sound_cloud_notification_padding=0x7f0b0122;
+        public static final int simple_sound_cloud_notification_subtitle=0x7f0b0120;
+        public static final int simple_sound_cloud_notification_title=0x7f0b011f;
+        public static final int spacing_l=0x7f0b010b;
+        public static final int spacing_m=0x7f0b010a;
+        public static final int spacing_s=0x7f0b0109;
+        public static final int spacing_xl=0x7f0b010c;
+        public static final int spacing_xs=0x7f0b0108;
+        public static final int spacing_xxl=0x7f0b010d;
         /**  Spacing 
          */
-        public static final int spacing_xxs=0x7f0b0106;
-        public static final int start_page_image_size=0x7f0b00fc;
-        public static final int text_margin=0x7f0b00ec;
-        public static final int text_margin_small=0x7f0b00ed;
-        public static final int text_margin_very_small=0x7f0b00ee;
-        public static final int textsize_l=0x7f0b0111;
-        public static final int textsize_m=0x7f0b0110;
-        public static final int textsize_s=0x7f0b010f;
-        public static final int textsize_xl=0x7f0b0112;
-        public static final int textsize_xs=0x7f0b010e;
-        public static final int textsize_xxl=0x7f0b0113;
-        public static final int textsize_xxs=0x7f0b010d;
+        public static final int spacing_xxs=0x7f0b0107;
+        public static final int start_page_image_size=0x7f0b00fd;
+        public static final int text_margin=0x7f0b00ed;
+        public static final int text_margin_small=0x7f0b00ee;
+        public static final int text_margin_very_small=0x7f0b00ef;
+        public static final int textsize_l=0x7f0b0112;
+        public static final int textsize_m=0x7f0b0111;
+        public static final int textsize_s=0x7f0b0110;
+        public static final int textsize_xl=0x7f0b0113;
+        public static final int textsize_xs=0x7f0b010f;
+        public static final int textsize_xxl=0x7f0b0114;
+        public static final int textsize_xxs=0x7f0b010e;
         /**  Attachment pager 
          */
-        public static final int thumbnail_height=0x7f0b0125;
+        public static final int thumbnail_height=0x7f0b0126;
         /**  GLOBAL 
          */
-        public static final int title_margin=0x7f0b00d2;
+        public static final int title_margin=0x7f0b00d3;
         public static final int toast_horizontal_padding=0x7f0b00b2;
         public static final int toast_horizontal_padding_empty_side=0x7f0b00b1;
         /** These two are only used when an Icon is applied to the StyleableToast
@@ -4183,7 +4186,7 @@ These two are only used when an Icon is applied to the StyleableToast
         public static final int toast_vertical_padding=0x7f0b00b3;
         /**  Toolbar 
          */
-        public static final int toolbar_elevation=0x7f0b0102;
+        public static final int toolbar_elevation=0x7f0b0103;
         public static final int tooltip_corner_radius=0x7f0b0068;
         public static final int tooltip_horizontal_padding=0x7f0b0069;
         public static final int tooltip_margin=0x7f0b006a;
@@ -4194,22 +4197,22 @@ These two are only used when an Icon is applied to the StyleableToast
         public static final int tooltip_y_offset_touch=0x7f0b006f;
         /**  <dimen name="video_height">230dp</dimen> 
          */
-        public static final int video_height=0x7f0b00c4;
-        public static final int video_text_size=0x7f0b00c5;
+        public static final int video_height=0x7f0b00c5;
+        public static final int video_text_size=0x7f0b00c6;
         /**  <dimen name="card_recycler_elevation">2dp</dimen> 
  VIDEO (element / activity) 
  <dimen name="video_width">160dp</dimen> 
          */
-        public static final int video_width=0x7f0b00c2;
-        public static final int video_width_small=0x7f0b00c3;
-        public static final int woocommerce_category_height=0x7f0b0119;
+        public static final int video_width=0x7f0b00c3;
+        public static final int video_width_small=0x7f0b00c4;
+        public static final int woocommerce_category_height=0x7f0b011a;
         /**  WooCommerce 
          */
-        public static final int woocommerce_category_width=0x7f0b0118;
-        public static final int woocommerce_padding=0x7f0b011a;
-        public static final int woocommerce_related_product_width=0x7f0b011b;
-        public static final int zero_horizontal_margin=0x7f0b00fa;
-        public static final int zero_horizontal_margin_big_activity=0x7f0b00fb;
+        public static final int woocommerce_category_width=0x7f0b0119;
+        public static final int woocommerce_padding=0x7f0b011b;
+        public static final int woocommerce_related_product_width=0x7f0b011c;
+        public static final int zero_horizontal_margin=0x7f0b00fb;
+        public static final int zero_horizontal_margin_big_activity=0x7f0b00fc;
     }
     public static final class drawable {
         public static final int abc_ab_share_pack_mtrl_alpha=0x7f020000;
